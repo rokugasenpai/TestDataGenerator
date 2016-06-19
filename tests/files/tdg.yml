@@ -1,0 +1,7 @@
+num_data: 1000
+record_rules: 
+  field01: 
+    seq: 1
+save_filepath: "output.txt"
+need_header: true
+eol: "\n"

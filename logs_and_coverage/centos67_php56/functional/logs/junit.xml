@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="69" assertions="44521" failures="0" errors="0" time="3079.528191">
+    <testsuite name="functional" tests="69" assertions="44521" failures="0" errors="0" time="3079.528191">
+      <testsuite name="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" tests="69" assertions="44521" failures="0" errors="0" time="3079.528191">
+        <testcase name="test_default_config" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="33" assertions="203" time="0.366564"/>
+        <testcase name="test_１からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="53" assertions="204" time="0.334967"/>
+        <testcase name="test_１からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="81" assertions="204" time="0.376710"/>
+        <testcase name="test_出力ファイルパスを指定して１からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="109" assertions="204" time="0.367041"/>
+        <testcase name="test_出力ファイルパスを指定して１からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="137" assertions="204" time="0.369402"/>
+        <testcase name="test_出力ファイルをsqlに指定して１からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="165" assertions="4" time="0.181954"/>
+        <testcase name="test_出力ファイルをsqlに指定して１からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="184" assertions="4" time="0.197122"/>
+        <testcase name="test_ヘッダ無しで１からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="203" assertions="203" time="0.360834"/>
+        <testcase name="test_ヘッダ無しで１からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="226" assertions="203" time="0.385194"/>
+        <testcase name="test_データの標準出力ありで１からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="249" assertions="205" time="0.366023"/>
+        <testcase name="test_データの標準出力ありで１からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="278" assertions="206" time="0.562335"/>
+        <testcase name="test_改行コードCRLFで１からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="310" assertions="204" time="0.361129"/>
+        <testcase name="test_改行コードCRLFで１からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="338" assertions="204" time="0.360597"/>
+        <testcase name="test_１０００からシーケンス番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="366" assertions="204" time="0.382162"/>
+        <testcase name="test_１０００からシーケンス番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="394" assertions="204" time="0.371166"/>
+        <testcase name="test_４桁数値を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="422" assertions="604" time="0.858535"/>
+        <testcase name="test_４桁数値を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="452" assertions="604" time="0.866210"/>
+        <testcase name="test_間隔５の４桁数値を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="482" assertions="704" time="0.875478"/>
+        <testcase name="test_間隔５の４桁数値を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="513" assertions="704" time="0.920494"/>
+        <testcase name="test_間隔０．５の４桁数値を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="544" assertions="604" time="0.749258"/>
+        <testcase name="test_間隔０．５の４桁数値を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="574" assertions="604" time="0.835617"/>
+        <testcase name="test_１００漸増で９フィールドに３桁数値を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="604" assertions="4604" time="6.220190"/>
+        <testcase name="test_１００漸増で９フィールドに３桁数値を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="638" assertions="4604" time="6.295711"/>
+        <testcase name="test_高頻度で３桁数値・低頻度で４桁数値を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="672" assertions="106" time="0.266726"/>
+        <testcase name="test_高頻度で３桁数値・低頻度で４桁数値を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="711" assertions="106" time="0.295923"/>
+        <testcase name="test_現在の日時を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="750" assertions="504" time="0.613588"/>
+        <testcase name="test_現在の日時を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="784" assertions="504" time="0.468132"/>
+        <testcase name="test_２０１０～２０１５年の日時を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="815" assertions="604" time="0.784499"/>
+        <testcase name="test_２０１０～２０１５年の日時を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="845" assertions="604" time="0.819900"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年の日時を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="875" assertions="604" time="0.636260"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年の日時を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="905" assertions="604" time="0.707110"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="935" assertions="206" time="0.334530"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="977" assertions="205" time="0.341724"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1018" assertions="206" time="0.321111"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1060" assertions="206" time="0.345961"/>
+        <testcase name="test_現在のタイムスタンプを生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1102" assertions="604" time="0.625398"/>
+        <testcase name="test_現在のタイムスタンプを生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1134" assertions="604" time="0.668246"/>
+        <testcase name="test_２０１０～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1166" assertions="604" time="0.791411"/>
+        <testcase name="test_２０１０～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1196" assertions="604" time="0.806871"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1226" assertions="604" time="0.806245"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1256" assertions="604" time="0.813983"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1286" assertions="206" time="0.324464"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1328" assertions="206" time="0.350336"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1370" assertions="206" time="0.322982"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1412" assertions="206" time="0.356810"/>
+        <testcase name="test_パターンクラスを使い携帯電話番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1454" assertions="204" time="0.383660"/>
+        <testcase name="test_パターンクラスを使い携帯電話番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1482" assertions="204" time="0.406376"/>
+        <testcase name="test_ドル記号ありでパターンクラスを使い携帯電話番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1510" assertions="204" time="0.388189"/>
+        <testcase name="test_ドル記号ありでパターンクラスを使い携帯電話番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1538" assertions="204" time="0.411785"/>
+        <testcase name="test_重み付けありパターンから生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1566" assertions="107" time="0.250720"/>
+        <testcase name="test_重み付けありパターンから生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1611" assertions="107" time="0.294045"/>
+        <testcase name="test_文字数指定重み付けありパターンから生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1656" assertions="207" time="0.387341"/>
+        <testcase name="test_文字数指定重み付けありパターンから生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1705" assertions="207" time="0.444485"/>
+        <testcase name="test_指定した合計文字数と各パターンの文字数で各パターンの文字から生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1754" assertions="204" time="0.456467"/>
+        <testcase name="test_指定した合計文字数と各パターンの文字数で各パターンの文字から生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1782" assertions="204" time="0.513443"/>
+        <testcase name="test_指定した範囲の合計文字数と各パターンの文字数で各パターンの文字から生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1810" assertions="204" time="0.735231"/>
+        <testcase name="test_指定した範囲の合計文字数と各パターンの文字数で各パターンの文字から生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1838" assertions="204" time="0.793967"/>
+        <testcase name="test_テーブル削除ありでDBより郵便番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1866" assertions="4006" time="757.901148"/>
+        <testcase name="test_テーブル削除ありでDBより郵便番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1916" assertions="4006" time="762.817055"/>
+        <testcase name="test_テーブル削除無しでDBより郵便番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="1966" assertions="4006" time="762.557948"/>
+        <testcase name="test_テーブル削除無しでDBより郵便番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2016" assertions="4006" time="753.039400"/>
+        <testcase name="test_先頭にパターンを付けてDBより郵便番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2070" assertions="204" time="0.352928"/>
+        <testcase name="test_先頭にパターンを付けてDBより郵便番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2102" assertions="204" time="0.375586"/>
+        <testcase name="test_末尾にパターンを付けてDBより郵便番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2134" assertions="204" time="0.353523"/>
+        <testcase name="test_末尾にパターンを付けてDBより郵便番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2166" assertions="204" time="0.395745"/>
+        <testcase name="test_先頭に重み付けありのパターンを付けてDBより郵便番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2198" assertions="207" time="0.345580"/>
+        <testcase name="test_先頭に重み付けありのパターンを付けてDBより郵便番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2248" assertions="207" time="0.391365"/>
+        <testcase name="test_１からシーケンス番号・アンダースコア・DBより郵便番号を生成_json" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2298" assertions="204" time="0.367646"/>
+        <testcase name="test_１からシーケンス番号・アンダースコア・DBより郵便番号を生成_yml" class="TDGTest" file="/home/nicorec/TestDataGenerator/tests/functional/TDGTest.php" line="2330" assertions="204" time="0.397654"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

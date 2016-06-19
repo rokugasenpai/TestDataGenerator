@@ -1,0 +1,9 @@
+{
+  "num_data": 100,
+  "record_rules": {
+    "field01": {
+      "seq": 1
+    }
+  },
+  "eol": "\n"
+}

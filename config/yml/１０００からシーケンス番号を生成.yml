@@ -1,0 +1,6 @@
+num_data: 100
+record_rules: 
+  field01: 
+    seq: 1000
+need_header: true
+eol: "\n"

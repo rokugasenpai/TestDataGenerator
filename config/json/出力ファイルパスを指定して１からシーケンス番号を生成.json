@@ -1,0 +1,11 @@
+{
+  "num_data": 100,
+  "record_rules": {
+    "field01": {
+      "seq": 1
+    }
+  },
+  "output_filepath": "output.csv",
+  "need_header": true,
+  "eol": "\n"
+}

@@ -1,0 +1,16 @@
+num_data: 2000
+record_rules: 
+  field01: 
+    db_column: postcd
+db_pass: tdgpass
+sql: "SELECT postcd FROM a;"
+pre_proc: 
+  - "./proc/create_tables.sql"
+  - 
+    - "./proc/a.csv"
+    - population
+proc_null_value: "NULL"
+proc_tail_sql: "optimize table a;"
+db_user: tdg
+need_header: true
+eol: "\n"

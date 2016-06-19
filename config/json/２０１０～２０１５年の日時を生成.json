@@ -1,0 +1,12 @@
+{
+  "num_data": 100,
+  "record_rules": {
+    "field01": {
+      "datetime": [
+        ["2010-01-01 00:00:00", "2015-12-31 23:59:59"]
+      ]
+    }
+  },
+  "need_header": true,
+  "eol": "\n"
+}

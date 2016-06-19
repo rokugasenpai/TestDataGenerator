@@ -1,0 +1,30 @@
+num_data: 100
+record_rules: 
+  field01: 
+    pattern: 
+      - 
+        - 
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+        - 8
+      - 
+        - "len4"
+        - "len6__"
+        - "len8____"
+        - "len10_____"
+      - 
+        - 
+          - "a"
+          - "b"
+          - "c"
+          - "d"
+          - "e"
+        - 4
+    length: 
+      - 18
+      - 20
+need_header: true
+eol: "\n"

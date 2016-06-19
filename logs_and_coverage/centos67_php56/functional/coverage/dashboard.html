@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/nicorec/TestDataGenerator/src</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/nv.d3.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.min.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="index.html">/home/nicorec/TestDataGenerator/src</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TDGException.php.html#36">TDGException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGBase.php.html#34">TDGBase</a></td><td class="text-right">28%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#35">WeightedArray</a></td><td class="text-right">34%</td></tr>
+       <tr><td><a href="TDGBase.php.html#201">ReadOnly</a></td><td class="text-right">45%</td></tr>
+       <tr><td><a href="Util.php.html#39">Util</a></td><td class="text-right">47%</td></tr>
+       <tr><td><a href="Config.php.html#39">Config</a></td><td class="text-right">51%</td></tr>
+       <tr><td><a href="TDG.php.html#51">TDG</a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="Pattern.php.html#35">Pattern</a></td><td class="text-right">66%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Util.php.html#39">Util</a></td><td class="text-right">8025</td></tr>
+       <tr><td><a href="Config.php.html#39">Config</a></td><td class="text-right">1325</td></tr>
+       <tr><td><a href="TDG.php.html#51">TDG</a></td><td class="text-right">414</td></tr>
+       <tr><td><a href="WeightedArray.php.html#35">WeightedArray</a></td><td class="text-right">344</td></tr>
+       <tr><td><a href="TDGBase.php.html#34">TDGBase</a></td><td class="text-right">122</td></tr>
+       <tr><td><a href="TDGException.php.html#36">TDGException</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="TDGBase.php.html#201">ReadOnly</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Pattern.php.html#35">Pattern</a></td><td class="text-right">4</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Rule.php.html#800"><abbr title="Rule::_check_and_set_code">_check_and_set_code</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDG.php.html#467"><abbr title="TDG::_output_benchmark">_output_benchmark</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Util.php.html#919"><abbr title="Util::safely_eval">safely_eval</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Record.php.html#73"><abbr title="Record::init">init</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#731"><abbr title="Config::_check_and_set_output_memory_limit">_check_and_set_output_memory_limit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGBase.php.html#69"><abbr title="TDGBase::get_values">get_values</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGBase.php.html#88"><abbr title="TDGBase::_restore_props">_restore_props</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGException.php.html#70"><abbr title="TDGException::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Util.php.html#75"><abbr title="Util::array_depth">array_depth</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGBase.php.html#239"><abbr title="ReadOnly::__set">__set</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGBase.php.html#155"><abbr title="TDGBase::_set_error">_set_error</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDGBase.php.html#110"><abbr title="TDGBase::_get_errors">_get_errors</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#704"><abbr title="Config::_check_and_set_charset">_check_and_set_charset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Field.php.html#384"><abbr title="Field::_code">_code</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#215"><abbr title="WeightedArray::offsetGet">offsetGet</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#525"><abbr title="Config::_check_and_set_proc_head_sql">_check_and_set_proc_head_sql</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#335"><abbr title="Config::_check_and_set_num_records_per_sql">_check_and_set_num_records_per_sql</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#316"><abbr title="Config::_check_and_set_need_null">_check_and_set_need_null</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#272"><abbr title="WeightedArray::offsetUnset">offsetUnset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#565"><abbr title="Config::_check_and_set_db_name">_check_and_set_db_name</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#182"><abbr title="WeightedArray::offsetExists">offsetExists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#625"><abbr title="Config::_check_and_set_db_port">_check_and_set_db_port</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#605"><abbr title="Config::_check_and_set_db_host">_check_and_set_db_host</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Util.php.html#149"><abbr title="Util::json_encode">json_encode</abbr></a></td><td class="text-right">6%</td></tr>
+       <tr><td><a href="TDGBase.php.html#133"><abbr title="TDGBase::anonymous function">anonymous function</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#247"><abbr title="WeightedArray::offsetSet">offsetSet</abbr></a></td><td class="text-right">42%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#152"><abbr title="WeightedArray::get_array_from_keys">get_array_from_keys</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Field.php.html#353"><abbr title="Field::_db_column">_db_column</abbr></a></td><td class="text-right">54%</td></tr>
+       <tr><td><a href="Config.php.html#385"><abbr title="Config::_common_proc">_common_proc</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#85"><abbr title="WeightedArray::append">append</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="TDGBase.php.html#213"><abbr title="ReadOnly::__get">__get</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#54"><abbr title="WeightedArray::__construct">__construct</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="WeightedArray.php.html#113"><abbr title="WeightedArray::rand">rand</abbr></a></td><td class="text-right">58%</td></tr>
+       <tr><td><a href="Util.php.html#755"><abbr title="Util::anonymous function">anonymous function</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Pattern.php.html#62"><abbr title="Pattern::get">get</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Rule.php.html#851"><abbr title="Rule::_check_and_convert_datetime">_check_and_convert_datetime</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Config.php.html#198"><abbr title="Config::_check_and_set_record_rules">_check_and_set_record_rules</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Util.php.html#206"><abbr title="Util::normalize_charset">normalize_charset</abbr></a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="Rule.php.html#519"><abbr title="Rule::_check_and_set_datetime_range">_check_and_set_datetime_range</abbr></a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="Util.php.html#101"><abbr title="Util::json_last_error_msg">json_last_error_msg</abbr></a></td><td class="text-right">65%</td></tr>
+       <tr><td><a href="Rule.php.html#370"><abbr title="Rule::_common_uint_range_numeric_range">_common_uint_range_numeric_range</abbr></a></td><td class="text-right">65%</td></tr>
+       <tr><td><a href="Rule.php.html#779"><abbr title="Rule::_check_and_set_db_column">_check_and_set_db_column</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#545"><abbr title="Config::_check_and_set_proc_tail_sql">_check_and_set_proc_tail_sql</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#505"><abbr title="Config::_check_and_set_proc_null_value">_check_and_set_proc_null_value</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#296"><abbr title="Config::_check_and_set_sql">_check_and_set_sql</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#276"><abbr title="Config::_check_and_set_db_pass">_check_and_set_db_pass</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#585"><abbr title="Config::_check_and_set_db_user">_check_and_set_db_user</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#645"><abbr title="Config::_check_and_set_need_header">_check_and_set_need_header</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#178"><abbr title="Config::_check_and_set_num_data">_check_and_set_num_data</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Rule.php.html#320"><abbr title="Rule::_check_and_set_uint">_check_and_set_uint</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#684"><abbr title="Config::_check_and_set_eol">_check_and_set_eol</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Config.php.html#665"><abbr title="Config::_check_and_set_need_stdout">_check_and_set_need_stdout</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="TDG.php.html#98"><abbr title="TDG::main">main</abbr></a></td><td class="text-right">69%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Util.php.html#919"><abbr title="Util::safely_eval">safely_eval</abbr></a></td><td class="text-right">2756</td></tr>
+       <tr><td><a href="Util.php.html#149"><abbr title="Util::json_encode">json_encode</abbr></a></td><td class="text-right">175</td></tr>
+       <tr><td><a href="TDG.php.html#467"><abbr title="TDG::_output_benchmark">_output_benchmark</abbr></a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Config.php.html#385"><abbr title="Config::_common_proc">_common_proc</abbr></a></td><td class="text-right">99</td></tr>
+       <tr><td><a href="Rule.php.html#370"><abbr title="Rule::_common_uint_range_numeric_range">_common_uint_range_numeric_range</abbr></a></td><td class="text-right">75</td></tr>
+       <tr><td><a href="Rule.php.html#800"><abbr title="Rule::_check_and_set_code">_check_and_set_code</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="TDGException.php.html#70"><abbr title="TDGException::__construct">__construct</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Util.php.html#75"><abbr title="Util::array_depth">array_depth</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="TDG.php.html#98"><abbr title="TDG::main">main</abbr></a></td><td class="text-right">34</td></tr>
+       <tr><td><a href="WeightedArray.php.html#215"><abbr title="WeightedArray::offsetGet">offsetGet</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="WeightedArray.php.html#182"><abbr title="WeightedArray::offsetExists">offsetExists</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Rule.php.html#519"><abbr title="Rule::_check_and_set_datetime_range">_check_and_set_datetime_range</abbr></a></td><td class="text-right">27</td></tr>
+       <tr><td><a href="Config.php.html#704"><abbr title="Config::_check_and_set_charset">_check_and_set_charset</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Rule.php.html#851"><abbr title="Rule::_check_and_convert_datetime">_check_and_convert_datetime</abbr></a></td><td class="text-right">14</td></tr>
+       <tr><td><a href="Util.php.html#101"><abbr title="Util::json_last_error_msg">json_last_error_msg</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#565"><abbr title="Config::_check_and_set_db_name">_check_and_set_db_name</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#525"><abbr title="Config::_check_and_set_proc_head_sql">_check_and_set_proc_head_sql</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#605"><abbr title="Config::_check_and_set_db_host">_check_and_set_db_host</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="TDGBase.php.html#88"><abbr title="TDGBase::_restore_props">_restore_props</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="WeightedArray.php.html#272"><abbr title="WeightedArray::offsetUnset">offsetUnset</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#335"><abbr title="Config::_check_and_set_num_records_per_sql">_check_and_set_num_records_per_sql</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Record.php.html#73"><abbr title="Record::init">init</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="TDGBase.php.html#69"><abbr title="TDGBase::get_values">get_values</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#625"><abbr title="Config::_check_and_set_db_port">_check_and_set_db_port</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#731"><abbr title="Config::_check_and_set_output_memory_limit">_check_and_set_output_memory_limit</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#198"><abbr title="Config::_check_and_set_record_rules">_check_and_set_record_rules</abbr></a></td><td class="text-right">11</td></tr>
+       <tr><td><a href="WeightedArray.php.html#113"><abbr title="WeightedArray::rand">rand</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="Util.php.html#206"><abbr title="Util::normalize_charset">normalize_charset</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="WeightedArray.php.html#152"><abbr title="WeightedArray::get_array_from_keys">get_array_from_keys</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Field.php.html#384"><abbr title="Field::_code">_code</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="TDGBase.php.html#155"><abbr title="TDGBase::_set_error">_set_error</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Config.php.html#316"><abbr title="Config::_check_and_set_need_null">_check_and_set_need_null</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="WeightedArray.php.html#54"><abbr title="WeightedArray::__construct">__construct</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="WeightedArray.php.html#247"><abbr title="WeightedArray::offsetSet">offsetSet</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Config.php.html#684"><abbr title="Config::_check_and_set_eol">_check_and_set_eol</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Field.php.html#353"><abbr title="Field::_db_column">_db_column</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="WeightedArray.php.html#85"><abbr title="WeightedArray::append">append</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="TDGBase.php.html#213"><abbr title="ReadOnly::__get">__get</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Util.php.html#755"><abbr title="Util::anonymous function">anonymous function</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Pattern.php.html#62"><abbr title="Pattern::get">get</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#276"><abbr title="Config::_check_and_set_db_pass">_check_and_set_db_pass</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#296"><abbr title="Config::_check_and_set_sql">_check_and_set_sql</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#505"><abbr title="Config::_check_and_set_proc_null_value">_check_and_set_proc_null_value</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#585"><abbr title="Config::_check_and_set_db_user">_check_and_set_db_user</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#545"><abbr title="Config::_check_and_set_proc_tail_sql">_check_and_set_proc_tail_sql</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="TDGBase.php.html#133"><abbr title="TDGBase::anonymous function">anonymous function</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#665"><abbr title="Config::_check_and_set_need_stdout">_check_and_set_need_stdout</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Config.php.html#178"><abbr title="Config::_check_and_set_num_data">_check_and_set_num_data</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Rule.php.html#779"><abbr title="Rule::_check_and_set_db_column">_check_and_set_db_column</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Rule.php.html#320"><abbr title="Rule::_check_and_set_uint">_check_and_set_uint</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Config.php.html#645"><abbr title="Config::_check_and_set_need_header">_check_and_set_need_header</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 2.2.4</a> using <a href="https://secure.php.net/" target="_top">PHP 5.6.21</a> and <a href="https://phpunit.de/">PHPUnit 4.8.26</a> at Sun Jun 19 10:50:30 JST 2016.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="js/holder.min.js" type="text/javascript"></script>
+  <script src="js/d3.min.js" type="text/javascript"></script>
+  <script src="js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([1,0,0,1,1,2,1,2,1,2,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([23,1,0,0,1,1,7,20,8,8,6,30], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[51.984126984127,105,"<a href=\"Config.php.html#39\">Config<\/a>"],[86.71875,39,"<a href=\"Field.php.html#37\">Field<\/a>"],[66.666666666667,4,"<a href=\"Pattern.php.html#35\">Pattern<\/a>"],[85.915492957746,23,"<a href=\"Record.php.html#38\">Record<\/a>"],[71.490280777538,115,"<a href=\"Rule.php.html#37\">Rule<\/a>"],[61.538461538462,77,"<a href=\"TDG.php.html#51\">TDG<\/a>"],[28.571428571429,17,"<a href=\"TDGBase.php.html#34\">TDGBase<\/a>"],[45.454545454545,4,"<a href=\"TDGBase.php.html#201\">ReadOnly<\/a>"],[0,6,"<a href=\"TDGException.php.html#36\">TDGException<\/a>"],[47.488584474886,232,"<a href=\"Util.php.html#39\">Util<\/a>"],[34.146341463415,33,"<a href=\"WeightedArray.php.html#35\">WeightedArray<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Config.php.html#131\">Config::__construct<\/a>"],[81.818181818182,5,"<a href=\"Config.php.html#148\">Config::_check_and_set_props<\/a>"],[66.666666666667,2,"<a href=\"Config.php.html#178\">Config::_check_and_set_num_data<\/a>"],[63.636363636364,8,"<a href=\"Config.php.html#198\">Config::_check_and_set_record_rules<\/a>"],[70,4,"<a href=\"Config.php.html#246\">Config::_check_and_set_output_filepath<\/a>"],[66.666666666667,3,"<a href=\"Config.php.html#276\">Config::_check_and_set_db_pass<\/a>"],[66.666666666667,3,"<a href=\"Config.php.html#296\">Config::_check_and_set_sql<\/a>"],[0,2,"<a href=\"Config.php.html#316\">Config::_check_and_set_need_null<\/a>"],[0,3,"<a href=\"Config.php.html#335\">Config::_check_and_set_num_records_per_sql<\/a>"],[100,1,"<a href=\"Config.php.html#354\">Config::_check_and_set_pre_proc<\/a>"],[100,1,"<a href=\"Config.php.html#367\">Config::_check_and_set_post_proc<\/a>"],[55,28,"<a href=\"Config.php.html#385\">Config::_common_proc<\/a>"],[66.666666666667,3,"<a href=\"Config.php.html#505\">Config::_check_and_set_proc_null_value<\/a>"],[0,3,"<a href=\"Config.php.html#525\">Config::_check_and_set_proc_head_sql<\/a>"],[66.666666666667,3,"<a href=\"Config.php.html#545\">Config::_check_and_set_proc_tail_sql<\/a>"],[0,3,"<a href=\"Config.php.html#565\">Config::_check_and_set_db_name<\/a>"],[66.666666666667,3,"<a href=\"Config.php.html#585\">Config::_check_and_set_db_user<\/a>"],[0,3,"<a href=\"Config.php.html#605\">Config::_check_and_set_db_host<\/a>"],[0,3,"<a href=\"Config.php.html#625\">Config::_check_and_set_db_port<\/a>"],[66.666666666667,2,"<a href=\"Config.php.html#645\">Config::_check_and_set_need_header<\/a>"],[66.666666666667,2,"<a href=\"Config.php.html#665\">Config::_check_and_set_need_stdout<\/a>"],[66.666666666667,4,"<a href=\"Config.php.html#684\">Config::_check_and_set_eol<\/a>"],[0,4,"<a href=\"Config.php.html#704\">Config::_check_and_set_charset<\/a>"],[0,3,"<a href=\"Config.php.html#731\">Config::_check_and_set_output_memory_limit<\/a>"],[92.857142857143,8,"<a href=\"Config.php.html#748\">Config::_check_and_set_db<\/a>"],[100,1,"<a href=\"Field.php.html#57\">Field::__construct<\/a>"],[90.909090909091,8,"<a href=\"Field.php.html#75\">Field::set_value<\/a>"],[100,1,"<a href=\"Field.php.html#118\">Field::get_value<\/a>"],[100,6,"<a href=\"Field.php.html#132\">Field::_check_value<\/a>"],[100,1,"<a href=\"Field.php.html#158\">Field::_seq<\/a>"],[81.818181818182,2,"<a href=\"Field.php.html#174\">Field::_number<\/a>"],[100,1,"<a href=\"Field.php.html#203\">Field::_datetime<\/a>"],[100,1,"<a href=\"Field.php.html#219\">Field::_timestamp<\/a>"],[100,7,"<a href=\"Field.php.html#232\">Field::_common_datetime_timestamp<\/a>"],[91.666666666667,6,"<a href=\"Field.php.html#298\">Field::_pattern<\/a>"],[54.545454545455,3,"<a href=\"Field.php.html#353\">Field::_db_column<\/a>"],[0,2,"<a href=\"Field.php.html#384\">Field::_code<\/a>"],[100,1,"<a href=\"Pattern.php.html#48\">Pattern::__construct<\/a>"],[60,3,"<a href=\"Pattern.php.html#62\">Pattern::get<\/a>"],[100,1,"<a href=\"Record.php.html#61\">Record::__construct<\/a>"],[0,3,"<a href=\"Record.php.html#73\">Record::init<\/a>"],[100,4,"<a href=\"Record.php.html#104\">Record::generate<\/a>"],[100,1,"<a href=\"Record.php.html#134\">Record::get_data<\/a>"],[95,7,"<a href=\"Record.php.html#152\">Record::_from_db<\/a>"],[100,7,"<a href=\"Record.php.html#199\">Record::_to_data<\/a>"],[100,1,"<a href=\"Rule.php.html#126\">Rule::__construct<\/a>"],[100,1,"<a href=\"Rule.php.html#224\">Rule::get_values<\/a>"],[100,5,"<a href=\"Rule.php.html#238\">Rule::_check_and_set_props<\/a>"],[100,1,"<a href=\"Rule.php.html#243\">Rule::anonymous function<\/a>"],[75,11,"<a href=\"Rule.php.html#269\">Rule::_after_check_props<\/a>"],[66.666666666667,2,"<a href=\"Rule.php.html#320\">Rule::_check_and_set_uint<\/a>"],[100,1,"<a href=\"Rule.php.html#341\">Rule::_check_and_set_uint_range<\/a>"],[100,1,"<a href=\"Rule.php.html#356\">Rule::_check_and_set_numeric_range<\/a>"],[65.094339622642,32,"<a href=\"Rule.php.html#370\">Rule::_common_uint_range_numeric_range<\/a>"],[64.383561643836,16,"<a href=\"Rule.php.html#519\">Rule::_check_and_set_datetime_range<\/a>"],[77.647058823529,21,"<a href=\"Rule.php.html#648\">Rule::_check_and_set_pattern<\/a>"],[66.666666666667,2,"<a href=\"Rule.php.html#779\">Rule::_check_and_set_db_column<\/a>"],[0,7,"<a href=\"Rule.php.html#800\">Rule::_check_and_set_code<\/a>"],[63.636363636364,10,"<a href=\"Rule.php.html#851\">Rule::_check_and_convert_datetime<\/a>"],[86.666666666667,4,"<a href=\"Rule.php.html#917\">Rule::_weight<\/a>"],[100,2,"<a href=\"TDG.php.html#77\">TDG::__construct<\/a>"],[69.047619047619,21,"<a href=\"TDG.php.html#98\">TDG::main<\/a>"],[73.333333333333,8,"<a href=\"TDG.php.html#162\">TDG::get_config<\/a>"],[100,1,"<a href=\"TDG.php.html#220\">TDG::execute_pre_proc<\/a>"],[100,1,"<a href=\"TDG.php.html#233\">TDG::execute_post_proc<\/a>"],[77.272727272727,11,"<a href=\"TDG.php.html#252\">TDG::execute_proc<\/a>"],[90,3,"<a href=\"TDG.php.html#322\">TDG::generate_data<\/a>"],[84.848484848485,7,"<a href=\"TDG.php.html#347\">TDG::save_data<\/a>"],[75,5,"<a href=\"TDG.php.html#402\">TDG::_check_and_set_env<\/a>"],[83.333333333333,6,"<a href=\"TDG.php.html#431\">TDG::_check_env_db<\/a>"],[0,12,"<a href=\"TDG.php.html#467\">TDG::_output_benchmark<\/a>"],[100,1,"<a href=\"TDGBase.php.html#57\">TDGBase::__construct<\/a>"],[0,3,"<a href=\"TDGBase.php.html#69\">TDGBase::get_values<\/a>"],[0,3,"<a href=\"TDGBase.php.html#88\">TDGBase::_restore_props<\/a>"],[0,1,"<a href=\"TDGBase.php.html#110\">TDGBase::_get_errors<\/a>"],[100,4,"<a href=\"TDGBase.php.html#125\">TDGBase::_exists_error<\/a>"],[33.333333333333,2,"<a href=\"TDGBase.php.html#133\">TDGBase::anonymous function<\/a>"],[0,2,"<a href=\"TDGBase.php.html#155\">TDGBase::_set_error<\/a>"],[100,1,"<a href=\"TDGBase.php.html#172\">TDGBase::_check_and_set_props<\/a>"],[55.555555555556,3,"<a href=\"TDGBase.php.html#213\">ReadOnly::__get<\/a>"],[0,1,"<a href=\"TDGBase.php.html#239\">ReadOnly::__set<\/a>"],[0,6,"<a href=\"TDGException.php.html#70\">TDGException::__construct<\/a>"],[100,3,"<a href=\"Util.php.html#60\">Util::is_numeric_uint<\/a>"],[0,6,"<a href=\"Util.php.html#75\">Util::array_depth<\/a>"],[65,9,"<a href=\"Util.php.html#101\">Util::json_last_error_msg<\/a>"],[6.25,14,"<a href=\"Util.php.html#149\">Util::json_encode<\/a>"],[83.333333333333,3,"<a href=\"Util.php.html#184\">Util::json_decode<\/a>"],[64.285714285714,5,"<a href=\"Util.php.html#206\">Util::normalize_charset<\/a>"],[100,3,"<a href=\"Util.php.html#240\">Util::check_ext<\/a>"],[100,1,"<a href=\"Util.php.html#261\">Util::get_data_by_json_file<\/a>"],[83.333333333333,2,"<a href=\"Util.php.html#276\">Util::get_data_by_yml_file<\/a>"],[70.714285714286,51,"<a href=\"Util.php.html#313\">Util::create_weighted_csv<\/a>"],[78.260869565217,64,"<a href=\"Util.php.html#550\">Util::csv_to_bulk_insert<\/a>"],[60,3,"<a href=\"Util.php.html#755\">Util::anonymous function<\/a>"],[80,4,"<a href=\"Util.php.html#810\">Util::println<\/a>"],[94.117647058824,12,"<a href=\"Util.php.html#840\">Util::fputcsv<\/a>"],[0,52,"<a href=\"Util.php.html#919\">Util::safely_eval<\/a>"],[55.555555555556,4,"<a href=\"WeightedArray.php.html#54\">WeightedArray::__construct<\/a>"],[55.555555555556,3,"<a href=\"WeightedArray.php.html#85\">WeightedArray::append<\/a>"],[58.823529411765,6,"<a href=\"WeightedArray.php.html#113\">WeightedArray::rand<\/a>"],[50,4,"<a href=\"WeightedArray.php.html#152\">WeightedArray::get_array_from_keys<\/a>"],[0,5,"<a href=\"WeightedArray.php.html#182\">WeightedArray::offsetExists<\/a>"],[0,5,"<a href=\"WeightedArray.php.html#215\">WeightedArray::offsetGet<\/a>"],[42.857142857143,3,"<a href=\"WeightedArray.php.html#247\">WeightedArray::offsetSet<\/a>"],[0,3,"<a href=\"WeightedArray.php.html#272\">WeightedArray::offsetUnset<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

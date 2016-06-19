@@ -1,0 +1,105 @@
+num_data: 2000
+record_rules: 
+  id: 
+    seq: 1
+  user_id: 
+    pattern: 
+      - 
+        - "Pattern::LOWER_ALPHABET"
+        - 4
+      - 
+        - "Pattern::NUMBER"
+        - 4
+  password: 
+    code: "return md5($user_id);"
+  family_name: 
+    db_column: "myouji"
+  first_name: 
+    code: "$male = ['一郎', '二郎', '三郎', '四郎', '五郎']; $female = ['花子', '春子', '秋子', '景子', '洋子']; shuffle($male); shuffle($female); if ($sex == '1') { return $male[0]; } else { return $female[0]; }"
+  sex: 
+    pattern: 
+      - 
+        - 
+          - "1"
+          - 3
+        - 
+          - "2"
+          - 7
+  post_code: 
+    db_column: "postcd"
+  pref: 
+    db_column: "pref"
+  city: 
+    db_column: "city"
+  town: 
+    db_column: "town"
+  address: 
+    pattern: 
+      - 
+        - "１"
+        - "２"
+        - "３"
+        - "４"
+        - "５"
+      - 
+        - "－"
+      - 
+        - "１"
+        - "２"
+        - "３"
+        - "４"
+        - "５"
+        - "６"
+        - "７"
+        - "８"
+        - "９"
+        - "１０"
+      - 
+        - "－"
+      - 
+        - "１"
+        - "２"
+        - "３"
+        - "４"
+        - "５"
+        - "６"
+        - "７"
+        - "８"
+        - "９"
+        - "１０"
+        - "１１"
+        - "１２"
+        - "１３"
+        - "１４"
+        - "１５"
+        - "１６"
+        - "１７"
+        - "１８"
+        - "１９"
+        - "２０"
+  delete_flg: 
+    pattern: 
+      - 
+        - "0"
+  created_at: 
+    datetime: "2015-01-01 00:00:00"
+  updated_at: 
+    datetime: "2015-01-01 00:00:00"
+output_filepath: "users.csv"
+db_pass: "tdgpass"
+sql: "SELECT m.myouji, a.postcd, a.pref, a.city, a.town FROM a INNER JOIN m ON a.id = m.id;"
+pre_proc: 
+  - "./proc/create_tables.sql"
+  - 
+    - "./proc/a.csv"
+    - "population"
+    - 2000
+  - 
+    - "./proc/m.csv"
+    - "population"
+    - 2000
+proc_null_value: "NULL"
+proc_tail_sql: "OPTIMIZE TABLE a, m;"
+db_user: "tdg"
+need_header: true
+eol: "\n"

@@ -1,0 +1,49 @@
+num_data: 100
+record_rules: 
+  field01: 
+    number: 
+      - 
+        - 100
+        - 199
+  field02: 
+    number: 
+      - 
+        - 200
+        - 299
+  field03: 
+    number: 
+      - 
+        - 300
+        - 399
+  field04: 
+    number: 
+      - 
+        - 400
+        - 499
+  field05: 
+    number: 
+      - 
+        - 500
+        - 599
+  field06: 
+    number: 
+      - 
+        - 600
+        - 699
+  field07: 
+    number: 
+      - 
+        - 700
+        - 799
+  field08: 
+    number: 
+      - 
+        - 800
+        - 899
+  field09: 
+    number: 
+      - 
+        - 900
+        - 999
+need_header: true
+eol: "\n"

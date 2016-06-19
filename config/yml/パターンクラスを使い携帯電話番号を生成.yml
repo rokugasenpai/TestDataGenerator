@@ -1,0 +1,11 @@
+num_data: 100
+record_rules: 
+  field01: 
+    pattern: 
+      - 
+        - "Pattern::MOBILE_PHONE_NUMBER_HEAD"
+      - 
+        - "Pattern::NUMBER"
+        - 8
+need_header: true
+eol: "\n"

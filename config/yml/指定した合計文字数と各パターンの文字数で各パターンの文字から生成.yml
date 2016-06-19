@@ -1,0 +1,27 @@
+num_data: 100
+record_rules: 
+  field01: 
+    pattern: 
+      - 
+        - 
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+        - 8
+      - 
+        - "main1"
+        - "main2"
+        - "main3"
+      - 
+        - 
+          - "a"
+          - "b"
+          - "c"
+          - "d"
+          - "e"
+        - 4
+    length: 17
+need_header: true
+eol: "\n"

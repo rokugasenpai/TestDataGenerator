@@ -1,0 +1,7 @@
+num_data: 100
+record_rules: 
+  field01: 
+    seq: 1
+need_header: true
+need_stdout: true
+eol: "\n"

@@ -1,0 +1,16 @@
+num_data: 100
+record_rules: 
+  field01: 
+    number: 
+      - 
+        - 100
+        - 999
+        - 9
+        - 1
+      - 
+        - 1000
+        - 9999
+        - 1
+        - 1
+need_header: true
+eol: "\n"
