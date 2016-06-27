@@ -138,13 +138,13 @@ JSONはphp5.4以上のjson系関数、YAMLはsymfony/yamlで解釈可能な書�
 - proc_head_sql
     - 前・後処理用先頭SQL
     - デフォルト値は空文字
-    - SET文などを先頭に挿入するために設定します。  
+    - SETやSTART TRANSACTIONなどを先頭に挿入するために設定します。  
     前・後処理用ファイルがCSVの時のみ機能します。  
 
 - proc_tail_sql
     - 前・後処理用末尾SQL
     - デフォルト値は空文字
-    - OPTIMIZE TABLE文などを末尾に挿入するために設定します。  
+    - OPTIMIZE TABLEやCOMMITなどを末尾に挿入するために設定します。  
     前・後処理用ファイルがCSVの時のみ機能します。  
 
 - db_name
