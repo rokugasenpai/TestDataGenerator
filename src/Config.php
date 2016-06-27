@@ -31,8 +31,6 @@ use rokugasenpai\TestDataGenerator\TDGException as TDGE;
  * Config
  *
  * 設定値の検証と提供を目的としたクラス。
- * あまり良くないかもしれないが…設定値を元にして
- * PDOインスタンスのセットも行っている。
  *
  * @package    TestDataGenerator
  */
@@ -102,9 +100,6 @@ class Config extends TDGBase
     /** @var string DBホストポート */
     protected $db_port = 3306;
 
-    /** @var PDO DBインスタンス */
-    protected $db = NULL;
-
     /** @var bool ヘッダ出力フラグ */
     protected $need_header = FALSE;
 
@@ -118,9 +113,8 @@ class Config extends TDGBase
     protected $charset = Util::UTF8;
     // 単位はMB、Util::fputcsv()で負荷対策のためメモリに書き込む時に使用する。
 
-    /** @var int 出力時メモリサイズ上限 */
-    protected $output_memory_limit = 8;
-    // I/O負荷低減のためfputcsvの時に、nメガバイトまでメモリにフラッシュする。
+    /** @var int php.iniのmemory_limit */
+    protected $memory_limit = '1G';
 
 
     /**
@@ -133,7 +127,6 @@ class Config extends TDGBase
         parent::__construct($this);
 
         $this->_check_and_set_props($config);
-        $this->_check_and_set_db();
     }
 
 
@@ -158,6 +151,15 @@ class Config extends TDGBase
             $method = '_check_and_set_' . $name;
             // 動的にメソッドを呼び出す。
             $this->{$method}($value);
+        }
+
+        if (strlen($this->sql) || count($this->pre_proc) || count($this->post_proc))
+        {
+            if (!strlen($this->db_host) || !strlen($this->db_port)|| !strlen($this->db_name)
+                || !strlen($this->db_user) || !strlen($this->db_pass))
+            {
+                throw new TDGE(TDGE::MESSEAGE_INVALID_CONFIG, 'DB接続情報が不足しています。');
+            }
         }
 
         if ($this->_exists_error())
@@ -721,53 +723,25 @@ class Config extends TDGBase
 
 
     /**
-     * _check_and_set_output_memory_limit
+     * _check_and_set_memory_limit
      *
-     * 出力時メモリサイズ上限を$output_memory_limitプロパティにセットする。
-     * php.iniのmemory_limitを超えていないかチェックしている。
+     * php.iniのmemory_limitを$memory_limitプロパティにセットする。
+     * 2桁までならG、超えるならMとする。
      *
      * @param mixed $value
      */
-    private function _check_and_set_output_memory_limit($value)
+    private function _check_and_set_memory_limit($value)
     {
-        if (!Util::is_numeric_uint($value) || $value > intval(ini_get('memory_limit')))
+        if (intval($value) <= 0)
         {
             $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
             return;
         }
 
-        $this->output_memory_limit = $value * pow(1024, 2);
-    }
+        $unit = '';
+        if (intval($value) < 100) $unit = 'G';
+        else $unit = 'M';
 
-
-    /**
-     * _check_and_set_db
-     *
-     * 接続情報があれば、DBに接続し、$dbプロパティにPDOインスタンスをセットする。
-     */
-    private function _check_and_set_db()
-    {
-        if ($this->_exists_error()) return;
-
-        if (!$this->db_host || !$this->db_port || !$this->db_name || !$this->db_user || !$this->db_pass)
-        {
-            return;
-        }
-
-        $charset = Util::normalize_charset($this->charset, TRUE);
-        try
-        {
-            $option = [
-                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-            ];
-            $this->db = new \PDO(
-                "mysql:dbname={$this->db_name};host={$this->db_host};port={$this->db_port};charset={$charset}",
-                $this->db_user, $this->db_pass, $option);
-        }
-        catch (\PDOException $pe)
-        {
-            throw new TDGE(TDGE::MESSEAGE_INVALID_DB, $pe->getMessage());
-        }
+        $this->memory_limit = intval($value) . $unit;
     }
 }

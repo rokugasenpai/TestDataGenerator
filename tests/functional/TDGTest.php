@@ -26,14 +26,12 @@ class TDGTest extends PHPUnit_Framework_TestCase
         {
             unlink($sql_file);
         }
-        $GLOBALS['test_case'] = __CLASS__;
-        $GLOBALS['test_method'] = $this->getName();
     }
 
     public function test_default_config()
     {
         $tdg = new TDG();
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -61,7 +59,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -89,7 +87,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -117,7 +115,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'output.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'output.csv');
         $this->assertCount(1 + 100, $data);
@@ -145,7 +143,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'output.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'output.csv');
         $this->assertCount(1 + 100, $data);
@@ -162,44 +160,6 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function test_出力ファイルをsqlに指定して１からシーケンス番号を生成_json()
-    {
-        $_fn = explode('_', __FUNCTION__);
-        $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
-            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
-        if (strpos(PHP_OS, 'WIN') === 0)
-        {
-            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
-        }
-        $this->assertFileExists($config_filepath);
-        $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
-        $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'output.sql');
-        $sqls = file($this->app_dir . DIRECTORY_SEPARATOR . 'output.sql');
-        $this->assertCount(1, $sqls);
-        $this->assertRegExp('/^INSERT INTO `output` \(`field01`\) VALUES \(\''
-            . implode('\'\), \(\'', range(1, 100)) . '\'\);$/', $sqls[0]);
-    }
-
-    public function test_出力ファイルをsqlに指定して１からシーケンス番号を生成_yml()
-    {
-        $_fn = explode('_', __FUNCTION__);
-        $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
-            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
-        if (strpos(PHP_OS, 'WIN') === 0)
-        {
-            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
-        }
-        $this->assertFileExists($config_filepath);
-        $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
-        $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'output.sql');
-        $sqls = file($this->app_dir . DIRECTORY_SEPARATOR . 'output.sql');
-        $this->assertCount(1, $sqls);
-        $this->assertRegExp('/^INSERT INTO `output` \(`field01`\) VALUES \(\''
-            . implode('\'\), \(\'', range(1, 100)) . '\'\);$/', $sqls[0]);
-    }
-
     public function test_ヘッダ無しで１からシーケンス番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
@@ -211,7 +171,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(100, $data);
@@ -234,7 +194,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(100, $data);
@@ -258,7 +218,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($config_filepath);
         $this->expectOutputRegex('/field01/s');
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -286,11 +246,11 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->expectOutputRegex('/field01/s');
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -318,7 +278,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -346,7 +306,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -374,7 +334,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -402,7 +362,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -430,7 +390,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -460,7 +420,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -490,7 +450,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -521,7 +481,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -552,7 +512,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -582,7 +542,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -612,7 +572,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -646,7 +606,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -680,7 +640,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -719,7 +679,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -760,7 +720,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $now = new DateTime('now');
         $timestamp_lower = $now->getTimestamp();
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $now = new DateTime('now');
         $timestamp_higher = $now->getTimestamp();
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
@@ -793,7 +753,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($config_filepath);
         $timestamp_lower = time();
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $timestamp_higher = time();
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
@@ -823,7 +783,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -853,7 +813,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -883,7 +843,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -913,7 +873,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -943,7 +903,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -985,7 +945,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
         $field01_major = 0;
@@ -1026,7 +986,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1068,7 +1028,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1111,7 +1071,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($config_filepath);
         $timestamp_lower = time();
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $timestamp_higher = time();
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
@@ -1143,7 +1103,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($config_filepath);
         $timestamp_lower = time();
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $timestamp_higher = time();
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
@@ -1174,7 +1134,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1204,7 +1164,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1234,7 +1194,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1264,7 +1224,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1294,7 +1254,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1336,7 +1296,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1378,7 +1338,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1420,7 +1380,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1462,7 +1422,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1490,7 +1450,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1518,7 +1478,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1546,7 +1506,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1574,7 +1534,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1619,7 +1579,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1664,7 +1624,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1713,7 +1673,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1762,7 +1722,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1790,7 +1750,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1818,7 +1778,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1846,7 +1806,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -1874,7 +1834,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 2000, $data);
@@ -1924,7 +1884,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 2000, $data);
@@ -1974,7 +1934,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 2000, $data);
@@ -2024,7 +1984,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 2000, $data);
@@ -2078,7 +2038,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2110,7 +2070,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2142,7 +2102,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2174,7 +2134,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2206,7 +2166,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2256,7 +2216,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
       }
       $this->assertFileExists($config_filepath);
       $tdg = new TDG($config_filepath);
-      $tdg->main(TRUE);
+      $tdg->main(FALSE, TRUE);
       $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
       $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
       $this->assertCount(1 + 100, $data);
@@ -2306,7 +2266,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2338,7 +2298,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
         $this->assertFileExists($config_filepath);
         $tdg = new TDG($config_filepath);
-        $tdg->main(TRUE);
+        $tdg->main(FALSE, TRUE);
         $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
         $this->assertCount(1 + 100, $data);
@@ -2353,6 +2313,177 @@ class TDGTest extends PHPUnit_Framework_TestCase
             $this->assertCount(1, $record);
             $this->assertRegExp('/^' . $ir . '_\d{7}$/', $record[0]);
         }
+    }
+
+    /**
+     * @group shakedown
+     */
+    public function test_実際の利用を想定したユーザーテーブルデータの生成_json()
+    {
+        $_fn = explode('_', __FUNCTION__);
+        $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
+            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
+        if (strpos(PHP_OS, 'WIN') === 0)
+        {
+            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
+        }
+        $this->assertFileExists($config_filepath);
+        $tdg = new TDG($config_filepath);
+        $tdg->main(FALSE, TRUE);
+        $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'users.csv');
+        $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'users.csv');
+        $this->assertCount(1 + 2000, $data);
+        $family_name_rank1 = 0;
+        $family_name_rank30 = 0;
+        $sex_major = 0;
+        $sex_minor = 0;
+        $post_code_major = 0;
+        $post_code_minor = 0;
+        foreach ($data as $ir => $record)
+        {
+            if (!$ir)
+            {
+                $this->assertEquals('"id","user_id","password","family_name","first_name","sex",'
+                    . '"post_code","pref","city","town","address","delete_flg","created_at","updated_at"' . "\n",
+                    $record);
+                continue;
+            }
+            $record = str_getcsv(str_replace("\n", '', $record));
+            $this->assertCount(14, $record);
+            $this->assertEquals($ir, $record[0]);
+            $this->assertRegExp('/^[a-z]{4}[0-9]{4}$/', $record[1]);
+            $this->assertRegExp('/^[0-9a-f]{32}$/', $record[2]);
+            $this->assertGreaterThan(0, strlen($record[3]));
+            if ($record[3] == '佐藤')
+            {
+                $family_name_rank1++;
+            }
+            else if ($record[3] == '石井')
+            {
+                $family_name_rank30++;
+            }
+            if ($record[5] == '1')
+            {
+                $this->assertContains($record[4], ['一郎', '二郎', '三郎', '四郎', '五郎']);
+            }
+            else if ($record[5] == '2')
+            {
+                $this->assertContains($record[4], ['花子', '春子', '秋子', '景子', '洋子']);
+            }
+            $this->assertContains($record[5], ['1', '2']);
+            if ($record[5] == '2')
+            {
+                $sex_major++;
+            }
+            else if ($record[5] == '1')
+            {
+                $sex_minor++;
+            }
+            $this->assertRegExp('/^\d{7}$/', $record[6]);
+            if (substr($record[6], 0, 1) == '1')
+            {
+                $post_code_major++;
+            }
+            else if (substr($record[6], 0, 1) == '0')
+            {
+                $post_code_minor++;
+            }
+            $this->assertRegExp('/(?:都|道|府|県)$/',
+                $record[7]);
+            $this->assertRegExp('/^(?:１|２|３|４|５)－(?:１|２|３|４|５|６|７|８|９|１０)－'
+                . '(?:１|２|３|４|５|６|７|８|９|１０|１１|１２|１３|１４|１５|１６|１７|１８|１９|２０)$/',
+                $record[10]);
+            $this->assertEquals(0, $record[11]);
+            $this->assertEquals('2015-01-01 00:00:00', $record[12]);
+            $this->assertEquals('2015-01-01 00:00:00', $record[13]);
+        }
+        $this->assertLessThan($family_name_rank1, $family_name_rank30);
+        $this->assertLessThan($sex_major, $sex_minor);
+        $this->assertLessThan($post_code_major, $post_code_minor);
+    }
+
+    public function test_実際の利用を想定したユーザーテーブルデータの生成_yml()
+    {
+        $_fn = explode('_', __FUNCTION__);
+        $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
+            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
+        if (strpos(PHP_OS, 'WIN') === 0)
+        {
+            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
+        }
+        $this->assertFileExists($config_filepath);
+        $tdg = new TDG($config_filepath);
+        $tdg->main(FALSE, TRUE);
+        $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'users.csv');
+        $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'users.csv');
+        $this->assertCount(1 + 2000, $data);
+        $family_name_rank1 = 0;
+        $family_name_rank30 = 0;
+        $sex_major = 0;
+        $sex_minor = 0;
+        $post_code_major = 0;
+        $post_code_minor = 0;
+        foreach ($data as $ir => $record)
+        {
+            if (!$ir)
+            {
+                $this->assertEquals('"id","user_id","password","family_name","first_name","sex",'
+                    . '"post_code","pref","city","town","address","delete_flg","created_at","updated_at"' . "\n",
+                    $record);
+                continue;
+            }
+            $record = str_getcsv(str_replace("\n", '', $record));
+            $this->assertCount(14, $record);
+            $this->assertEquals($ir, $record[0]);
+            $this->assertRegExp('/^[a-z]{4}[0-9]{4}$/', $record[1]);
+            $this->assertRegExp('/^[0-9a-f]{32}$/', $record[2]);
+            $this->assertGreaterThan(0, strlen($record[3]));
+            if ($record[3] == '佐藤')
+            {
+                $family_name_rank1++;
+            }
+            else if ($record[3] == '石井')
+            {
+                $family_name_rank30++;
+            }
+            if ($record[5] == '1')
+            {
+                $this->assertContains($record[4], ['一郎', '二郎', '三郎', '四郎', '五郎']);
+            }
+            else if ($record[5] == '2')
+            {
+                $this->assertContains($record[4], ['花子', '春子', '秋子', '景子', '洋子']);
+            }
+            $this->assertContains($record[5], ['1', '2']);
+            if ($record[5] == '2')
+            {
+                $sex_major++;
+            }
+            else if ($record[5] == '1')
+            {
+                $sex_minor++;
+            }
+            $this->assertRegExp('/^\d{7}$/', $record[6]);
+            if (substr($record[6], 0, 1) == '1')
+            {
+                $post_code_major++;
+            }
+            else if (substr($record[6], 0, 1) == '0')
+            {
+                $post_code_minor++;
+            }
+            $this->assertRegExp('/(?:都|道|府|県)$/',
+                $record[7]);
+            $this->assertRegExp('/^(?:１|２|３|４|５)－(?:１|２|３|４|５|６|７|８|９|１０)－'
+                . '(?:１|２|３|４|５|６|７|８|９|１０|１１|１２|１３|１４|１５|１６|１７|１８|１９|２０)$/',
+                $record[10]);
+            $this->assertEquals(0, $record[11]);
+            $this->assertEquals('2015-01-01 00:00:00', $record[12]);
+            $this->assertEquals('2015-01-01 00:00:00', $record[13]);
+        }
+        $this->assertLessThan($family_name_rank1, $family_name_rank30);
+        $this->assertLessThan($sex_major, $sex_minor);
+        $this->assertLessThan($post_code_major, $post_code_minor);
     }
 
     protected function tearDown()

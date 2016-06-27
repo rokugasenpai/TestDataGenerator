@@ -36,6 +36,7 @@ namespace rokugasenpai\TestDataGenerator;
 class TDGException extends \Exception
 {
     const MESSEAGE_MISSING_MODULE = '必要なPHP拡張モジュールが見つかりませんでした。';
+    const MESSEAGE_MYSQL = 'MySQLの接続で問題が発生しました。';
     const MESSEAGE_INVALID_MYSQL_SETTING = 'my.iniまたはmy.cnfに次の項目を設定してください。';
     const MESSEAGE_MISSING_CONFIG = '設定ファイルが見つかりませんでした。';
     const MESSEAGE_INVALID_CONFIG = '設定ファイルに問題があります。';

@@ -92,6 +92,36 @@ class Util
 
 
     /**
+     * s_to_hms
+     *
+     * 秒をh時間m分s秒に変換して返す。
+     * 各々0の場合はスキップする。
+     *
+     * @param int|float $s
+     * @param int $scale
+     * @return string|bool
+     */
+     public static function s_to_hms($s, $scale=3)
+     {
+        if (!is_numeric($s) || $s < 0)
+        {
+            return FALSE;
+        }
+
+        $h = intval($s / 3600);
+        $m = intval(($s - $h * 3600) / 60);
+        $s = floatval(bcsub($s, $h * 3600 + $m * 60, $scale));
+
+        $hms = '';
+        if ($h) $hms .= $h . '時間';
+        if ($m) $hms .= $m . '分';
+        if ($s) $hms .= $s . '秒';
+
+        return $hms;
+     }
+
+
+    /**
      * json_last_error_msg
      *
      * json_last_error_msg()の無いPHP5.4に対応させる。
@@ -578,7 +608,7 @@ class Util
         $output_null_value = ($need_null) ? "NULL" : "''";
 
         $cnt = NAN;
-        $sqls = [];
+        $sql = '';
         $sql_insert = '';
         $original_columns = [];
 
@@ -695,14 +725,14 @@ class Util
                 {
                     $sql_insert = 'INSERT INTO `' . $table . '` (`' . implode('`, `', $columns) . '`) VALUES ';
                 }
-                if (strlen($head_sql)) $sqls[] = $head_sql;
+                if (strlen($head_sql)) $sql .= $head_sql . $eol;
                 $cnt = 0;
                 if ($is_header) continue;
             }
 
             if ($cnt % $divisor === 0)
             {
-                $sqls[] = $sql_insert;
+                $sql .= $sql_insert;
             }
 
             // $recordを[カラム名 => 値]の連想配列にする。
@@ -761,41 +791,41 @@ class Util
                 }
             }, $record);
 
-            $sqls[count($sqls) - 1] .= '(' . implode(', ', $record) . ')';
-            // $sqlsにインサート部分が追加されたらインクリメント
+            $sql .= '(' . implode(', ', $record) . ')';
+            // $sqlにインサート部分が追加されたらインクリメント
             $cnt++;
 
             if ($cnt % $divisor)
             {
-                $sqls[count($sqls) - 1] .= ', ';
+                $sql .= ', ';
             }
             else
             {
                 // $divisor単位でSQLを切る
-                $sqls[count($sqls) - 1] .= ';';
+                $sql .= ';' . $eol;
             }
         }
 
-        if (substr(end($sqls), -2) == ', ')
+        if (substr($sql, -2) == ', ')
         {
-            $sqls[count($sqls) - 1] = substr(end($sqls), 0, -2) . ';';
+            $sql = substr($sql, 0, -2) . ';' . $eol;
         }
 
         if (strlen($tail_sql))
         {
-            $sqls[] = $tail_sql;
+            $sql .= $tail_sql . $eol;
         }
+
+        $sql = substr($sql, 0, -strlen($eol));
 
         if (strlen($output))
         {
-            $fp = fopen($output, 'w');
-            fwrite($fp,  implode($eol, $sqls));
-            fclose($fp);
+            file_put_contents($output, $sql);
             return $output;
         }
         else
         {
-            return $sqls;
+            return explode($eol, $sql);
         }
     }
 

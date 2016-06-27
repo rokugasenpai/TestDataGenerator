@@ -79,6 +79,51 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $this->assertSame(0, Util::array_depth(new DateTime()));
     }
 
+    public function test_s_to_hms_小数で1時間以上()
+    {
+        $this->assertEquals('1時間14分4.4秒', Util::s_to_hms(4444.4));
+    }
+
+    public function test_s_to_hms_1時間以上()
+    {
+        $this->assertEquals('1時間14分4秒', Util::s_to_hms(4444));
+    }
+
+    public function test_s_to_hms_1時間()
+    {
+        $this->assertEquals('1時間', Util::s_to_hms(3600));
+    }
+
+    public function test_s_to_hms_1分以上()
+    {
+        $this->assertEquals('7分24秒', Util::s_to_hms(444));
+    }
+
+    public function test_s_to_hms_1分()
+    {
+        $this->assertEquals('1分', Util::s_to_hms(60));
+    }
+
+    public function test_s_to_hms_1分未満()
+    {
+        $this->assertEquals('44秒', Util::s_to_hms(44));
+    }
+
+    public function test_s_to_hms_1秒未満()
+    {
+        $this->assertEquals('0.4秒', Util::s_to_hms(0.4));
+    }
+
+    public function test_s_to_hms_数値以外()
+    {
+        $this->assertFalse(Util::s_to_hms('abc'));
+    }
+
+    public function test_s_to_hms_負数()
+    {
+        $this->assertFalse(Util::s_to_hms(-1));
+    }
+
     public function test_json_last_error_msg_正常なJSONをデコード()
     {
         @json_decode('{"key":"value"}', TRUE);

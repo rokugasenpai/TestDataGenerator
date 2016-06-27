@@ -28,7 +28,7 @@ class WeightedArrayTest extends PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, $num_rare);
         $this->assertEquals(0, $num_unexpected);
     }
-    
+
     public function test_WeightedArrayの生成とget_array_from_keys()
     {
         $weighted = new WeightedArray();

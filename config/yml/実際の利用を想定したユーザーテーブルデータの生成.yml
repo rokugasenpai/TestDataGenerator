@@ -99,7 +99,8 @@ pre_proc:
     - "population"
     - 2000
 proc_null_value: "NULL"
-proc_tail_sql: "OPTIMIZE TABLE a, m;"
+proc_head_sql: "START TRANSACTION;"
+proc_tail_sql: "COMMIT;"
 db_user: "tdg"
 need_header: true
 eol: "\n"

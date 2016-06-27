@@ -13,22 +13,17 @@
     <php>
         <ini name="error_reporting" value="E_ALL" />
         <ini name="xdebug.profiler_enable" value="1" />
-        <var name="benchmark" value="0" />
-        <var name="benchmark_filepath" value="build/logs/benchmark.xml" />
-        <var name="spec_filepath" value="build/logs/spec.txt" />
     </php>
     <testsuites>
+        <testsuite name="all">
+            <directory suffix="Test.php">tests/unit</directory>
+            <directory suffix="Test.php">tests/functional</directory>
+        </testsuite>
         <testsuite name="unit">
             <directory suffix="Test.php">tests/unit</directory>
         </testsuite>
         <testsuite name="functional">
             <directory suffix="Test.php">tests/functional</directory>
-        </testsuite>
-        <testsuite name="operation">
-            <directory suffix="Test.php">tests/operation</directory>
-        </testsuite>
-        <testsuite name="stress">
-            <directory suffix="Test.php">tests/stress</directory>
         </testsuite>
     </testsuites>
     <filter>

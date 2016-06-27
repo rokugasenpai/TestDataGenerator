@@ -44,7 +44,7 @@ set_error_handler(
  * TDG
  *
  * 設定ファイルを読み込み、その情報を元にテストデータの生成、CSVファイルの出力を行う。
- * データベースを参照する必要がある場合は、本クラスで接続する。
+ * データベースはConfigクラスで生成接続したPDOを使用する。
  *
  * @package    TestDataGenerator
  */
@@ -61,10 +61,19 @@ class TDG
     const MESSEAGE_POST_PROC_FINISH = '後処理が完了しました。';
 
     /** @var Config 設定 */
-    public $config = NULL;
+    private $_config = NULL;
 
-    /** @var string[] 生成データ */
-    public $data = [];
+    /** @var string ベンチマーク用ストップウォッチ */
+    private $_benchmark = '';
+
+    /** @var string 呼び出し元 */
+    private $_caller = '';
+
+    /** @var PDO DBインスタンス */
+    private $_db = NULL;
+
+    /** @var resource データ出力用ファイルポインタ */
+    private $_fp = NULL;
 
 
     /**
@@ -73,17 +82,35 @@ class TDG
      * 設定をファイルから読み取りセットする。
      *
      * @param string $config_filepath (optional)
+     * @param bool $benchmark_filepath (optional)
      */
-    public function __construct($config_filepath='', $benchmark=FALSE)
+    public function __construct($config_filepath='')
     {
+        $bktr = debug_backtrace();
+        $this->_caller = basename($bktr[0]['file']);
+        if (isset($bktr[1]['file'])) $this->_caller = basename($bktr[1]['file']);
+        if (isset($bktr[1]['function'])) $this->_caller = $bktr[1]['function'];
+        if (strpos(PHP_OS, 'WIN') === 0)
+        {
+            $this->_caller = mb_convert_encoding($this->_caller, Util::SJIS, Util::UTF8);
+        }
+
         $this->_check_and_set_env();
 
-        $this->config = new Config($this->get_config($config_filepath));
+        $this->_config = new Config($this->get_config($config_filepath));
 
-        if (!is_null($this->config->db))
-        {
-            $this->_check_env_db();
-        }
+        ini_set('memory_limit', $this->_config->memory_limit);
+
+        $this->_connect_db();
+    }
+
+
+    /**
+     * __destruct
+     */
+    public function __destruct()
+    {
+        if (!is_null($this->_fp)) @fclose($this->_fp);
     }
 
 
@@ -93,58 +120,63 @@ class TDG
      * データの生成とファイル出力を行う。
      * 必要があれば前・後処理を行う。
      *
-     * @param string $config_filepath (optional)
+     * @param bool $need_stdout (optional)
+     * @param bool $need_benchmark_file (optional)
+     * @param bool $need_spec_file (optional)
      */
-    public function main($is_silent=FALSE)
+    public function main($need_stdout=TRUE, $need_benchmark_file=FALSE, $need_spec_file=FALSE)
     {
-        if (count($this->config->pre_proc))
-        {
-            if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
-            {
-                $GLOBALS['benchmark']->lap('', $GLOBALS['test_case'] . '::' . $GLOBALS['test_method']);
-            }
+        $this->_benchmark = new Stopwatch();
+        $this->_benchmark->logs = [];
+        $event = $this->_benchmark->start($this->_caller);
+        $this->_benchmark->logs[] = '開始: '
+            . date('Y-m-d H:i:s', intval($event->getOrigin() / 1000));
+        if ($need_stdout) Util::println(end($this->_benchmark->logs));
 
-            if (!$is_silent) Util::println(self::MESSEAGE_PRE_PROC_START);
-            $this->execute_pre_proc($this->config->pre_proc);
-            if (!$is_silent) Util::println(self::MESSEAGE_PRE_PROC_FINISH);
+        if (count($this->_config->pre_proc))
+        {
+            if ($need_stdout) Util::println(self::MESSEAGE_PRE_PROC_START);
+            $this->execute_pre_proc($this->_config->pre_proc);
+            if ($need_stdout) Util::println(self::MESSEAGE_PRE_PROC_FINISH);
         }
 
-        if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
-        {
-            $GLOBALS['benchmark']->lap('', $GLOBALS['test_case'] . '::' . $GLOBALS['test_method']);
-        }
+        $event = $this->_benchmark->lap($this->_caller);
+        $this->_benchmark->logs[] = 'データ生成前: '
+            . date('Y-m-d H:i:s', intval($event->getOrigin() / 1000 + $event->getEndTime() / 1000));
+        if ($need_stdout) Util::println(end($this->_benchmark->logs));
 
-        if (!$is_silent) Util::println(self::MESSEAGE_GENERATION_START);
+        if ($need_stdout) Util::println(self::MESSEAGE_GENERATION_START);
         $this->generate_data();
+        if ($need_stdout) Util::println(self::MESSEAGE_GENERATION_FINISH);
 
-        if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
+        $event = $this->_benchmark->lap($this->_caller);
+        $this->_benchmark->logs[] = 'データ生成後: '
+            . date('Y-m-d H:i:s', intval($event->getOrigin() / 1000 + $event->getEndTime() / 1000));
+        if ($need_stdout) Util::println(end($this->_benchmark->logs));
+
+        if (count($this->_config->post_proc))
         {
-            $GLOBALS['benchmark']->lap('', $GLOBALS['test_case'] . '::' . $GLOBALS['test_method']);
+            if ($need_stdout) Util::println(self::MESSEAGE_POST_PROC_START);
+            $this->execute_post_proc($this->_config->post_proc);
+            if ($need_stdout) Util::println(self::MESSEAGE_POST_PROC_FINISH);
         }
 
-        $this->save_data();
-        if (!$is_silent) Util::println(self::MESSEAGE_GENERATION_FINISH);
+        $event = $this->_benchmark->stop($this->_caller);
+        $this->_benchmark->logs[] = '終了: '
+            . date('Y-m-d H:i:s', intval($event->getOrigin() / 1000 + $event->getEndTime() / 1000));
+        if ($need_stdout) Util::println(end($this->_benchmark->logs));
 
-        if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
+        $this->_benchmark->logs[] = '処理時間: ' . Util::s_to_hms($event->getDuration() / 1000);
+        if ($need_stdout) Util::println(end($this->_benchmark->logs));
+
+        if ($need_benchmark_file)
         {
-            $GLOBALS['benchmark']->lap('', $GLOBALS['test_case'] . '::' . $GLOBALS['test_method']);
+            file_put_contents("./benchmark_{$this->_caller}.txt", implode(PHP_EOL, $this->_benchmark->logs));
         }
 
-        if (count($this->config->post_proc))
+        if ($need_spec_file)
         {
-            if (!$is_silent) Util::println(self::MESSEAGE_POST_PROC_START);
-            $this->execute_post_proc($this->config->post_proc);
-            if (!$is_silent) Util::println(self::MESSEAGE_POST_PROC_FINISH);
-            if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
-            {
-                $GLOBALS['benchmark']->lap('', $GLOBALS['test_case'] . '::' . $GLOBALS['test_method']);
-            }
-        }
-
-        if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
-        {
-            $this->_output_benchmark($GLOBALS['benchmark'], $GLOBALS['test_case'],
-                $GLOBALS['test_method'], $GLOBALS['benchmark_filepath'], $GLOBALS['spec_filepath']);
+            $this->_output_spec_file();
         }
     }
 
@@ -159,7 +191,7 @@ class TDG
      * @param string $config_filepath (optional)
      * @return mixed[]
      */
-    protected function get_config($config_filepath='')
+    public function get_config($config_filepath='')
     {
         $config = [];
 
@@ -217,9 +249,9 @@ class TDG
      *
      * @param string[] $procs
      */
-    protected function execute_pre_proc($procs)
+    public function execute_pre_proc($procs)
     {
-        $this->execute_proc($procs, TDGE::MESSEAGE_INVALID_PRE_PROC_FILE, TDGE::MESSEAGE_INVALID_PRE_PROC_SQL);
+        $this->_execute_proc($procs, TDGE::MESSEAGE_INVALID_PRE_PROC_FILE, TDGE::MESSEAGE_INVALID_PRE_PROC_SQL);
     }
 
 
@@ -230,14 +262,58 @@ class TDG
      *
      * @param string[] $procs
      */
-    protected function execute_post_proc($procs)
+    public function execute_post_proc($procs)
     {
-        $this->execute_proc($procs, TDGE::MESSEAGE_INVALID_POST_PROC_FILE, TDGE::MESSEAGE_INVALID_POST_PROC_SQL);
+        $this->_execute_proc($procs, TDGE::MESSEAGE_INVALID_POST_PROC_FILE, TDGE::MESSEAGE_INVALID_POST_PROC_SQL);
     }
 
 
     /**
-     * execute_proc
+     * generate_data
+     *
+     * データを行(レコード)単位で生成し、ファイル出力する。
+     */
+    public function generate_data()
+    {
+        $this->_fp = fopen($this->_config->output_filepath, 'w');
+
+        for ($now_index = 0; $now_index < $this->_config->num_data; $now_index++)
+        {
+            Record::generate($now_index, $this->_config->num_data,
+                $this->_db, $this->_config->sql, $this->_config->num_records_per_sql,
+                $this->_config->record_rules, $this->_config->need_stdout);
+
+            $record = Record::get_data();
+
+            if (!count($record))
+            {
+                throw new TDGE(TDGE::MESSEAGE_MISSING_DATA);
+            }
+
+            if (!$now_index && $this->_config->need_header)
+            {
+                Util::fputcsv($this->_fp, array_keys($record), $this->_config->need_null, $this->_config->eol,
+                    $this->_config->charset, Util::UTF8);
+            }
+
+            if ($this->_config->charset != Util::UTF8)
+            {
+                Util::fputcsv($this->_fp, $record, $this->_config->need_null, $this->_config->eol,
+                    $this->_config->charset, Util::UTF8);
+            }
+            else
+            {
+                Util::fputcsv($this->_fp, $record, $this->_config->need_null, $this->_config->eol);
+            }
+        }
+
+        @fclose($this->_fp);
+        $this->_fp = NULL;
+    }
+
+
+    /**
+     * _execute_proc
      *
      * 指定された前・後処理SQLを実行する。
      * 引数よりSQLまたはCSVのファイルパスを取得し、
@@ -249,7 +325,7 @@ class TDG
      * @param string $error_message_file
      * @param string $error_message_sql
      */
-    protected function execute_proc($procs, $error_message_file, $error_message_sql)
+    private function _execute_proc($procs, $error_message_file, $error_message_sql)
     {
         foreach ($procs as $proc)
         {
@@ -265,7 +341,7 @@ class TDG
                     copy($filepath, "{$filepath}.bak");
                     $weight_column = $proc[Config::IDX_PROC_WEIGHT_COLUMN];
                     $weighted_file = Util::create_weighted_csv(
-                        $this->config->num_data, $filepath, '', $weight_column, 10000);
+                        $this->_config->num_data, $filepath, '', $weight_column, 10000);
 
                     if (!$weighted_file)
                     {
@@ -285,10 +361,10 @@ class TDG
                 }
 
                 $sql_file = Util::csv_to_bulk_insert($weighted_file, '', '', [],
-                    TRUE, $this->config->need_null, $this->config->proc_null_value,
-                    $this->config->eol, $this->config->num_records_per_sql,
+                    TRUE, $this->_config->need_null, $this->_config->proc_null_value,
+                    $this->_config->eol, $this->_config->num_records_per_sql,
                     $unique_columns, $sum_columns,
-                    $this->config->proc_head_sql, $this->config->proc_tail_sql);
+                    $this->_config->proc_head_sql, $this->_config->proc_tail_sql);
 
                 if (!$sql_file)
                 {
@@ -303,8 +379,8 @@ class TDG
             // mysqlコマンドにパスワードが入ってると標準エラーが出る場合があるので対応。
             $stderr_to_null = '2> /dev/null';
             if (strpos(PHP_OS, 'WIN') === 0) $stderr_to_null = '2> nul';
-            exec("mysql -h {$this->config->db_host} -P {$this->config->db_port} "
-                . "-u {$this->config->db_user} -p\"{$this->config->db_pass}\" {$this->config->db_name} "
+            $output = exec("mysql -h {$this->_config->db_host} -P {$this->_config->db_port} "
+                . "-u {$this->_config->db_user} -p\"{$this->_config->db_pass}\" {$this->_config->db_name} "
                 . "< {$sql_file} {$stderr_to_null}", $discard, $code);
             if ($code)
             {
@@ -315,93 +391,12 @@ class TDG
 
 
     /**
-     * generate_data
-     *
-     * データを行(レコード)単位で生成し、$dataプロパティに格納する。
-     */
-    protected function generate_data()
-    {
-        for ($now_index = 0; $now_index < $this->config->num_data; $now_index++)
-        {
-            Record::generate($now_index, $this->config->num_data,
-                $this->config->db, $this->config->sql, $this->config->num_records_per_sql,
-                $this->config->record_rules, $this->config->need_stdout);
-
-            $this->data[] = Record::get_data();
-        }
-
-        if (!count($this->data))
-        {
-            throw new TDGE(TDGE::MESSEAGE_MISSING_DATA);
-        }
-    }
-
-
-    /**
-     * save_data
-     *
-     * $dataプロパティの生成データを、ファイルに保存する。
-     * I/O負荷を減らすため、メモリに1行毎にフラッシュする。
-     * 設定により文字コードの変換も行う。
-     */
-    protected function save_data()
-    {
-        $fp = NULL;
-        try
-        {
-            if (Util::check_ext($this->config->output_filepath, Util::CSV_EXT))
-            {
-                // まずはメモリを確保
-                $fp = fopen("php://temp/maxmemory:{$this->config->output_memory_limit}", 'r+');
-
-                // 必要に応じてヘッダ書き出し
-                if ($this->config->need_header)
-                {
-                    Util::fputcsv($fp, array_keys($this->data[0]), $this->config->need_null, $this->config->eol,
-                        $this->config->charset, Util::UTF8);
-                }
-
-                // レコードごとに書き出し
-                foreach ($this->data as $record)
-                {
-                    if ($this->config->charset != Util::UTF8)
-                    {
-                        Util::fputcsv($fp, $record, $this->config->need_null, $this->config->eol,
-                            $this->config->charset, Util::UTF8);
-                    }
-                    else
-                    {
-                        Util::fputcsv($fp, $record, $this->config->need_null, $this->config->eol);
-                    }
-                }
-
-                rewind($fp);
-                // 最終的に、ファイル出力する。
-                file_put_contents($this->config->output_filepath, stream_get_contents($fp));
-                @fclose($fp);
-            }
-            else if (Util::check_ext($this->config->output_filepath, Util::SQL_EXT))
-            {
-                Util::csv_to_bulk_insert($this->data, $this->config->output_filepath,
-                    basename($this->config->output_filepath, Util::SQL_EXT), [],
-                    FALSE, $this->config->need_null, $this->config->proc_null_value,
-                    $this->config->eol, $this->config->num_records_per_sql);
-            }
-        }
-        catch (\ErrorException $ee)
-        {
-            @fclose($fp);
-            throw new TDGE(TDGE::MESSEAGE_FILE_OUTPUT, $ee->getMessage());
-        }
-    }
-
-
-    /**
      * _check_and_set_env
+     *
+     * PHPモジュールの確認、ini_set()など。
      */
     private function _check_and_set_env()
     {
-        // 必要なPHPモジュールが読み込まれているか。
         $require_modules = ['mbstring', 'pdo_mysql', 'bcmath'];
         foreach ($require_modules as $reqmod)
         {
@@ -415,61 +410,80 @@ class TDG
 
         ini_set('date.timezone', 'Asia/Tokyo');
         ini_set('mbstring.language', 'neutral');
-        ini_set('memory_limit', '1G');
-
-        if (isset($GLOBALS['benchmark']) && $GLOBALS['benchmark'])
-        {
-            $GLOBALS['benchmark'] = new Stopwatch();
-            $GLOBALS['benchmark']->start('', $GLOBALS['test_case'] . '::' . $GLOBALS['test_method']);
-        }
     }
 
 
     /**
-     * _check_env_db
+     * _connect_db
+     *
+     * DB文字コードの確認、DB接続。
      */
-    private function _check_env_db()
+    private function _connect_db()
     {
+        $db_host = $this->_config->db_host;
+        $db_port = $this->_config->db_port;
+        $db_name = $this->_config->db_name;
+        $db_user = $this->_config->db_user;
+        $db_pass = $this->_config->db_pass;
+
+        if (!strlen($db_host) || !strlen($db_port)|| !strlen($db_name) || !strlen($db_user) || !strlen($db_pass))
+        {
+            return;
+        }
+
+        $charset = Util::normalize_charset($this->_config->charset, TRUE);
+
         // MySQLの文字コード設定が正しいか。
         $mysql_setting_normal = [
-            'character_set_server' => 'utf8',
-            'collation_server' => 'utf8_general_ci'
+            'character_set_server' => $charset,
+            'collation_server' => $charset
         ];
         $mysql_setting_error = [];
         $stderr_to_null = '2> /dev/null';
         if (strpos(PHP_OS, 'WIN') === 0) $stderr_to_null = '2> nul';
+
         foreach ($mysql_setting_normal as $k => $v)
         {
-            $result = exec("mysql -h {$this->config->db_host} -P {$this->config->db_port} "
-                . "-u {$this->config->db_user} -p\"{$this->config->db_pass}\" {$this->config->db_name} "
+            $result = exec("mysql -h {$db_host} -P {$db_port} -u {$db_user} -p\"{$db_pass}\" {$db_name} "
                 . "-e\"show variables like '{$k}'\" {$stderr_to_null}", $discard, $code);
+            if ($code)
+            {
+                throw new TDGE(TDGE::MESSEAGE_MYSQL, $result);
+            }
             if (strpos($result, $v) === FALSE)
             {
                 $mysql_setting_error[] = "{$k} = {$v}";
             }
         }
-        if ($code || count($mysql_setting_error))
+
+        if (count($mysql_setting_error))
         {
             throw new TDGE(TDGE::MESSEAGE_INVALID_MYSQL_SETTING, implode(PHP_EOL, $mysql_setting_error));
+        }
+
+        try
+        {
+            $option = [
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+            ];
+
+            $this->_db = new \PDO(
+                "mysql:dbname={$db_name};host={$db_host};port={$db_port};charset={$charset}",
+                $db_user, $db_pass, $option);
+        }
+        catch (\PDOException $pe)
+        {
+            throw new TDGE(TDGE::MESSEAGE_INVALID_DB, $pe->getMessage());
         }
     }
 
 
     /**
-     * _output_benchmark
-     * 
-     * @param StopWatch $benchmark
-     * @param string $test_case
-     * @param string $test_method
-     * @param string $benchmark_filepath
-     * @param string $spec_filepath
+     * _output_spec_file
      */
-    private function _output_benchmark($benchmark, $test_case, $test_method, $benchmark_filepath, $spec_filepath)
+    private function _output_spec_file()
     {
-        $event = $benchmark->stop('', $test_case . '::' . $test_method);
-        $serializer = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
-        file_put_contents($benchmark_filepath, $serializer->serialize($event, 'xml'));
-
         // ベンチマークの指標としてPHPバージョン・マシンスペック情報を収集する。
         $specs = [];
         exec('php -v', $output);
@@ -540,6 +554,6 @@ class TDG
                 }
             }
         }
-        file_put_contents($spec_filepath, implode(PHP_EOL, $specs));
+        file_put_contents("./spec_{$this->_caller}.txt", implode(PHP_EOL, $specs));
     }
 }
