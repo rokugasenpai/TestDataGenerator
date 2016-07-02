@@ -79,13 +79,18 @@ class TDG
     /**
      * __construct
      *
-     * 設定をファイルから読み取りセットする。
+     * 引数$config_filepathより設定をセットする。
      *
      * @param string $config_filepath (optional)
-     * @param bool $benchmark_filepath (optional)
      */
     public function __construct($config_filepath='')
     {
+        if (!is_string($config_filepath))
+        {
+            throw new TDGE(TDGE::MESSEAGE_INVALID_CONSTRUCTOR);
+        }
+
+        // ベンチマークで使われる。
         $bktr = debug_backtrace();
         $this->_caller = basename($bktr[0]['file']);
         if (isset($bktr[1]['file'])) $this->_caller = basename($bktr[1]['file']);
@@ -97,6 +102,7 @@ class TDG
 
         $this->_check_and_set_env();
 
+        // $configはファイルパスを想定。
         $this->_config = new Config($this->get_config($config_filepath));
 
         ini_set('memory_limit', $this->_config->memory_limit);
@@ -110,7 +116,14 @@ class TDG
      */
     public function __destruct()
     {
-        if (!is_null($this->_fp)) @fclose($this->_fp);
+        try
+        {
+            if (!is_null($this->_fp)) @fclose($this->_fp);
+        }
+        catch (Exception $e)
+        {
+            // 何もしない。
+        }
     }
 
 
@@ -126,6 +139,11 @@ class TDG
      */
     public function main($need_stdout=TRUE, $need_benchmark_file=FALSE, $need_spec_file=FALSE)
     {
+        if (!count($this->_config->record_rules))
+        {
+            throw new TDGE(TDGE::MESSEAGE_INVALID_MAIN);
+        }
+
         $this->_benchmark = new Stopwatch();
         $this->_benchmark->logs = [];
         $event = $this->_benchmark->start($this->_caller);
@@ -136,7 +154,7 @@ class TDG
         if (count($this->_config->pre_proc))
         {
             if ($need_stdout) Util::println(self::MESSEAGE_PRE_PROC_START);
-            $this->execute_pre_proc($this->_config->pre_proc);
+            $this->execute_pre_proc();
             if ($need_stdout) Util::println(self::MESSEAGE_PRE_PROC_FINISH);
         }
 
@@ -157,7 +175,7 @@ class TDG
         if (count($this->_config->post_proc))
         {
             if ($need_stdout) Util::println(self::MESSEAGE_POST_PROC_START);
-            $this->execute_post_proc($this->_config->post_proc);
+            $this->execute_post_proc();
             if ($need_stdout) Util::println(self::MESSEAGE_POST_PROC_FINISH);
         }
 
@@ -246,12 +264,11 @@ class TDG
      * execute_pre_proc
      *
      * 指定された前処理SQLを実行する。
-     *
-     * @param string[] $procs
      */
-    public function execute_pre_proc($procs)
+    public function execute_pre_proc()
     {
-        $this->_execute_proc($procs, TDGE::MESSEAGE_INVALID_PRE_PROC_FILE, TDGE::MESSEAGE_INVALID_PRE_PROC_SQL);
+        $this->_execute_proc($this->_config->pre_proc,
+            TDGE::MESSEAGE_INVALID_PRE_PROC_FILE, TDGE::MESSEAGE_INVALID_PRE_PROC_SQL);
     }
 
 
@@ -259,12 +276,11 @@ class TDG
      * execute_post_proc
      *
      * 指定された後処理SQLを実行する。
-     *
-     * @param string[] $procs
      */
-    public function execute_post_proc($procs)
+    public function execute_post_proc()
     {
-        $this->_execute_proc($procs, TDGE::MESSEAGE_INVALID_POST_PROC_FILE, TDGE::MESSEAGE_INVALID_POST_PROC_SQL);
+        $this->_execute_proc($this->_config->post_proc,
+            TDGE::MESSEAGE_INVALID_POST_PROC_FILE, TDGE::MESSEAGE_INVALID_POST_PROC_SQL);
     }
 
 

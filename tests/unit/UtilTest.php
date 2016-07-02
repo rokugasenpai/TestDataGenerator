@@ -53,6 +53,106 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Util::is_numeric_uint([1]));
     }
 
+    public function test_is_flexible_bool_引数１がTRUE()
+    {
+        $this->assertTrue(Util::is_flexible_bool(TRUE));
+    }
+
+    public function test_is_flexible_bool_引数１がFALSE()
+    {
+        $this->assertTrue(Util::is_flexible_bool(FALSE));
+    }
+
+    public function test_is_flexible_bool_引数１がintの１()
+    {
+        $this->assertTrue(Util::is_flexible_bool(1));
+    }
+
+    public function test_is_flexible_bool_引数１がintの０()
+    {
+        $this->assertTrue(Util::is_flexible_bool(0));
+    }
+
+    public function test_is_flexible_bool_引数１がstringの１()
+    {
+        $this->assertTrue(Util::is_flexible_bool('1'));
+    }
+
+    public function test_is_flexible_bool_引数１がstringの０()
+    {
+        $this->assertTrue(Util::is_flexible_bool('0'));
+    }
+
+    public function test_is_flexible_bool_引数１がyes()
+    {
+        $this->assertFalse(Util::is_flexible_bool('yes'));
+    }
+
+    public function test_is_flexible_bool_引数１がno()
+    {
+        $this->assertFalse(Util::is_flexible_bool('no'));
+    }
+
+    public function test_is_flexible_bool_引数１がy()
+    {
+        $this->assertFalse(Util::is_flexible_bool('y'));
+    }
+
+    public function test_is_flexible_bool_引数１がn()
+    {
+        $this->assertFalse(Util::is_flexible_bool('n'));
+    }
+
+    public function test_is_flexible_bool_引数１が空文字()
+    {
+        $this->assertFalse(Util::is_flexible_bool(''));
+    }
+
+    public function test_is_flexible_bool_引数１がNULL()
+    {
+        $this->assertFalse(Util::is_flexible_bool(NULL));
+    }
+
+    public function test_is_flexible_bool_引数２がTRUEで引数１がyes()
+    {
+        $this->assertTrue(Util::is_flexible_bool('yes', TRUE));
+    }
+
+    public function test_is_flexible_bool_引数２がTRUEで引数１がno()
+    {
+        $this->assertTrue(Util::is_flexible_bool('no', TRUE));
+    }
+
+    public function test_is_flexible_bool_引数２がTRUEで引数１がy()
+    {
+        $this->assertFalse(Util::is_flexible_bool('y', TRUE));
+    }
+
+    public function test_is_flexible_bool_引数２がTRUEで引数１がn()
+    {
+        $this->assertFalse(Util::is_flexible_bool('n', TRUE));
+    }
+
+    public function test_is_flexible_bool_引数３がTRUEで引数１がyes()
+    {
+        $this->assertFalse(Util::is_flexible_bool('yes', FALSE, TRUE));
+    }
+
+    public function test_is_flexible_bool_引数３がTRUEで引数１がno()
+    {
+        $this->assertFalse(Util::is_flexible_bool('no', FALSE, TRUE));
+    }
+
+    public function test_is_flexible_bool_引数３がTRUEで引数１がy()
+    {
+        $this->assertTrue(Util::is_flexible_bool('y', FALSE, TRUE));
+    }
+
+    public function test_is_flexible_bool_引数３がTRUEで引数１がn()
+    {
+        $this->assertTrue(Util::is_flexible_bool('n', FALSE, TRUE));
+    }
+
     public function test_array_depth_空の配列()
     {
         $this->assertSame(0, Util::array_depth([]));

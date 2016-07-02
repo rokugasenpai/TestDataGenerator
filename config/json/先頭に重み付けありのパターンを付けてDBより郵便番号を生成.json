@@ -11,6 +11,7 @@
   "db_pass": "tdgpass",
   "sql": "SELECT postcd FROM a;",
   "proc_null_value": "NULL",
+  "db_name": "tdg",
   "db_user": "tdg",
   "need_header": true,
   "eol": "\n"

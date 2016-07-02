@@ -64,15 +64,55 @@ class Util
 
 
     /**
+     * is_flexible_bool
+     *
+     * ブールに相当するかかチェックする。
+     * TRUE, FALSE, 1, 0, "1", "0", $allow_yes_noが真なら"yes", "no", $allow_y_nが真なら"y", "n"を認める。
+     *
+     * @param mixed $param
+     * @param bool $allow_yes_no (optional)
+     * @param bool $allow_y_n (optional)
+     * @return bool
+     */
+    public static function is_flexible_bool($param, $allow_yes_no=FALSE, $allow_y_n=FALSE)
+    {
+        if ($param === TRUE || $param === FALSE || $param === 1 || $param === 0 || $param === '1' || $param === '0')
+        {
+            return TRUE;
+        }
+        else
+        {
+            if ($allow_yes_no)
+            {
+                if (strtolower($param) === 'yes' || strtolower($param) === 'no')
+                {
+                    return TRUE;
+                }
+            }
+
+            if ($allow_y_n)
+            {
+                if (strtolower($param) === 'y' || strtolower($param) === 'n')
+                {
+                    return TRUE;
+                }
+            }
+
+            return FALSE;
+        }
+    }
+
+
+    /**
      * array_depth
      *
      * 配列の次元数を返す。
      *
      * @param array $a
-     * @param int $c
+     * @param int $c (optional)
      * @return int
      */
-    public static function array_depth($a, $c = 0)
+    public static function array_depth($a, $c=0)
     {
         if (is_array($a) && count($a))
         {
@@ -98,7 +138,7 @@ class Util
      * 各々0の場合はスキップする。
      *
      * @param int|float $s
-     * @param int $scale
+     * @param int $scale (optional)
      * @return string|bool
      */
      public static function s_to_hms($s, $scale=3)
@@ -231,6 +271,7 @@ class Util
      * いい加減な文字コード名をmb_list_encodings()にある正規の名称に変換する。
      *
      * @param string $charset
+     * @param bool $mysql_flg (optional)
      * @return string
      */
     public static function normalize_charset($charset, $mysql_flg=FALSE)
@@ -330,9 +371,9 @@ class Util
      *
      * @param int $num
      * @param string|array $input
-     * @param string $outputs
-     * @param string $weight_column
-     * @param int $divisor
+     * @param string $outputs (optional)
+     * @param string $weight_column (optional)
+     * @param int $divisor (optional)
      * @param bool $is_header (optional)
      * @param bool $need_new_id (optional)
      * @param string $delimiter (optional)

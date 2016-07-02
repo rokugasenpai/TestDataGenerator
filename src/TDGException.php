@@ -35,6 +35,8 @@ namespace rokugasenpai\TestDataGenerator;
  */
 class TDGException extends \Exception
 {
+    const MESSEAGE_INVALID_CONSTRUCTOR = 'コンストラクタの引数には設定のファイルパスを渡してください。';
+    const MESSEAGE_INVALID_MAIN = 'mainメソッドはレコードルール(record_rules)の設定が無いと呼び出しできません。';
     const MESSEAGE_MISSING_MODULE = '必要なPHP拡張モジュールが見つかりませんでした。';
     const MESSEAGE_MYSQL = 'MySQLの接続で問題が発生しました。';
     const MESSEAGE_INVALID_MYSQL_SETTING = 'my.iniまたはmy.cnfに次の項目を設定してください。';

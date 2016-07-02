@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'TDG.php';
+require_once __DIR__ . '/src/TDG.php';
 
 use rokugasenpai\TestDataGenerator\TDG;
 

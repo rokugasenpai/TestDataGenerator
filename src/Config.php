@@ -48,7 +48,7 @@ class Config extends TDGBase
     protected $num_data;
 
     /** @var Rule[] レコードルール */
-    protected $record_rules;
+    protected $record_rules = [];
     // キーがフィールド名、値がルールの連想配列
 
     /** @var string 出力ファイルパス */
@@ -140,10 +140,9 @@ class Config extends TDGBase
      */
     protected function _check_and_set_props($config)
     {
-
-        if (!array_key_exists('num_data', $config) || !array_key_exists('record_rules', $config))
+        if (!array_key_exists('num_data', $config))
         {
-            throw new TDGE(TDGE::MESSEAGE_INVALID_CONFIG, '生成データ数とレコードルールは必須です。');
+            throw new TDGE(TDGE::MESSEAGE_INVALID_CONFIG, '生成データ数は必須です。');
         }
 
         foreach ($config as $name => $value)
@@ -317,7 +316,7 @@ class Config extends TDGBase
      */
     private function _check_and_set_need_null($value)
     {
-        if (!is_bool($value))
+        if (!Util::is_flexible_bool($value))
         {
             $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
         }
@@ -646,7 +645,7 @@ class Config extends TDGBase
      */
     private function _check_and_set_need_header($value)
     {
-        if (!is_bool($value))
+        if (!Util::is_flexible_bool($value))
         {
             $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
             return;
@@ -666,7 +665,7 @@ class Config extends TDGBase
      */
     private function _check_and_set_need_stdout($value)
     {
-        if (!is_bool($value))
+        if (!Util::is_flexible_bool($value))
         {
             $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
         }

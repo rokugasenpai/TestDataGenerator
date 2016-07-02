@@ -1823,6 +1823,80 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function test_前処理と後処理のみ実行_json()
+    {
+        $_fn = explode('_', __FUNCTION__);
+        $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
+            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
+        if (strpos(PHP_OS, 'WIN') === 0)
+        {
+            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
+        }
+        $this->assertFileExists($config_filepath);
+        $tdg = new TDG($config_filepath);
+        $tdg->execute_pre_proc();
+        $is_not_dropped = FALSE;
+        $db = new \PDO(
+            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
+            'tdg', 'tdgpass',
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
+        $stmt = $db->query('SHOW TABLES');
+        while ($row = $stmt->fetch())
+        {
+            if ($row[0] == 'a') $is_not_dropped = TRUE;
+        }
+        $this->assertTrue($is_not_dropped);
+        $tdg->execute_post_proc();
+        $is_not_dropped = FALSE;
+        $db = new \PDO(
+            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
+            'tdg', 'tdgpass',
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
+        $stmt = $db->query('SHOW TABLES');
+        while ($row = $stmt->fetch())
+        {
+            if ($row[0] == 'a') $is_not_dropped = TRUE;
+        }
+        $this->assertFalse($is_not_dropped);
+    }
+
+    public function test_前処理と後処理のみ実行_yml()
+    {
+        $_fn = explode('_', __FUNCTION__);
+        $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
+            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
+        if (strpos(PHP_OS, 'WIN') === 0)
+        {
+            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
+        }
+        $this->assertFileExists($config_filepath);
+        $tdg = new TDG($config_filepath);
+        $tdg->execute_pre_proc();
+        $is_not_dropped = FALSE;
+        $db = new \PDO(
+            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
+            'tdg', 'tdgpass',
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
+        $stmt = $db->query('SHOW TABLES');
+        while ($row = $stmt->fetch())
+        {
+            if ($row[0] == 'a') $is_not_dropped = TRUE;
+        }
+        $this->assertTrue($is_not_dropped);
+        $tdg->execute_post_proc();
+        $is_not_dropped = FALSE;
+        $db = new \PDO(
+            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
+            'tdg', 'tdgpass',
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
+        $stmt = $db->query('SHOW TABLES');
+        while ($row = $stmt->fetch())
+        {
+            if ($row[0] == 'a') $is_not_dropped = TRUE;
+        }
+        $this->assertFalse($is_not_dropped);
+    }
+
     public function test_テーブル削除ありでDBより郵便番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
