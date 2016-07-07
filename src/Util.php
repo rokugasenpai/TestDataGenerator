@@ -26,6 +26,8 @@ namespace rokugasenpai\TestDataGenerator;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
+use React\EventLoop;
+use React\Promise;
 
 /**
  * Util
@@ -973,34 +975,33 @@ class Util
      * $black_list = [T_EXIT => []];
      * ホワイトリストとブラックリストは併用できず、両方指定された場合はホワイトリストのみが有効となる。
      * デフォルトのホワイトリストはforeach以外のループが使えないなど厳し目の設定としている。
-     * 失敗時にFALSEを返すため、$codeはFALSEを返さないようにする必要がある。
+     * 失敗時にFALSEを返すため、$codeはブールを返さないようにする必要がある。
      * 引数の$use_default_listがTRUEだったら、デフォルトのホワイトリスト／ブラックリストに、
      * 引数で指定されたホワイトリスト／ブラックリストを加えて処理する。
      * $required_listで必須のトークンを指定できる。
-     * 例えばデフォルトの[T_RETURN =>[]]なら、return文が無いと失敗としてFALSEを返す。
+     * 例えばデフォルトの[T_RETURN => []]なら、return文が無いと失敗としてFALSEを返す。
+     * 引数$max_code_tokenで最大トークン数を指定できる。
      *
      * @param string $code
      * @param bool $use_default_list (optional)
      * @param array $white_list (optional)
      * @param array $black_list (optional)
      * @param array $required_list (optional)
-     * @param array $max_code_strlen (optional)
+     * @param int $timeout_ms (optional)
      * @return mixed
      */
     public static function safely_eval($code,
-        $use_default_list=TRUE, $white_list=[], $black_list=[], $required_list=[], $max_code_strlen=10000)
+        $use_default_list=TRUE, $white_list=[], $black_list=[], $required_list=[], $max_code_token=1000)
     {
         if ($use_default_list) $use_default_list = TRUE;
         else $use_default_list = FALSE;
         if (!$white_list) $white_list = [];
         if (!$black_list) $black_list = [];
         if (!$required_list) $required_list = [];
-        if (!$max_code_strlen) $max_code_strlen = 10000;
+        if (!$max_code_token) $max_code_token = 1000;
 
-        if (strlen($code) > $max_code_strlen)
-        {
-            return FALSE;
-        }
+        $code_tokens = token_get_all('<?php ' . $code . ' ?>');
+        if (count($code_tokens) - 2 > $max_code_token) return FALSE;
 
         $default_white_list = [];
         $default_white_list[T_AND_EQUAL] = [];
@@ -1086,7 +1087,19 @@ class Util
             'mb_strlen', 'mb_strpos', 'mb_strrchr', 'mb_strrichr',
             'mb_strripos', 'mb_strrpos', 'mb_strstr', 'mb_strtolower',
             'mb_strtoupper', 'mb_strwidth', 'mb_substitute_character', 'mb_substr_count', 'mb_substr',
-            'preg_match_all', 'preg_match', 'preg_quote', 'preg_replace'
+            'preg_match_all', 'preg_match', 'preg_quote', 'preg_replace',
+            'date_add', 'date_create_from_format', 'date_create', 'date_date_set',
+            'date_default_timezone_get', 'date_default_timezone_set', 'date_diff', 'date_format',
+            'date_get_last_errors', 'date_interval_format', 'date_isodate_set',
+            'date_modify', 'date_offset_get', 'date_parse_from_format', 'date_parse',
+            'date_sub', 'date_time_set', 'date_timestamp_get', 'date_timestamp_set',
+            'date_timezone_get', 'date_timezone_set', 'date', 'getdate',
+            'gettimeofday', 'gmdate', 'gmmktime', 'gmstrftime',
+            'localtime', 'microtime', 'mktime', 'strftime',
+            'strptime', 'strtotime', 'time', 'timezone_abbreviations_list',
+            'timezone_identifiers_list', 'timezone_location_get', 'timezone_name_from_abbr', 'timezone_name_get',
+            'timezone_offset_get', 'timezone_open', 'timezone_transitions_get', 'timezone_version_get',
+            'PHP_OS', 'PHP_EOL', 'DIRECTORY_SEPARATOR', 'TRUE', 'FALSE', 'NULL'
         ];
         $default_white_list[T_VARIABLE] = [];
         $default_white_list[T_WHITESPACE] = [];
@@ -1208,8 +1221,7 @@ class Util
             }
         }
 
-        $tokens = token_get_all('<?php ' . $code . ' ?>');
-        foreach ($tokens as $token)
+        foreach ($code_tokens as $token)
         {
             if (is_array($token))
             {
@@ -1273,7 +1285,7 @@ class Util
         $result = @eval($code);
         if (is_null($result))
         {
-            return FALSE;
+            $result = FALSE;
         }
         return $result;
     }
