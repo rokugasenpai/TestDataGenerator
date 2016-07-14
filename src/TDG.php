@@ -118,7 +118,7 @@ class TDG
     {
         try
         {
-            if (!is_null($this->_fp)) @fclose($this->_fp);
+            if (!is_null($this->_fp)) fclose($this->_fp);
         }
         catch (Exception $e)
         {
@@ -323,7 +323,7 @@ class TDG
             }
         }
 
-        @fclose($this->_fp);
+        fclose($this->_fp);
         $this->_fp = NULL;
     }
 
@@ -357,10 +357,11 @@ class TDG
                     copy($filepath, "{$filepath}.bak");
                     $weight_column = $proc[Config::IDX_PROC_WEIGHT_COLUMN];
                     $weighted_file = Util::create_weighted_csv(
-                        $this->_config->num_data, $filepath, '', $weight_column, 10000);
+                        $this->_config->num_data, $filepath, '', $weight_column);
 
                     if (!$weighted_file)
                     {
+                        rename("{$filepath}.bak", $filepath);
                         throw new TDGE($error_message_file, " => {$filepath}");
                     }
                 }
@@ -370,6 +371,7 @@ class TDG
                     {
                         $unique_columns = $proc[Config::IDX_PROC_UNIQUE_COLUMNS];
                     }
+
                     if (array_key_exists(Config::IDX_PROC_SUM_COLUMNS, $proc))
                     {
                         $sum_columns = $proc[Config::IDX_PROC_SUM_COLUMNS];
@@ -382,9 +384,14 @@ class TDG
                     $unique_columns, $sum_columns,
                     $this->_config->proc_head_sql, $this->_config->proc_tail_sql);
 
+                // $weighted_fileと元ファイルを交換。
+                rename("{$filepath}.bak", "{$filepath}.swap");
+                rename($weighted_file, "{$weighted_file}.bak");
+                rename("{$filepath}.swap", $filepath);
+
                 if (!$sql_file)
                 {
-                    throw new TDGE($error_message_file, " => {$weighted_file}");
+                    throw new TDGE($error_message_file, " => {$weighted_file}.bak");
                 }
             }
             else
@@ -400,7 +407,7 @@ class TDG
                 . "< {$sql_file} {$stderr_to_null}", $discard, $code);
             if ($code)
             {
-                throw new TDGE($error_message_sql, "{$sql_file} => {$output}");
+                throw new TDGE($error_message_sql, "{$sql_file} => {$code}");
             }
         }
     }
@@ -422,6 +429,7 @@ class TDG
             }
         }
 
+        setlocale(LC_ALL, 'ja_JP.UTF-8');
         bcscale(6);
 
         ini_set('date.timezone', 'Asia/Tokyo');

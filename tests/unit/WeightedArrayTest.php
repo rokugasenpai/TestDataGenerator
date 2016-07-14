@@ -29,7 +29,7 @@ class WeightedArrayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $num_unexpected);
     }
 
-    public function test_WeightedArrayの生成とget_array_from_keys()
+    public function test_WeightedArrayの生成とget_array_without_weight()
     {
         $weighted = new WeightedArray();
         $weighted->append(100);
@@ -42,7 +42,7 @@ class WeightedArrayTest extends PHPUnit_Framework_TestCase
         $stack = new SplStack();
         $stack->push('ghi');
         $weighted->append($stack);
-        $arr = $weighted->get_array_from_keys();
+        $arr = $weighted->get_array_without_weight();
         $this->assertCount(8, $arr);
         $this->assertSame(100, $arr[0]);
         $this->assertSame(123.456, $arr[1]);

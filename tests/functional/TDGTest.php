@@ -1638,8 +1638,17 @@ class TDGTest extends PHPUnit_Framework_TestCase
                 $this->assertEquals('"field01"' . "\n", $record);
                 continue;
             }
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = substr(json_encode([$record]), 2, -2);
+                $record = str_replace('\"', '"', str_replace('\n', "\n", str_replace('\r', "\r", $record)));
+            }
             $record = str_getcsv(str_replace("\n", '', $record));
             $this->assertCount(1, $record);
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = json_decode('["' . implode('","', $record) . '"]', TRUE);
+            }
             $this->assertEquals(10, mb_strlen($record[0], 'UTF-8'));
             for ($i = 0; $i < 10; $i++)
             {
@@ -1687,8 +1696,17 @@ class TDGTest extends PHPUnit_Framework_TestCase
                 $this->assertEquals('"field01"' . "\n", $record);
                 continue;
             }
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = substr(json_encode([$record]), 2, -2);
+                $record = str_replace('\"', '"', str_replace('\n', "\n", str_replace('\r', "\r", $record)));
+            }
             $record = str_getcsv(str_replace("\n", '', $record));
             $this->assertCount(1, $record);
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = json_decode('["' . implode('","', $record) . '"]', TRUE);
+            }
             $this->assertEquals(10, mb_strlen($record[0], 'UTF-8'));
             for ($i = 0; $i < 10; $i++)
             {
@@ -2422,8 +2440,17 @@ class TDGTest extends PHPUnit_Framework_TestCase
                     $record);
                 continue;
             }
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = substr(json_encode([$record]), 2, -2);
+                $record = str_replace('\"', '"', str_replace('\n', "\n", str_replace('\r', "\r", $record)));
+            }
             $record = str_getcsv(str_replace("\n", '', $record));
             $this->assertCount(14, $record);
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = json_decode('["' . implode('","', $record) . '"]', TRUE);
+            }
             $this->assertEquals($ir, $record[0]);
             $this->assertRegExp('/^[a-z]{4}[0-9]{4}$/', $record[1]);
             $this->assertRegExp('/^[0-9a-f]{32}$/', $record[2]);
@@ -2506,8 +2533,17 @@ class TDGTest extends PHPUnit_Framework_TestCase
                     $record);
                 continue;
             }
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = substr(json_encode([$record]), 2, -2);
+                $record = str_replace('\"', '"', str_replace('\n', "\n", str_replace('\r', "\r", $record)));
+            }
             $record = str_getcsv(str_replace("\n", '', $record));
             $this->assertCount(14, $record);
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $record = json_decode('["' . implode('","', $record) . '"]', TRUE);
+            }
             $this->assertEquals($ir, $record[0]);
             $this->assertRegExp('/^[a-z]{4}[0-9]{4}$/', $record[1]);
             $this->assertRegExp('/^[0-9a-f]{32}$/', $record[2]);

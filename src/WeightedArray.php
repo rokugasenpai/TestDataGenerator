@@ -45,6 +45,8 @@ class WeightedArray extends \ArrayObject
     /** @var int 重み付け合計値 */
     private $_total_weight = 0;
 
+    /** @var array インデックス */
+    private $_index = [];
 
     /**
      * __construct
@@ -75,20 +77,66 @@ class WeightedArray extends \ArrayObject
     /**
      * append
      *
-     * キーと重み付けの値を追加する。
+     * 値と重み付けの値を追加する。
      * $divisorは重み付け合計値がintを超えるような時に割る値。
      *
-     * @param mixed $key
+     * @param mixed $value
      * @param int $weight (optional)
      * @param int $divisor (optional)
      */
-    public function append($key, $weight=1, $divisor=1)
+    public function append($value, $weight=1, $divisor=1)
     {
         try
         {
             $weight = intval($weight / $divisor);
-            $this->offsetSet($key, $weight);
+            $this->offsetSet($value, $weight);
             $this->_total_weight += $weight;
+        }
+        catch (Exception $e)
+        {
+            if ($this->_error_handling == self::ERROR_HANDLING_RETURN_FALSE)
+            {
+                return FALSE;
+            }
+
+            throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY, $e);
+        }
+    }
+
+
+    /**
+     * index
+     *
+     * rand()の処理速度を上げるためにインデックスを付ける。
+     *
+     * @param int $num_index (optional)
+     */
+    public function index($num_index=0)
+    {
+        try
+        {
+            $this->_index = [];
+            $len = $this->count();
+            if (!$num_index) $num_index = intval(sqrt($len));
+            $now_index = 0;
+            $bingo_index = $now_index * intval($len / $num_index);
+            $sum = 0;
+            $i = 0;
+            foreach ($this as $i => $elem)
+            {
+                $value = key($elem);
+                if (is_null($value))
+                {
+                    throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY);
+                }
+                if ($i == $bingo_index)
+                {
+                    $this->_index[$i] = $sum;
+                    $now_index++;
+                    $bingo_index = $now_index * intval($len / $num_index);
+                }
+                $sum += $elem[$value];
+            }
         }
         catch (Exception $e)
         {
@@ -105,8 +153,8 @@ class WeightedArray extends \ArrayObject
     /**
      * rand
      *
-     * 重み付けに応じたランダム要素を返す。
-     * キーがJSONだったら連想配列に変換する。
+     * 重み付けに応じた値を返す。
+     * シリアライズ文字列なので元に戻す。
      *
      * @return mixed
      */
@@ -119,13 +167,31 @@ class WeightedArray extends \ArrayObject
             {
                 throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY);
             }
+            $start_index = 0;
+            $finish_index = $this->count() - 1;
             $sum = 0;
-            foreach ($this as $key => $weight)
+            foreach ($this->_index as $i => $index_sum)
             {
-                $sum += $weight;
+                if ($index_sum > $rand)
+                {
+                    $finish_index = $i - 1;
+                    break;
+                }
+                $start_index = $i;
+                $sum = $index_sum;
+            }
+            for ($i = $start_index; $i <= $finish_index; $i++)
+            {
+                $elem = $this->offsetGet($i);
+                $value = key($elem);
+                if (is_null($value))
+                {
+                    throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY);
+                }
+                $sum += $elem[$value];
                 if ($sum >= $rand)
                 {
-                    return unserialize($key);
+                    return unserialize($value);
                 }
             }
         }
@@ -142,88 +208,28 @@ class WeightedArray extends \ArrayObject
 
 
     /**
-     * get_array_from_keys
+     * get_array_without_weight
      *
-     * 配列のキーを配列に格納して返す。
-     * キーがシリアライズ文字列なので元に戻す。
+     * 値を配列に格納して返す。
+     * シリアライズ文字列なので元に戻す。
      *
      * @return array
      */
-    public function get_array_from_keys()
+    public function get_array_without_weight()
     {
         try
         {
-            $keys = [];
-            foreach ($this as $key => $weight)
+            $values = [];
+            foreach ($this as $elem)
             {
-                $keys[] = unserialize($key);
+                $value = key($elem);
+                if (is_null($value))
+                {
+                    throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY);
+                }
+                $values[] = unserialize($value);
             }
-            return $keys;
-        }
-        catch (Exception $e)
-        {
-            if ($this->_error_handling == self::ERROR_HANDLING_RETURN_FALSE)
-            {
-                return FALSE;
-            }
-
-            throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY, $e);
-        }
-    }
-
-
-    /**
-     * offsetExists
-     *
-     * ArrayObject::offsetExists()をオーバーライド。
-     *
-     * @return bool
-     */
-    public function offsetExists($idx)
-    {
-        try
-        {
-            reset($this);
-            $now = 0;
-            do
-            {
-                if ($now == $idx) return TRUE;
-                $now++;
-            }
-            while (next($this));
-            return FALSE;
-        }
-        catch (Exception $e)
-        {
-            if ($this->_error_handling == self::ERROR_HANDLING_RETURN_FALSE)
-            {
-                return FALSE;
-            }
-
-            throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY, $e);
-        }
-    }
-
-
-    /**
-     * offsetGet
-     *
-     * ArrayObject::offsetGet()をオーバーライド。
-     *
-     * @return mixed
-     */
-    public function offsetGet($idx)
-    {
-        try
-        {
-            reset($this);
-            $now = 0;
-            foreach ($this as $key => $weight)
-            {
-                if ($now == $idx) return unserialize($key);
-                $now++;
-            }
-            throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY);
+            return $values;
         }
         catch (Exception $e)
         {
@@ -242,38 +248,14 @@ class WeightedArray extends \ArrayObject
      *
      * ArrayObject::offsetSet()をオーバーライド。
      *
-     * @return mixed
+     * @param mixed $value
+     * @param mixed $weight
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($value, $weight)
     {
         try
         {
-            parent::offsetSet(serialize($key), $value);
-        }
-        catch (Exception $e)
-        {
-            if ($this->_error_handling == self::ERROR_HANDLING_RETURN_FALSE)
-            {
-                return FALSE;
-            }
-
-            throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY, $e);
-        }
-    }
-
-
-    /**
-     * offsetUnset
-     *
-     * ArrayObject::offsetUnset()をオーバーライド。
-     *
-     * @return mixed
-     */
-    public function offsetUnset($key)
-    {
-        try
-        {
-            parent::offsetUnset(serialize($key));
+            parent::offsetSet($this->count(), [serialize($value) => $weight]);
         }
         catch (Exception $e)
         {

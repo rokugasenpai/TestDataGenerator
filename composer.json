@@ -8,7 +8,7 @@
         { "name": "rokugasenpai", "homepage": "https://twitter.com/rokugasenpai" }
     ],
     "require": {
-        "php": "~5.4",
+        "php": ">=5.4",
         "symfony/property-access": "2.8.*",
         "symfony/serializer": "2.8.*",
         "symfony/stopwatch": "2.8.*"

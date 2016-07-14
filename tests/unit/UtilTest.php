@@ -330,6 +330,38 @@ class UtilTest extends PHPUnit_Framework_TestCase
         Util::get_data_by_yml_file($filepath);
     }
 
+    public function test_normalize_csv_空行なし非Excel()
+    {
+        $before = '"1","あいうえお"' . "\n" . '"2","かきくけこ"' . "\n" . '"3","さしすせそ"';
+        $normalized = $before;
+        $after = Util::normalize_csv($before);
+        $this->assertEquals($normalized, $after);
+    }
+
+    public function test_normalize_csv_空行あり非Excel()
+    {
+        $before = '"1","あいうえお"' . "\n\n" . '"2","かきくけこ"' . "\n\n\n" . '"3","さしすせそ"';
+        $normalized = '"1","あいうえお"' . "\n" . '"2","かきくけこ"' . "\n" . '"3","さしすせそ"';
+        $after = Util::normalize_csv($before);
+        $this->assertEquals($normalized, $after);
+    }
+
+    public function test_normalize_csv_空行なしExcel()
+    {
+        $before = '1,"""あいうえお"' . "\r\n" . '2,"かきくけこ"""' . "\r\n" . '3,"さし""す""せそ"';
+        $normalized = '1,"\"あいうえお"' . "\r\n" . '2,"かきくけこ\""' . "\r\n" . '3,"さし\"す\"せそ"';
+        $after = Util::normalize_csv($before);
+        $this->assertEquals($normalized, $after);
+    }
+
+    public function test_normalize_csv_空行ありExcel()
+    {
+        $before = '1,"""あいうえお"' . "\r\n\r\n" . '2,"かきくけこ"""' . "\r\n\r\n\r\n" . '3,"さし""す""せそ"';
+        $normalized = '1,"\"あいうえお"' . "\r\n" . '2,"かきくけこ\""' . "\r\n" . '3,"さし\"す\"せそ"';
+        $after = Util::normalize_csv($before);
+        $this->assertEquals($normalized, $after);
+    }
+
     public function test_create_weighted_csv_ヘッダありCSVの重み付け()
     {
         $filepath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'files'
@@ -344,14 +376,15 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $num_uncommon = 0;
         $num_rare = 0;
         $num_unexpected = 0;
-        $fp = fopen($filepath, 'r');
-        while (($record = fgetcsv($fp)) !== FALSE)
+        $data = file($filepath);
+        foreach ($data as $record)
         {
             if (!$cnt)
             {
                 $cnt++;
                 continue;
             }
+            $record = str_getcsv(str_replace("\n", '', $record));
             $last_id = $record[0];
             if ($record[1] == 'common') $num_common++;
             else if ($record[1] == 'uncommon') $num_uncommon++;
@@ -359,7 +392,6 @@ class UtilTest extends PHPUnit_Framework_TestCase
             else $num_unexpected++;
             $cnt++;
         }
-        fclose($fp);
         $this->assertEquals(101, $cnt);
         $this->assertEquals(100, $last_id);
         $this->assertLessThan($num_common, $num_uncommon);
@@ -384,9 +416,10 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $num_uncommon = 0;
         $num_rare = 0;
         $num_unexpected = 0;
-        $fp = fopen($filepath, 'r');
-        while (($record = fgetcsv($fp)) !== FALSE)
+        $data = file($filepath);
+        foreach ($data as $record)
         {
+            $record = str_getcsv(str_replace("\n", '', $record));
             $last_id = $record[0];
             if ($record[1] == 'common') $num_common++;
             else if ($record[1] == 'uncommon') $num_uncommon++;
@@ -394,7 +427,6 @@ class UtilTest extends PHPUnit_Framework_TestCase
             else $num_unexpected++;
             $cnt++;
         }
-        fclose($fp);
         $this->assertEquals(100, $cnt);
         $this->assertEquals(100, $last_id);
         $this->assertLessThan($num_common, $num_uncommon);
@@ -410,7 +442,8 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $filepath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'files'
             . DIRECTORY_SEPARATOR . 'kana1010.csv';
         $this->assertFileExists($filepath, 'precondition error.');
-        $this->assertFalse(Util::create_weighted_csv(100, $filepath, '', 'num', 1, TRUE, TRUE, ',', '"', 1000));
+        $this->assertFalse(Util::create_weighted_csv(
+            100, $filepath, '', 'num', 1, TRUE, TRUE, '', '', ',', '"', 1000));
         $this->assertFileExists($filepath);
     }
 
@@ -592,7 +625,6 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $lines = file($output_filepath);
         $this->assertCount(2, $lines);
         $this->assertRegExp($sql_regex_1, $lines[0]);
-        $this->assertEquals($eol, substr($lines[0], 0 - strlen($eol)));
         $this->assertRegExp($sql_regex_2, $lines[1]);
     }
 
@@ -644,7 +676,8 @@ class UtilTest extends PHPUnit_Framework_TestCase
             . implode(', ', array_fill(0, 1000, '\(\'\d+?\', \'.+?\', \'\d+?\', NULL, \'\d+?\'\)'))
             . ';' . PHP_EOL . '$/s';
         $sql_regex_2 = '/^INSERT INTO `kana1010` \(`id`, `kana`, `num`, `empty`, `sum`\) VALUES '
-            . implode(', ', array_fill(0, 10, '\(\'\d+?\', \'.+?\', \'\d+?\', NULL, \'\d+?\'\)')) . ';$/s';
+            . implode(', ', array_fill(0, 10, '\(\'\d+?\', \'.+?\', \'\d+?\', NULL, \'\d+?\'\)'))
+            . ';$/s';
         $lines = file($output_filepath);
         $this->assertCount(2, $lines);
         $this->assertRegExp($sql_regex_1, $lines[0]);
@@ -860,10 +893,22 @@ class UtilTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse(Util::safely_eval('return strrev("eval");', TRUE, [], [], [T_COMMENT => []]));
     }
+
     public function test_safely_eval_必須リストに追加したトークンを使用したコード()
     {
         $this->assertEquals('lave', 
             Util::safely_eval('/* comment */ return strrev("eval");', TRUE, [], [], [T_COMMENT => []]));
+    }
+
+    public function test_safely_eval_日付系関数()
+    {
+        $this->assertEquals('2000-01-01 00:00:00', Util::safely_eval('return date("Y-m-d H:i:s", 946652400);'));
+    }
+
+    public function test_safely_eval_max_code_token()
+    {
+        $code = 'return [' . implode(',', range(1, 500)) . '];';
+        $this->assertFalse(Util::safely_eval($code));
     }
 
     protected function tearDown()

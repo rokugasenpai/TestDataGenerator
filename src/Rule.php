@@ -273,7 +273,7 @@ class Rule extends TDGBase
             return;
         }
 
-        $length = $this->length->get_array_from_keys();
+        $length = $this->length->get_array_without_weight();
 
         if (!is_array($length) || count($length) != 1)
         {
@@ -852,7 +852,7 @@ class Rule extends TDGBase
     {
         $dt = NULL;
         $temp = explode('.', $value);
-        $u = @end($temp);
+        $u = end($temp);
         $is_u = FALSE;
         if ($u != $value)
         {

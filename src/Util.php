@@ -26,8 +26,6 @@ namespace rokugasenpai\TestDataGenerator;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
-use React\EventLoop;
-use React\Promise;
 
 /**
  * Util
@@ -41,6 +39,7 @@ use React\Promise;
 class Util
 {
     const UTF8 = 'UTF-8';
+    const UTF32 = 'UTF-32BE';
     const SJIS = 'SJIS-win';
     const ASCII = 'ASCII';
     const NORMALIZE_CHARSET_REGEX = '{"UTF-8": "@^utf-?8$@i", "SJIS": "@^s(hift)?[-_]?jis$@i", "SJIS-win": "@^(s(hift)?[-_]?jis[-_]?win|cp932|ms932)$@i", "EUC-JP": "@^(euc[-_]?jp|ujis)$@i", "eucJP-win": "@^euc[-_]?jp[-_]?(win|ms)$@i"}';
@@ -365,6 +364,137 @@ class Util
 
 
     /**
+     * normalize_csv
+     *
+     * CSVの空行＆Excel対策。
+     * Excelはフィールド内のダブルクォーテーションを""でエスケープしてしまうため、
+     * PHPで想定されている\"に変換する。
+     *
+     * @param string $contents
+     * @return string
+     */
+    public static function normalize_csv($contents)
+    {
+        if (mb_detect_encoding($contents) != Util::UTF8
+            && mb_detect_encoding($contents) != Util::ASCII)
+        {
+            return FALSE;
+        }
+        $contents = preg_replace('/(?:\r\n)*$/su', '', $contents);
+        $contents = preg_replace('/\n*$/su', '', $contents);
+        $contents = preg_replace('/(?:\r\n){2,}/su', "\r\n", $contents);
+        $contents = preg_replace('/(?:\n){2,}/su', "\n", $contents);
+        $contents = preg_replace('/^"""/u', '"\"', $contents);
+        $contents = preg_replace('/""",/u', '\"",', $contents);
+        $contents = preg_replace('/,"""/u', ',"\"', $contents);
+        $contents = preg_replace('/"""$/u', '\""', $contents);
+        $contents = preg_replace('/""/u', '\"', $contents);
+        return $contents;
+     }
+
+
+    /**
+     * csv_to_array_php7_workaround
+     *
+     * PHP7はUTF-8のCSV処理に不具合があるため
+     * 暫定対応として一旦ユニコードエスケープしてから
+     * レコードを読み取り、最後にUTF-8にして配列で返す。(2016-07-11)
+     *
+     * @param string $filepath
+     * @param bool $is_header
+     * @param string $from_charset
+     * @param int $max_records
+     * @return array
+     */
+    public static function csv_to_array_php7_workaround($filepath, $is_header, $from_charset, $max_records)
+    {
+        $data = [];
+        $contents = file_get_contents($filepath);
+
+        if (!strlen($from_charset))
+        {
+            $detect_charset = mb_detect_encoding(file_get_contents($filepath));
+            if (!$detect_charset || $detect_charset == Util::ASCII)
+            {
+                $from_charset = Util::UTF8;
+            }
+            else
+            {
+                $from_charset = $detect_charset;
+            }
+        }
+
+        $temp_filepath = dirname($filepath) . DIRECTORY_SEPARATOR . md5(basename($filepath));
+        if ($from_charset != Util::UTF8 && $from_charset != Util::ASCII)
+        {
+            $contents = mb_convert_encoding($contents, Util::UTF8, $from_charset);
+        }
+
+        $contents = Util::normalize_csv($contents);
+
+        if (!$contents)
+        {
+            return FALSE;
+        }
+
+        // PHP7はUTF-8のCSV処理に不具合があるため暫定対応としてユニコードエスケープする。(2016-07-11)
+        if ($from_charset != Util::ASCII && version_compare(PHP_VERSION, '7.0.0') >= 0)
+        {
+            $contents = substr(json_encode([$contents]), 2, -2);
+            $contents = str_replace('\"', '"', str_replace('\n', "\n", str_replace('\r', "\r", $contents)));
+        }
+
+        if (file_put_contents($temp_filepath, $contents) === FALSE)
+        {
+            return FALSE;
+        }
+        unset($contents);
+
+        $file = new \SplFileObject($temp_filepath);
+        $file->setFlags(\SplFileObject::READ_CSV);
+        $is_overflow = FALSE;
+        foreach ($file as $idx => $record)
+        {
+            if ($is_header)
+            {
+                if ($idx + 1 == $max_records + 1 + 1)
+                {
+                    $is_overflow = TRUE;
+                    break;
+                }
+            }
+            else
+            {
+                if ($idx + 1 == $max_records + 1)
+                {
+                    $is_overflow = TRUE;
+                    break;
+                }
+            }
+
+            if ($from_charset != Util::ASCII && version_compare(PHP_VERSION, '7.0.0') >= 0)
+            {
+                $data[] = json_decode('["' . implode('","', $record) . '"]', TRUE);
+            }
+            else
+            {
+                $data[] = $record;
+            }
+        }
+
+        unset($file);
+        unlink($temp_filepath);
+
+        if ($is_overflow)
+        {
+            return FALSE;
+        }
+
+        return $data;
+    }
+
+
+    /**
      * create_weighted_csv
      *
      * 重み付け(頻度)を考慮したCSVを生成し上書きする。
@@ -380,11 +510,14 @@ class Util
      * @param bool $need_new_id (optional)
      * @param string $delimiter (optional)
      * @param string $enclosure (optional)
+     * @param string $to_charset (optional)
+     * @param string $from_charset (optional)
      * @param int $max_records (optional)
      * @return mixed
      */
     public static function create_weighted_csv($num, $input, $output='', $weight_column='', $divisor=1,
-        $is_header=TRUE, $need_new_id=TRUE, $delimiter=',', $enclosure='"', $max_records=1000000)
+        $is_header=TRUE, $need_new_id=TRUE, $to_charset='', $from_charset='',
+        $delimiter=',', $enclosure='"', $max_records=1000000)
     {
         if (!$output) $output = '';
         if (!$weight_column && !is_int($weight_column) && !is_string($weight_column))
@@ -395,6 +528,8 @@ class Util
         else $is_header = FALSE;
         if ($need_new_id) $need_new_id = TRUE;
         else $need_new_id = FALSE;
+        if (!$to_charset) $to_charset = '';
+        if (!$from_charset) $from_charset = '';
         if (!$delimiter && !is_string($delimiter)) $delimiter = ',';
         if (!$enclosure && !is_string($enclosure)) $enclosure = '"';
         if (!$max_records && !is_int($max_records)) $max_records = 1000000;
@@ -406,7 +541,8 @@ class Util
         {
             return FALSE;
         }
-        $columns = [];
+
+        $csv = [];
 
         // 引数のファイルか配列を元にした入力処理。
         if (is_string($input) && is_file($input))
@@ -415,20 +551,12 @@ class Util
             {
                 $output = $input;
             }
-            $fp = fopen($input, 'r');
-            $cnt = 0;
-            $input = [];
-            while (($record = fgetcsv($fp, 0, $delimiter, $enclosure)) !== FALSE)
+
+            $csv = Util::csv_to_array_php7_workaround($input, $is_header, $from_charset, $max_records);
+            if (!$csv)
             {
-                if ($cnt > $max_records)
-                {
-                    fclose($fp);
-                    return FALSE;
-                }
-                $input[] = $record;
-                $cnt++;
+                return FALSE;
             }
-            fclose($fp);
         }
         else if (is_array($input))
         {
@@ -436,6 +564,8 @@ class Util
             {
                 return FALSE;
             }
+
+            $csv = $input;
         }
         else
         {
@@ -444,16 +574,14 @@ class Util
 
         // WeightedArrayクラスを使った重み付け処理。
         $weighted = new WeightedArray();
-        $data = (strlen($output)) ? '' : [];
-        reset($input);
-        foreach ($input as $record)
+        $columns = [];
+        foreach ($csv as $record)
         {
             if (!count($columns))
             {
                 if ($is_header && strlen($output))
                 {
                     $columns = $record;
-                    $data = '"' . implode('","', $record) . '"' . PHP_EOL;
                     continue;
                 }
                 else
@@ -461,16 +589,20 @@ class Util
                     $columns = array_keys($record);
                 }
             }
+
+            // フィールド数不一致。
+            // PHP7でCSVがUTF-8で文字コード変換しなかった場合、
+            // PHPの不具合でパースできずにここでFALSEを返す。(2016-07-11)
             if (count($record) != count($columns))
             {
                 return FALSE;
             }
             $temp = [];
-            reset($columns);
+            $idx = 0;
             foreach ($record as $value)
             {
-                $temp[current($columns)] = $value;
-                next($columns);
+                $temp[$columns[$idx]] = $value;
+                $idx++;
             }
             if (!array_key_exists($weight_column, $temp))
             {
@@ -479,11 +611,55 @@ class Util
             $weighted->append($temp, $temp[$weight_column], $divisor);
         }
 
+        // 高速抽出のためのインデックス。
+        $weighted->index();
+
+        if (strlen($output))
+        {
+            if (file_exists($output) && !is_file($output))
+            {
+                return FALSE;
+            }
+            if (is_file($output))
+            {
+                unlink($output);
+            }
+            touch($output);
+
+            if (!strlen($to_charset))
+            {
+                if (!strlen($from_charset))
+                {
+                    $detect_charset = mb_detect_encoding(file_get_contents($input));
+                    if (!$detect_charset || $detect_charset == Util::ASCII)
+                    {
+                        $to_charset = Util::UTF8;
+                    }
+                    else
+                    {
+                        $to_charset = $detect_charset;
+                    }
+                }
+                else
+                {
+                    $to_charset = $from_charset;
+                }
+            }
+        }
+
         // 重み付けに応じた出力処理。
+        $weighted_csv = (strlen($output)) ? '' : [];
         $cnt = 0;
         while ($cnt < $num)
         {
-            $chosen = $weighted->rand();
+            $chosen = NULL;
+            $breaker = 0;
+            while ($breaker < 100)
+            {
+                $chosen = $weighted->rand();
+                if (is_array($chosen)) break;
+                $breaker++;
+            }
 
             // need_new_idフラグが立っていて、idを追加するか振りなおす。
             if ($is_header && $need_new_id)
@@ -493,10 +669,6 @@ class Util
                     if (!$cnt)
                     {
                         array_unshift($columns, 'id');
-                        if (strlen($output))
-                        {
-                            $data = '"id",' . $data;
-                        }
                     }
                     $chosen = ['id' => $cnt + 1] + $chosen;
                 }
@@ -523,11 +695,13 @@ class Util
 
             if (strlen($output))
             {
-                $data .= '"' . implode('","', $chosen) . '"' . PHP_EOL;
+                if ($is_header && !$cnt) $weighted_csv = '"' . implode('","', $columns) . '"' . PHP_EOL;
+                $weighted_csv .= '"' . implode('","', $chosen) . '"';
+                if ($cnt < $num - 1) $weighted_csv .= PHP_EOL;
             }
             else
             {
-                $data[] = $chosen;
+                $weighted_csv[] = $chosen;
             }
 
             $cnt++;
@@ -535,60 +709,44 @@ class Util
             // 出力処理がメモリを食うため、出力先がファイルの場合は、1000ずつに区切る。
             if (strlen($output))
             {
-                if ($cnt == 1000)
+                if ($cnt % 1000 == 0)
                 {
-                    if (file_put_contents($output, $data) === FALSE)
+                    if ($to_charset != Util::UTF8)
+                    {
+                        $weighted_csv = mb_convert_encoding($weighted_csv, $to_charset, Util::UTF8);
+                    }
+
+                    if (file_put_contents($output, $weighted_csv, FILE_APPEND | LOCK_EX) === FALSE)
                     {
                         return FALSE;
                     }
                     else
                     {
-                        $data = '';
-                    }
-                }
-                else if ($cnt % 1000 == 0)
-                {
-                    if (file_put_contents($output, $data, FILE_APPEND | LOCK_EX) === FALSE)
-                    {
-                        return FALSE;
-                    }
-                    else
-                    {
-                        $data = '';
+                        $weighted_csv = '';
                     }
                 }
             }
         }
 
-        if (strlen($output))
+        if (!strlen($output))
         {
-            if ($cnt < 1000)
+            return $weighted_csv;
+        }
+
+        if (strlen($weighted_csv))
+        {
+            if ($to_charset != Util::UTF8)
             {
-                if (file_put_contents($output, $data) === FALSE)
-                {
-                    return FALSE;
-                }
-                else
-                {
-                    return $output;
-                }
+                $weighted_csv = mb_convert_encoding($weighted_csv, $to_charset, Util::UTF8);
             }
-            else
+
+            if (file_put_contents($output, $weighted_csv, FILE_APPEND | LOCK_EX) === FALSE)
             {
-                if (file_put_contents($output, $data, FILE_APPEND | LOCK_EX) === FALSE)
-                {
-                    return FALSE;
-                }
-                else
-                {
-                    return $output;
-                }
+                return FALSE;
             }
         }
-        else
-        {
-            return $data;
-        }
+
+        return $output;
     }
 
 
@@ -647,10 +805,7 @@ class Util
         if (!$enclosure && !is_string($enclosure)) $enclosure = '"';
         if (!$max_records) $max_records = 1000000;
 
-        // CSV内のNULLをどう変換するか。
-        $output_null_value = ($need_null) ? "NULL" : "''";
-
-        $cnt = NAN;
+        $csv = [];
         $sql = '';
         $sql_insert = '';
         $original_columns = [];
@@ -662,63 +817,75 @@ class Util
             {
                 $table = substr(basename($input), 0, strrpos(basename($input), '.'));
             }
+
             // 引数で指定が無ければ、同ディレクトリに拡張子を.sqlにしたファイルを出力する。
             if (!strlen($output))
             {
                 $output = substr($input, 0, strrpos($input, '.')) . Util::SQL_EXT;
             }
-            $contents = file_get_contents($input);
-            if (!strlen($from_charset))
+
+            $csv = Util::csv_to_array_php7_workaround($input, $is_header, $from_charset, $max_records);
+            if (!$csv)
             {
-                $from_charset = mb_detect_encoding($contents);
+                return FALSE;
             }
-            if (!strlen($to_charset))
-            {
-                if ($from_charset == Util::ASCII)
-                {
-                    $to_charset = Util::ASCII;
-                }
-                else
-                {
-                    $to_charset = Util::UTF8;
-                }
-            }
-
-
-            $fp = fopen($input, 'r');
-            $input = [];
-
-            // PHP組み込みのfgetcsv()でCSVのレコードを順次取得。
-            while (($record = fgetcsv($fp, 0, $delimiter, $enclosure)) !== FALSE)
-            {
-                if (count($input) > $max_records) return FALSE;
-                $input[] = $record;
-            }
-
-            fclose($fp);
         }
         else if (is_array($input))
         {
-            if (count($input) > $max_records) return FALSE;
+            if (count($input) > $max_records)
+            {
+                return FALSE;
+            }
+
             // 引数でテーブル名の指定が無ければ失敗。
             if (!strlen($table))
             {
                 return FALSE;
             }
+
+            $csv = $input;
         }
         else
         {
             return FALSE;
         }
 
-        foreach ($input as $record)
+        if (strlen($output))
         {
-            // CSVが空行だった場合
-            if (array_key_exists(0, $record) && is_null($record[0]))
+            if (file_exists($output) && !is_file($output))
             {
-                continue;
+                return FALSE;
             }
+            if (is_file($output))
+            {
+                unlink($output);
+            }
+            touch($output);
 
+            if (!strlen($to_charset))
+            {
+                if (!strlen($from_charset))
+                {
+                    $detect_charset = mb_detect_encoding(file_get_contents($input));
+                    if (!$detect_charset || $detect_charset == Util::ASCII)
+                    {
+                        $to_charset = Util::UTF8;
+                    }
+                    else
+                    {
+                        $to_charset = $detect_charset;
+                    }
+                }
+                else
+                {
+                    $to_charset = $from_charset;
+                }
+            }
+        }
+
+        $cnt = NAN;
+        foreach ($csv as $record)
+        {
             // 初回
             if (is_nan($cnt))
             {
@@ -768,7 +935,9 @@ class Util
                 {
                     $sql_insert = 'INSERT INTO `' . $table . '` (`' . implode('`, `', $columns) . '`) VALUES ';
                 }
+
                 if (strlen($head_sql)) $sql .= $head_sql . $eol;
+
                 $cnt = 0;
                 if ($is_header) continue;
             }
@@ -806,6 +975,7 @@ class Util
                 if (in_array($record[$col], $values))
                 {
                     $is_repeated = TRUE;
+                    break;
                 }
                 else
                 {
@@ -825,20 +995,25 @@ class Util
                 $sum_columns[$k][2] = $record[$v[1]];
             }
 
-            $record = array_map(function($v) use($input_null_value, $output_null_value, $to_charset, $from_charset) {
-                if ($v === $input_null_value) {
-                    return $output_null_value;
-                } else {
-                    if ($to_charset == $from_charset) return "'{$v}'";
-                    else return mb_convert_encoding("'{$v}'", $to_charset, $from_charset);
+            foreach ($record as $k => $v)
+            {
+                if ($v === $input_null_value)
+                {
+                    // NULL対応。
+                    if ($need_null) $record[$k] = 'NULL';
+                    else $record[$k] = "''";
                 }
-            }, $record);
+                else
+                {
+                    // SQLで必要なクォート。
+                    $record[$k] = "'" . str_replace("'", "''", $v) . "'";
+                }
+            }
 
-            $sql .= '(' . implode(', ', $record) . ')';
-            // $sqlにインサート部分が追加されたらインクリメント
+            $sql .= "(" . implode(", ", $record) . ")";
             $cnt++;
 
-            if ($cnt % $divisor)
+            if ($cnt % $divisor > 0)
             {
                 $sql .= ', ';
             }
@@ -849,6 +1024,8 @@ class Util
             }
         }
 
+        // ユニークチェックにより何件のINSERTがあるか読めないため、
+        // 最後にSQL末端の調整を行う。
         if (substr($sql, -2) == ', ')
         {
             $sql = substr($sql, 0, -2) . ';' . $eol;
@@ -861,15 +1038,23 @@ class Util
 
         $sql = substr($sql, 0, -strlen($eol));
 
-        if (strlen($output))
-        {
-            file_put_contents($output, $sql);
-            return $output;
-        }
-        else
+        if (!strlen($output))
         {
             return explode($eol, $sql);
         }
+
+        if ($to_charset != Util::UTF8)
+        {
+            $sql = mb_convert_encoding($sql, $to_charset, Util::UTF8);
+        }
+
+        if (file_exists($output) && !is_file($output))
+        {
+            return FALSE;
+        }
+
+        file_put_contents($output, $sql);
+        return $output;
     }
 
 
@@ -1282,7 +1467,15 @@ class Util
             return FALSE;
         }
 
-        $result = @eval($code);
+        $result = FALSE;
+        try
+        {
+            $result = eval($code);
+        }
+        catch (ParseError $pe)
+        {
+            $result = FALSE;
+        }
         if (is_null($result))
         {
             $result = FALSE;

@@ -1,0 +1,16 @@
+PHP 7.0.8 (cli) (built: Jun 21 2016 15:27:20) ( ZTS )
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
+OS 名:                  Microsoft Windows 7 Professional
+OS バージョン:          6.1.7601 Service Pack 1 ビルド 7601
+システム製造元:         Acer
+システム モデル:        Veriton X4620G
+システムの種類:         x64-based PC
+プロセッサ:             1 プロセッサインストール済みです。
+                        [01]: Intel64 Family 6 Model 58 Stepping 9 GenuineIntel ~1584 Mhz
+BIOS バージョン:        Acer                     P01-A3                 , 2012/09/24
+物理メモリの合計:       4,008 MB
+利用できる物理メモリ:   1,873 MB
+仮想メモリ: 最大サイズ: 8,015 MB
+仮想メモリ: 利用可能:   5,343 MB
+仮想メモリ: 使用中:     2,672 MB
