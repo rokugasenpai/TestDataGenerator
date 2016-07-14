@@ -5,19 +5,22 @@ DBよりマスタデータを利用する際、ORDER BY randを使わないた�
 レコード数が多い場合に特に高速です。  
 
 ## 動作環境
-- PHP5.4以上(PHP7未検証)
+- PHP5.4以上(PHP7動作確認済)
 - Composer
 - MySQL(MariaDB)
 - Windows・Linux・MacOSX
 - 空きメモリ1GB以上
 
 ## 使い方
-1. Composerがインストールされていなければインストールします。
-2. コマンドラインでcomposer installを実行します。
+1. Composerがインストールされていなければインストールします。  
+
+2. コマンドラインでcomposer installを実行します。  
+
 3. 動作確認をします。  
 コマンドラインでphp -f Example.exeを実行すると、./tdg.csvに1～1000までのシーケンス値が出力されます。  
 Exmaple.phpのように引数なしでnew TDG()すると./config/tdg.jsonの設定ファイルが使用されます。  
 DBを使用する時には、MySQLに設定のとおりにユーザーとデータベースをそれぞれtdgで作成してください。  
+
 4. 自身の設定でテストデータを生成します。  
 [設定ファイルの書き方](#設定ファイルの書き方)を参考にして設定ファイルを作成します。  
 new TDG()の引数に設定ファイルのパスを与えて、mainメソッドを実行します。  
@@ -216,6 +219,8 @@ JSONはphp5.4以上のjson系関数、YAMLはsymfony/yamlで解釈可能な書�
         - CentOS6.7 PHP5.6 VPSの環境でテスト実行した際の、カバレッジやベンチマーク結果などが入っています。
     - windows7_php54
         - Windows7 PHP5.4 自機の環境でテスト実行した際の、カバレッジやベンチマーク結果などが入っています。
+    - windows7_php70
+        - Windows7 PHP7.0 自機の環境でテスト実行した際の、カバレッジやベンチマーク結果などが入っています。
 
 - proc
     - 前・後処理で使われるCSVファイルやSQLファイルが入っています。  
@@ -256,26 +261,32 @@ JSONはphp5.4以上のjson系関数、YAMLはsymfony/yamlで解釈可能な書�
 - CentOS6.7 PHP5.6 CPU2.6GHz3コア メモリ2GB SSD VPS
     - Usersテーブルテストデータ2000件
         - xdebug有効
-            - 14分19秒 
+            - 57秒 
         - xdebug無効
-            - 2分29秒
+            - 9秒
     - Usersテーブルテストデータ100万件
-        - xdebug有効
-            - 未計測
         - xdebug無効
-            - 未計測
+            - 1時間23分41秒
 
 - Windows7 PHP5.4 CPU3.3GHz2コア メモリ4GB HDD 自機
     - Usersテーブルテストデータ2000件
         - xdebug有効
-            - 3分11秒
+            - 19秒
         - xdebug無効
-            - 1分33秒
-    - Usersテーブルテストデータ100000件
+            - 6秒
+    - Usersテーブルテストデータ100万件
+        - xdebug無効
+            - 37分30秒
+
+- Windows7 PHP7.0 CPU3.3GHz2コア メモリ4GB HDD 自機
+    - Usersテーブルテストデータ2000件
         - xdebug有効
-            - 未計測
+            - 23秒
         - xdebug無効
-            - 1時間19分51秒
+            - 6秒
+    - Usersテーブルテストデータ100万件
+        - xdebug無効
+            - 1時間51分22秒
 
 ## ToDo
 - descriptionフィールドにあたるような文章の生成に対応させるため、  
@@ -285,8 +296,6 @@ JSONはphp5.4以上のjson系関数、YAMLはsymfony/yamlで解釈可能な書�
 
 - GitHubとJenkinsの連携を行います。  
 GitHubへのプッシュを契機にJenkinsがPHPUnitを実行し、カバレッジなどのファイルが再プッシュされるようにします。  
-
-- PHP7で問題のある箇所(foreachでの破壊的操作など)を修正します。  
 
 - パフォーマンス改善のため中間的なマスタデータで利用するDBを  
 MySQLからSQLiteに変更する予定です変更する予定です。。
