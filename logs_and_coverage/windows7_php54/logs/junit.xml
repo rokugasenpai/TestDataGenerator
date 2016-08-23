@@ -1,186 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="174" assertions="96763" failures="0" errors="0" time="214.500380">
-    <testsuite name="all" tests="174" assertions="96763" failures="0" errors="0" time="214.500380">
-      <testsuite name="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" tests="101" assertions="215" failures="0" errors="0" time="4.009209">
-        <testcase name="test_is_numeric_uint_intの正の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="6" assertions="1" time="0.031200"/>
-        <testcase name="test_is_numeric_uint_intのゼロ" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="11" assertions="1" time="0.015600"/>
-        <testcase name="test_is_numeric_uint_stringの正の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="16" assertions="1" time="0.015600"/>
+  <testsuite name="" tests="175" assertions="88769" failures="0" errors="0" time="332.842184">
+    <testsuite name="all" tests="175" assertions="88769" failures="0" errors="0" time="332.842184">
+      <testsuite name="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" tests="105" assertions="240" failures="0" errors="0" time="4.243206">
+        <testcase name="test_is_numeric_uint_intの正の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="6" assertions="1" time="0.015600"/>
+        <testcase name="test_is_numeric_uint_intのゼロ" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="11" assertions="1" time="0.031200"/>
+        <testcase name="test_is_numeric_uint_stringの正の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="16" assertions="1" time="0.031200"/>
         <testcase name="test_is_numeric_uint_stringのゼロ" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="21" assertions="1" time="0.015600"/>
-        <testcase name="test_is_numeric_uint_intの負の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="26" assertions="1" time="0.031200"/>
-        <testcase name="test_is_numeric_uint_stringの負の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="31" assertions="1" time="0.031200"/>
+        <testcase name="test_is_numeric_uint_intの負の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="26" assertions="1" time="0.015600"/>
+        <testcase name="test_is_numeric_uint_stringの負の整数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="31" assertions="1" time="0.015600"/>
         <testcase name="test_is_numeric_uint_floatの正の浮動小数点数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="36" assertions="1" time="0.015600"/>
-        <testcase name="test_is_numeric_uint_NAN" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="41" assertions="1" time="0.015600"/>
-        <testcase name="test_is_numeric_uint_NULL" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="46" assertions="1" time="0.015600"/>
-        <testcase name="test_is_numeric_uint_配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="51" assertions="1" time="0.015601"/>
+        <testcase name="test_is_numeric_uint_NAN" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="41" assertions="1" time="0.031200"/>
+        <testcase name="test_is_numeric_uint_NULL" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="46" assertions="1" time="0.031201"/>
+        <testcase name="test_is_numeric_uint_配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="51" assertions="1" time="0.031200"/>
         <testcase name="test_is_flexible_bool_引数１がTRUE" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="56" assertions="1" time="0.015600"/>
-        <testcase name="test_is_flexible_bool_引数１がFALSE" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="61" assertions="1" time="0.031200"/>
-        <testcase name="test_is_flexible_bool_引数１がintの１" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="66" assertions="1" time="0.031200"/>
+        <testcase name="test_is_flexible_bool_引数１がFALSE" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="61" assertions="1" time="0.015600"/>
+        <testcase name="test_is_flexible_bool_引数１がintの１" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="66" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数１がintの０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="71" assertions="1" time="0.015600"/>
-        <testcase name="test_is_flexible_bool_引数１がstringの１" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="76" assertions="1" time="0.031200"/>
+        <testcase name="test_is_flexible_bool_引数１がstringの１" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="76" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数１がstringの０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="81" assertions="1" time="0.031200"/>
-        <testcase name="test_is_flexible_bool_引数１がyes" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="86" assertions="1" time="0.015600"/>
+        <testcase name="test_is_flexible_bool_引数１がyes" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="86" assertions="1" time="0.031200"/>
         <testcase name="test_is_flexible_bool_引数１がno" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="91" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数１がy" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="96" assertions="1" time="0.031200"/>
-        <testcase name="test_is_flexible_bool_引数１がn" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="101" assertions="1" time="0.031200"/>
+        <testcase name="test_is_flexible_bool_引数１がn" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="101" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数１が空文字" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="106" assertions="1" time="0.015600"/>
-        <testcase name="test_is_flexible_bool_引数１がNULL" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="111" assertions="1" time="0.015600"/>
-        <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がyes" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="116" assertions="1" time="0.015600"/>
+        <testcase name="test_is_flexible_bool_引数１がNULL" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="111" assertions="1" time="0.031200"/>
+        <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がyes" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="116" assertions="1" time="0.031200"/>
         <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がno" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="121" assertions="1" time="0.031200"/>
-        <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がy" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="126" assertions="1" time="0.031200"/>
-        <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がn" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="131" assertions="1" time="0.031201"/>
+        <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がy" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="126" assertions="1" time="0.015600"/>
+        <testcase name="test_is_flexible_bool_引数２がTRUEで引数１がn" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="131" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数３がTRUEで引数１がyes" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="136" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数３がTRUEで引数１がno" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="141" assertions="1" time="0.015600"/>
         <testcase name="test_is_flexible_bool_引数３がTRUEで引数１がy" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="146" assertions="1" time="0.015600"/>
-        <testcase name="test_is_flexible_bool_引数３がTRUEで引数１がn" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="151" assertions="1" time="0.015600"/>
+        <testcase name="test_is_flexible_bool_引数３がTRUEで引数１がn" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="151" assertions="1" time="0.031200"/>
         <testcase name="test_array_depth_空の配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="156" assertions="1" time="0.031200"/>
-        <testcase name="test_array_depth_１次元の配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="161" assertions="1" time="0.031200"/>
+        <testcase name="test_array_depth_１次元の配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="161" assertions="1" time="0.015600"/>
         <testcase name="test_array_depth_２次元の配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="168" assertions="1" time="0.015600"/>
         <testcase name="test_array_depth_オブジェクト" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="177" assertions="1" time="0.015600"/>
         <testcase name="test_s_to_hms_小数で1時間以上" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="182" assertions="1" time="0.015600"/>
-        <testcase name="test_s_to_hms_1時間以上" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="187" assertions="1" time="0.015600"/>
+        <testcase name="test_s_to_hms_1時間以上" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="187" assertions="1" time="0.031200"/>
         <testcase name="test_s_to_hms_1時間" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="192" assertions="1" time="0.031200"/>
-        <testcase name="test_s_to_hms_1分以上" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="197" assertions="1" time="0.031200"/>
+        <testcase name="test_s_to_hms_1分以上" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="197" assertions="1" time="0.015600"/>
         <testcase name="test_s_to_hms_1分" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="202" assertions="1" time="0.015600"/>
         <testcase name="test_s_to_hms_1分未満" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="207" assertions="1" time="0.015600"/>
         <testcase name="test_s_to_hms_1秒未満" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="212" assertions="1" time="0.015600"/>
         <testcase name="test_s_to_hms_数値以外" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="217" assertions="1" time="0.015600"/>
         <testcase name="test_s_to_hms_負数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="222" assertions="1" time="0.031201"/>
-        <testcase name="test_json_last_error_msg_正常なJSONをデコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="227" assertions="1" time="0.015600"/>
-        <testcase name="test_json_last_error_msg_構文エラーなJSONをデコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="233" assertions="1" time="0.031200"/>
-        <testcase name="test_json_last_error_msg_NANを含む配列をJSONにエンコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="239" assertions="1" time="0.031200"/>
+        <testcase name="test_json_last_error_msg_正常なJSONをデコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="227" assertions="1" time="0.031200"/>
+        <testcase name="test_json_last_error_msg_構文エラーなJSONをデコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="233" assertions="1" time="0.015600"/>
+        <testcase name="test_json_last_error_msg_NANを含む配列をJSONにエンコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="239" assertions="1" time="0.062400"/>
         <testcase name="test_json_encode_JSONにエンコード可能な連想配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="252" assertions="1" time="0.015600"/>
         <testcase name="test_json_encode_スカラ値の一種である文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="257" assertions="1" time="0.031200"/>
         <testcase name="test_json_encode_NANとINFを含む配列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="262" assertions="1" time="0.031200"/>
-        <testcase name="test_json_decode_正常なJSON" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="267" assertions="1" time="0.015600"/>
+        <testcase name="test_json_decode_正常なJSON" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="267" assertions="1" time="0.031200"/>
         <testcase name="test_json_decode_構文エラーなJSON" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="272" assertions="1" time="0.015600"/>
-        <testcase name="test_normalize_charset_Shift_JISをSJISに変換" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="277" assertions="1" time="0.031200"/>
-        <testcase name="test_normalize_charset_MySQL用にをUTF8に変換" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="282" assertions="1" time="0.031200"/>
-        <testcase name="test_check_ext_拡張子csv" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="287" assertions="1" time="0.015600"/>
-        <testcase name="test_check_ext_拡張子はないがファイル名末尾が拡張子と同じ" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="293" assertions="1" time="0.015600"/>
-        <testcase name="test_get_data_by_json_file_存在するJSONファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="299" assertions="2" time="0.015600"/>
-        <testcase name="test_get_data_by_json_file_存在しないJSONファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="309" assertions="2" time="0.031200"/>
-        <testcase name="test_get_data_by_yml_file_存在するYMLファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="316" assertions="2" time="0.031201"/>
+        <testcase name="test_normalize_charset_Shift_JISをSJISに変換" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="277" assertions="1" time="0.015600"/>
+        <testcase name="test_normalize_charset_MySQL用にをUTF8に変換" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="282" assertions="1" time="0.015600"/>
+        <testcase name="test_check_ext_拡張子csv" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="287" assertions="1" time="0.031200"/>
+        <testcase name="test_check_ext_拡張子はないがファイル名末尾が拡張子と同じ" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="293" assertions="1" time="0.031200"/>
+        <testcase name="test_get_data_by_json_file_存在するJSONファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="299" assertions="2" time="0.046800"/>
+        <testcase name="test_get_data_by_json_file_存在しないJSONファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="309" assertions="2" time="0.015600"/>
+        <testcase name="test_get_data_by_yml_file_存在するYMLファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="316" assertions="2" time="0.031200"/>
         <testcase name="test_get_data_by_yml_file_存在しないYMLファイルパス" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="326" assertions="2" time="0.031200"/>
-        <testcase name="test_normalize_csv_空行なし非Excel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="333" assertions="1" time="0.015600"/>
-        <testcase name="test_normalize_csv_空行あり非Excel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="341" assertions="1" time="0.015600"/>
+        <testcase name="test_normalize_csv_空行なし非Excel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="333" assertions="1" time="0.031200"/>
+        <testcase name="test_normalize_csv_空行あり非Excel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="341" assertions="1" time="0.031200"/>
         <testcase name="test_normalize_csv_空行なしExcel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="349" assertions="1" time="0.031200"/>
-        <testcase name="test_normalize_csv_空行ありExcel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="357" assertions="1" time="0.031200"/>
-        <testcase name="test_create_weighted_csv_ヘッダありCSVの重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="365" assertions="11" time="0.046800"/>
-        <testcase name="test_create_weighted_csv_ヘッダ無しCSVの重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="405" assertions="11" time="0.046800"/>
-        <testcase name="test_create_weighted_csv_引数max_recordsの検証" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="440" assertions="3" time="0.046800"/>
-        <testcase name="test_create_weighted_csv_配列の重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="450" assertions="9" time="0.031200"/>
-        <testcase name="test_csv_to_bulk_insert_データ数１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="484" assertions="5" time="0.046800"/>
-        <testcase name="test_csv_to_bulk_insert_データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="499" assertions="6" time="0.140401"/>
-        <testcase name="test_csv_to_bulk_insert_テーブル名変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="517" assertions="6" time="0.124800"/>
-        <testcase name="test_csv_to_bulk_insert_カラム変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="535" assertions="6" time="0.109200"/>
-        <testcase name="test_csv_to_bulk_insert_ヘッダ無しデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="554" assertions="6" time="0.109200"/>
-        <testcase name="test_csv_to_bulk_insert_NOT_NULLデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="573" assertions="6" time="0.124801"/>
-        <testcase name="test_csv_to_bulk_insert_NULL文字列変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="592" assertions="6" time="0.124800"/>
-        <testcase name="test_csv_to_bulk_insert_改行文字変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="611" assertions="6" time="0.109200"/>
-        <testcase name="test_csv_to_bulk_insert_引数divisor１００データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="631" assertions="6" time="0.140400"/>
-        <testcase name="test_csv_to_bulk_insert_ユニークカラムありデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="650" assertions="5" time="0.109200"/>
-        <testcase name="test_csv_to_bulk_insert_集計カラムありデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="666" assertions="6" time="0.140401"/>
-        <testcase name="test_csv_to_bulk_insert_前後SQLありデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="687" assertions="8" time="0.109200"/>
-        <testcase name="test_csv_to_bulk_insert_SJISからUTF8に変換データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="710" assertions="6" time="0.124800"/>
-        <testcase name="test_csv_to_bulk_insert_引数max_recordsの検証データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="729" assertions="2" time="0.046800"/>
-        <testcase name="test_csv_to_bulk_insert_配列でデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="739" assertions="3" time="0.093600"/>
-        <testcase name="test_csv_to_bulk_insert_ヘッダ無し配列でデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="751" assertions="3" time="0.093601"/>
-        <testcase name="test_csv_to_bulk_insert_連想配列でデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="763" assertions="3" time="0.093600"/>
-        <testcase name="test_fputcsv_１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="775" assertions="3" time="0.031200"/>
-        <testcase name="test_fputcsv_非NULL１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="788" assertions="3" time="0.015600"/>
-        <testcase name="test_fputcsv_NULL１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="801" assertions="3" time="0.015600"/>
-        <testcase name="test_fputcsv_UTF8からSJISに変換１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="814" assertions="3" time="0.031200"/>
-        <testcase name="test_println_ASCII文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="829" assertions="1" time="0.062400"/>
-        <testcase name="test_println_改行コード付きASCII文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="835" assertions="1" time="0.062400"/>
-        <testcase name="test_println_日本語文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="841" assertions="1" time="0.078000"/>
-        <testcase name="test_println_改行コード付き日本語文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="854" assertions="1" time="0.078001"/>
-        <testcase name="test_safely_eval_問題無いコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="867" assertions="1" time="0.015600"/>
-        <testcase name="test_safely_eval_構文エラーなコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="872" assertions="1" time="0.015600"/>
-        <testcase name="test_safely_eval_ホワイトリストに無いトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="877" assertions="1" time="0.015600"/>
-        <testcase name="test_safely_eval_ホワイトリストに追加したトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="882" assertions="1" time="0.015600"/>
-        <testcase name="test_safely_eval_ブラックリストに追加したトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="887" assertions="1" time="0.015600"/>
-        <testcase name="test_safely_eval_必須リストに追加したトークンを使用していないコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="892" assertions="1" time="0.015600"/>
-        <testcase name="test_safely_eval_必須リストに追加したトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="897" assertions="1" time="0.046800"/>
-        <testcase name="test_safely_eval_日付系関数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="903" assertions="1" time="0.031200"/>
-        <testcase name="test_safely_eval_max_code_token" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="908" assertions="1" time="0.031200"/>
+        <testcase name="test_normalize_csv_空行ありExcel" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="357" assertions="1" time="0.015600"/>
+        <testcase name="test_create_weighted_master_ヘッダありCSVの重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="365" assertions="8" time="0.046800"/>
+        <testcase name="test_create_weighted_master_ヘッダ無しCSVの重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="392" assertions="8" time="0.031200"/>
+        <testcase name="test_create_weighted_master_引数max_recordsの検証" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="419" assertions="2" time="0.078000"/>
+        <testcase name="test_create_weighted_master_配列の重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="427" assertions="7" time="0.031200"/>
+        <testcase name="test_create_weighted_csv_ヘッダありCSVの重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="456" assertions="11" time="0.046800"/>
+        <testcase name="test_create_weighted_csv_ヘッダ無しCSVの重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="496" assertions="11" time="0.046801"/>
+        <testcase name="test_create_weighted_csv_引数max_recordsの検証" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="531" assertions="3" time="0.031200"/>
+        <testcase name="test_create_weighted_csv_配列の重み付け" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="541" assertions="9" time="0.031200"/>
+        <testcase name="test_csv_to_bulk_insert_データ数１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="575" assertions="5" time="0.046800"/>
+        <testcase name="test_csv_to_bulk_insert_データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="590" assertions="6" time="0.109200"/>
+        <testcase name="test_csv_to_bulk_insert_テーブル名変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="608" assertions="6" time="0.124800"/>
+        <testcase name="test_csv_to_bulk_insert_カラム変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="626" assertions="6" time="0.124800"/>
+        <testcase name="test_csv_to_bulk_insert_ヘッダ無しデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="645" assertions="6" time="0.140401"/>
+        <testcase name="test_csv_to_bulk_insert_NOT_NULLデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="664" assertions="6" time="0.109200"/>
+        <testcase name="test_csv_to_bulk_insert_NULL文字列変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="683" assertions="6" time="0.124800"/>
+        <testcase name="test_csv_to_bulk_insert_改行文字変更データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="702" assertions="6" time="0.124800"/>
+        <testcase name="test_csv_to_bulk_insert_引数divisor１００データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="722" assertions="6" time="0.124801"/>
+        <testcase name="test_csv_to_bulk_insert_ユニークカラムありデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="741" assertions="5" time="0.109200"/>
+        <testcase name="test_csv_to_bulk_insert_集計カラムありデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="757" assertions="6" time="0.156000"/>
+        <testcase name="test_csv_to_bulk_insert_前後SQLありデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="778" assertions="8" time="0.156000"/>
+        <testcase name="test_csv_to_bulk_insert_SJISからUTF8に変換データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="801" assertions="6" time="0.140401"/>
+        <testcase name="test_csv_to_bulk_insert_引数max_recordsの検証データ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="820" assertions="2" time="0.046800"/>
+        <testcase name="test_csv_to_bulk_insert_配列でデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="830" assertions="3" time="0.093600"/>
+        <testcase name="test_csv_to_bulk_insert_ヘッダ無し配列でデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="842" assertions="3" time="0.093600"/>
+        <testcase name="test_csv_to_bulk_insert_連想配列でデータ数１０１０" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="854" assertions="3" time="0.093600"/>
+        <testcase name="test_fputcsv_１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="866" assertions="3" time="0.031200"/>
+        <testcase name="test_fputcsv_非NULL１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="879" assertions="3" time="0.015600"/>
+        <testcase name="test_fputcsv_NULL１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="892" assertions="3" time="0.015600"/>
+        <testcase name="test_fputcsv_UTF8からSJISに変換１レコード書き込み" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="905" assertions="3" time="0.015600"/>
+        <testcase name="test_println_ASCII文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="920" assertions="1" time="0.046800"/>
+        <testcase name="test_println_改行コード付きASCII文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="926" assertions="1" time="0.046800"/>
+        <testcase name="test_println_日本語文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="932" assertions="1" time="0.062400"/>
+        <testcase name="test_println_改行コード付き日本語文字列" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="945" assertions="1" time="0.062400"/>
+        <testcase name="test_safely_eval_問題無いコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="958" assertions="1" time="0.015600"/>
+        <testcase name="test_safely_eval_構文エラーなコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="963" assertions="1" time="0.031200"/>
+        <testcase name="test_safely_eval_ホワイトリストに無いトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="968" assertions="1" time="0.046800"/>
+        <testcase name="test_safely_eval_ホワイトリストに追加したトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="973" assertions="1" time="0.031200"/>
+        <testcase name="test_safely_eval_ブラックリストに追加したトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="978" assertions="1" time="0.015600"/>
+        <testcase name="test_safely_eval_必須リストに追加したトークンを使用していないコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="983" assertions="1" time="0.015600"/>
+        <testcase name="test_safely_eval_必須リストに追加したトークンを使用したコード" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="988" assertions="1" time="0.015600"/>
+        <testcase name="test_safely_eval_日付系関数" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="994" assertions="1" time="0.015600"/>
+        <testcase name="test_safely_eval_max_code_token" class="UtilTest" file="C:\Users\owner\TestDataGenerator\tests\unit\UtilTest.php" line="999" assertions="1" time="0.015600"/>
       </testsuite>
-      <testsuite name="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" tests="2" assertions="15" failures="0" errors="0" time="0.109200">
-        <testcase name="test_WeightedArrayの生成とランダム抽出" class="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" line="6" assertions="6" time="0.078000"/>
-        <testcase name="test_WeightedArrayの生成とget_array_without_weight" class="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" line="32" assertions="9" time="0.031200"/>
+      <testsuite name="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" tests="3" assertions="16" failures="0" errors="0" time="0.093600">
+        <testcase name="test_WeightedArrayの生成とランダム抽出" class="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" line="6" assertions="6" time="0.062400"/>
+        <testcase name="test_WeightedArrayの生成とget_column_names" class="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" line="32" assertions="1" time="0.015600"/>
+        <testcase name="test_WeightedArrayの生成とget_array_without_weight" class="WeightedArrayTest" file="C:\Users\owner\TestDataGenerator\tests\unit\WeightedArrayTest.php" line="42" assertions="9" time="0.015600"/>
       </testsuite>
-      <testsuite name="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" tests="71" assertions="96533" failures="0" errors="0" time="210.381970">
-        <testcase name="test_default_config" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="31" assertions="203" time="21.325238"/>
-        <testcase name="test_１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="51" assertions="204" time="0.171600"/>
-        <testcase name="test_１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="79" assertions="204" time="0.156001"/>
-        <testcase name="test_出力ファイルパスを指定して１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="107" assertions="204" time="0.171600"/>
-        <testcase name="test_出力ファイルパスを指定して１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="135" assertions="204" time="0.171600"/>
-        <testcase name="test_ヘッダ無しで１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="163" assertions="203" time="0.171600"/>
-        <testcase name="test_ヘッダ無しで１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="186" assertions="203" time="0.171600"/>
-        <testcase name="test_データの標準出力ありで１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="209" assertions="205" time="2.730005"/>
-        <testcase name="test_データの標準出力ありで１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="238" assertions="206" time="5.335209"/>
-        <testcase name="test_改行コードCRLFで１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="270" assertions="204" time="0.156001"/>
-        <testcase name="test_改行コードCRLFで１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="298" assertions="204" time="0.156000"/>
-        <testcase name="test_１０００からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="326" assertions="204" time="0.187200"/>
-        <testcase name="test_１０００からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="354" assertions="204" time="0.171601"/>
-        <testcase name="test_４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="382" assertions="604" time="0.530401"/>
-        <testcase name="test_４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="412" assertions="604" time="0.592801"/>
-        <testcase name="test_間隔５の４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="442" assertions="704" time="0.546001"/>
-        <testcase name="test_間隔５の４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="473" assertions="704" time="0.577201"/>
-        <testcase name="test_間隔０．５の４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="504" assertions="604" time="0.530401"/>
-        <testcase name="test_間隔０．５の４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="534" assertions="604" time="0.514801"/>
-        <testcase name="test_１００漸増で９フィールドに３桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="564" assertions="4604" time="4.165207"/>
-        <testcase name="test_１００漸増で９フィールドに３桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="598" assertions="4604" time="4.040407"/>
-        <testcase name="test_高頻度で３桁数値・低頻度で４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="632" assertions="106" time="0.124800"/>
-        <testcase name="test_高頻度で３桁数値・低頻度で４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="671" assertions="106" time="0.140400"/>
-        <testcase name="test_現在の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="710" assertions="504" time="0.218400"/>
-        <testcase name="test_現在の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="744" assertions="504" time="0.218401"/>
-        <testcase name="test_２０１０～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="775" assertions="604" time="0.514801"/>
-        <testcase name="test_２０１０～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="805" assertions="604" time="0.530400"/>
-        <testcase name="test_マイクロ秒単位で２０１０～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="835" assertions="604" time="0.546001"/>
-        <testcase name="test_マイクロ秒単位で２０１０～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="865" assertions="604" time="0.530401"/>
-        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="895" assertions="206" time="0.156001"/>
-        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="937" assertions="205" time="0.171600"/>
-        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="978" assertions="206" time="0.187200"/>
-        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1020" assertions="206" time="0.187201"/>
-        <testcase name="test_現在のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1062" assertions="604" time="0.296400"/>
-        <testcase name="test_現在のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1094" assertions="604" time="0.296401"/>
-        <testcase name="test_２０１０～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1126" assertions="604" time="0.514801"/>
-        <testcase name="test_２０１０～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1156" assertions="604" time="0.514801"/>
-        <testcase name="test_マイクロ秒単位で２０１０～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1186" assertions="604" time="0.530401"/>
-        <testcase name="test_マイクロ秒単位で２０１０～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1216" assertions="604" time="0.530401"/>
-        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1246" assertions="206" time="0.156000"/>
-        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1288" assertions="206" time="0.171600"/>
-        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1330" assertions="206" time="0.171601"/>
-        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1372" assertions="206" time="0.187200"/>
-        <testcase name="test_パターンクラスを使い携帯電話番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1414" assertions="204" time="0.234000"/>
-        <testcase name="test_パターンクラスを使い携帯電話番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1442" assertions="204" time="0.249600"/>
-        <testcase name="test_ドル記号ありでパターンクラスを使い携帯電話番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1470" assertions="204" time="0.234000"/>
-        <testcase name="test_ドル記号ありでパターンクラスを使い携帯電話番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1498" assertions="204" time="0.249601"/>
-        <testcase name="test_重み付けありパターンから生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1526" assertions="107" time="0.124800"/>
-        <testcase name="test_重み付けありパターンから生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1571" assertions="107" time="0.140400"/>
-        <testcase name="test_文字数指定重み付けありパターンから生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1616" assertions="207" time="0.202801"/>
-        <testcase name="test_文字数指定重み付けありパターンから生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1674" assertions="207" time="0.234000"/>
-        <testcase name="test_指定した合計文字数と各パターンの文字数で各パターンの文字から生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1732" assertions="204" time="0.265201"/>
-        <testcase name="test_指定した合計文字数と各パターンの文字数で各パターンの文字から生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1760" assertions="204" time="0.280800"/>
-        <testcase name="test_指定した範囲の合計文字数と各パターンの文字数で各パターンの文字から生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1788" assertions="204" time="0.530401"/>
-        <testcase name="test_指定した範囲の合計文字数と各パターンの文字数で各パターンの文字から生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1816" assertions="204" time="0.468001"/>
-        <testcase name="test_前処理と後処理のみ実行_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1844" assertions="3" time="24.008442"/>
-        <testcase name="test_前処理と後処理のみ実行_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1881" assertions="3" time="8.564415"/>
-        <testcase name="test_テーブル削除ありでDBより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1918" assertions="4006" time="10.358419"/>
-        <testcase name="test_テーブル削除ありでDBより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1968" assertions="4006" time="11.122819"/>
-        <testcase name="test_テーブル削除無しでDBより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2018" assertions="4006" time="10.186818"/>
-        <testcase name="test_テーブル削除無しでDBより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2068" assertions="4006" time="10.093218"/>
-        <testcase name="test_先頭にパターンを付けてDBより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2122" assertions="204" time="3.354006"/>
-        <testcase name="test_先頭にパターンを付けてDBより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2154" assertions="204" time="3.291606"/>
-        <testcase name="test_末尾にパターンを付けてDBより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2186" assertions="204" time="3.322806"/>
-        <testcase name="test_末尾にパターンを付けてDBより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2218" assertions="204" time="3.322806"/>
-        <testcase name="test_先頭に重み付けありのパターンを付けてDBより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2250" assertions="207" time="3.322805"/>
-        <testcase name="test_先頭に重み付けありのパターンを付けてDBより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2300" assertions="207" time="3.338406"/>
-        <testcase name="test_１からシーケンス番号・アンダースコア・DBより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2350" assertions="204" time="3.385206"/>
-        <testcase name="test_１からシーケンス番号・アンダースコア・DBより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2382" assertions="204" time="3.369606"/>
-        <testcase name="test_実際の利用を想定したユーザーテーブルデータの生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2413" assertions="26007" time="27.970849"/>
-        <testcase name="test_実際の利用を想定したユーザーテーブルデータの生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2506" assertions="26007" time="28.688451"/>
+      <testsuite name="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" tests="67" assertions="88513" failures="0" errors="0" time="328.505377">
+        <testcase name="test_default_config" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="27" assertions="203" time="20.919637"/>
+        <testcase name="test_１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="47" assertions="204" time="0.171600"/>
+        <testcase name="test_１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="75" assertions="204" time="0.156000"/>
+        <testcase name="test_出力ファイルパスを指定して１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="103" assertions="204" time="0.156000"/>
+        <testcase name="test_出力ファイルパスを指定して１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="131" assertions="204" time="0.156001"/>
+        <testcase name="test_ヘッダ無しで１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="159" assertions="203" time="0.140400"/>
+        <testcase name="test_ヘッダ無しで１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="182" assertions="203" time="0.156000"/>
+        <testcase name="test_データの標準出力ありで１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="205" assertions="205" time="2.480405"/>
+        <testcase name="test_データの標準出力ありで１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="234" assertions="206" time="4.836008"/>
+        <testcase name="test_改行コードCRLFで１からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="266" assertions="204" time="0.140401"/>
+        <testcase name="test_改行コードCRLFで１からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="294" assertions="204" time="0.156000"/>
+        <testcase name="test_１０００からシーケンス番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="322" assertions="204" time="0.156000"/>
+        <testcase name="test_１０００からシーケンス番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="350" assertions="204" time="0.140400"/>
+        <testcase name="test_４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="378" assertions="604" time="0.499201"/>
+        <testcase name="test_４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="408" assertions="604" time="0.514801"/>
+        <testcase name="test_間隔５の４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="438" assertions="704" time="0.530401"/>
+        <testcase name="test_間隔５の４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="469" assertions="704" time="0.530401"/>
+        <testcase name="test_間隔０．５の４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="500" assertions="604" time="0.483601"/>
+        <testcase name="test_間隔０．５の４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="530" assertions="604" time="0.483601"/>
+        <testcase name="test_１００漸増で９フィールドに３桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="560" assertions="4604" time="3.915607"/>
+        <testcase name="test_１００漸増で９フィールドに３桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="594" assertions="4604" time="3.978007"/>
+        <testcase name="test_高頻度で３桁数値・低頻度で４桁数値を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="628" assertions="106" time="0.109200"/>
+        <testcase name="test_高頻度で３桁数値・低頻度で４桁数値を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="667" assertions="106" time="0.124800"/>
+        <testcase name="test_現在の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="706" assertions="504" time="0.202801"/>
+        <testcase name="test_現在の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="740" assertions="504" time="0.202800"/>
+        <testcase name="test_２０１０～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="771" assertions="604" time="0.499201"/>
+        <testcase name="test_２０１０～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="801" assertions="604" time="0.499201"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="831" assertions="604" time="0.499201"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="861" assertions="604" time="0.530401"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="891" assertions="206" time="0.156000"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="933" assertions="205" time="0.156001"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="974" assertions="206" time="0.156000"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年の日時を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1016" assertions="206" time="0.156000"/>
+        <testcase name="test_現在のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1058" assertions="604" time="0.265201"/>
+        <testcase name="test_現在のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1090" assertions="604" time="0.280800"/>
+        <testcase name="test_２０１０～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1122" assertions="604" time="0.499201"/>
+        <testcase name="test_２０１０～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1152" assertions="604" time="0.499201"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1182" assertions="604" time="0.499201"/>
+        <testcase name="test_マイクロ秒単位で２０１０～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1212" assertions="604" time="0.514801"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1242" assertions="206" time="0.140400"/>
+        <testcase name="test_高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1284" assertions="206" time="0.156000"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1326" assertions="206" time="0.140401"/>
+        <testcase name="test_マイクロ秒単位で高頻度で２０１０～２０１２年・低頻度で２０１３～２０１５年のタイムスタンプを生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1368" assertions="206" time="0.156000"/>
+        <testcase name="test_パターンクラスを使い携帯電話番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1410" assertions="204" time="0.218400"/>
+        <testcase name="test_パターンクラスを使い携帯電話番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1438" assertions="204" time="0.234000"/>
+        <testcase name="test_ドル記号ありでパターンクラスを使い携帯電話番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1466" assertions="204" time="0.218400"/>
+        <testcase name="test_ドル記号ありでパターンクラスを使い携帯電話番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1494" assertions="204" time="0.234001"/>
+        <testcase name="test_重み付けありパターンから生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1522" assertions="107" time="0.109200"/>
+        <testcase name="test_重み付けありパターンから生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1567" assertions="107" time="0.124800"/>
+        <testcase name="test_文字数指定重み付けありパターンから生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1612" assertions="207" time="0.202801"/>
+        <testcase name="test_文字数指定重み付けありパターンから生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1670" assertions="207" time="0.202800"/>
+        <testcase name="test_指定した合計文字数と各パターンの文字数で各パターンの文字から生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1728" assertions="204" time="0.249601"/>
+        <testcase name="test_指定した合計文字数と各パターンの文字数で各パターンの文字から生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1756" assertions="204" time="0.265200"/>
+        <testcase name="test_指定した範囲の合計文字数と各パターンの文字数で各パターンの文字から生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1784" assertions="204" time="0.436801"/>
+        <testcase name="test_指定した範囲の合計文字数と各パターンの文字数で各パターンの文字から生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1812" assertions="204" time="0.436801"/>
+        <testcase name="test_マスタより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1840" assertions="4005" time="22.214439"/>
+        <testcase name="test_マスタより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1879" assertions="4005" time="22.120839"/>
+        <testcase name="test_先頭にパターンを付けてマスタより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1922" assertions="204" time="15.537627"/>
+        <testcase name="test_先頭にパターンを付けてマスタより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1954" assertions="204" time="15.537627"/>
+        <testcase name="test_末尾にパターンを付けてマスタより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="1986" assertions="204" time="15.568828"/>
+        <testcase name="test_末尾にパターンを付けてマスタより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2018" assertions="204" time="15.553227"/>
+        <testcase name="test_先頭に重み付けありのパターンを付けてマスタより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2050" assertions="207" time="15.568827"/>
+        <testcase name="test_先頭に重み付けありのパターンを付けてマスタより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2100" assertions="207" time="15.522028"/>
+        <testcase name="test_１からシーケンス番号・アンダースコア・マスタより郵便番号を生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2150" assertions="204" time="15.615627"/>
+        <testcase name="test_１からシーケンス番号・アンダースコア・マスタより郵便番号を生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2182" assertions="204" time="15.584427"/>
+        <testcase name="test_実際の利用を想定したユーザーテーブルデータの生成_json" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2215" assertions="26007" time="54.678096"/>
+        <testcase name="test_実際の利用を想定したユーザーテーブルデータの生成_yml" class="TDGTest" file="C:\Users\owner\TestDataGenerator\tests\functional\TDGTest.php" line="2312" assertions="26007" time="54.927696"/>
       </testsuite>
     </testsuite>
   </testsuite>

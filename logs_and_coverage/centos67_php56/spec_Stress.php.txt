@@ -1,4 +1,4 @@
-PHP 5.6.23 (cli) (built: Jun 22 2016 09:05:27)
+PHP 5.6.24 (cli) (built: Jul 21 2016 07:42:08)
 Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
     with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
@@ -9,10 +9,10 @@ model name	: Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz
 processor	: 2
 model name	: Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz
 MemTotal:        1922208 kB
-MemFree:           71440 kB
-Buffers:            2832 kB
-Cached:           111068 kB
-SwapCached:         6120 kB
+MemFree:           77992 kB
+Buffers:           81764 kB
+Cached:           905236 kB
+SwapCached:         1380 kB
 SwapTotal:       2097148 kB
-SwapFree:        1650372 kB
+SwapFree:        2073204 kB
 CentOS release 6.8 (Final)

@@ -13,9 +13,7 @@
  *
  * 本ツールは、データベースに投入するテストデータを簡単に作成することを目的としています。
  * YAMLもしくはJSONの設定ファイルを元に、テストデータ用のCSVを出力します。
- * テストデータ出力の前後に、SQLもしくはCSVファイルによるSQLを実行できます。
  *
- * 使用できるデータベースはMySQL(MariaDB)のみです。
  * PHPは5.4以上、OSはWindows(7および10)、Linux(Centos6)で動作確認しています。
  * 
  * 設定ファイルの書き方は下記を参照してください。
@@ -194,6 +192,36 @@ class WeightedArray extends \ArrayObject
                     return unserialize($value);
                 }
             }
+        }
+        catch (Exception $e)
+        {
+            if ($this->_error_handling == self::ERROR_HANDLING_RETURN_FALSE)
+            {
+                return FALSE;
+            }
+
+            throw new \Exception(self::MESSEAGE_ERROR_WEIGHTED_ARRAY, $e);
+        }
+    }
+
+
+    /**
+     * get_column_names
+     *
+     * @return string[]
+     */
+    public function get_column_names()
+    {
+        try
+        {
+            $column_names = [];
+            if ($this->offsetExists(0))
+            {
+                $elem = $this->offsetGet(0);
+                $record = unserialize(key($elem));
+                $column_names = array_keys($record);
+            }
+            return $column_names;
         }
         catch (Exception $e)
         {

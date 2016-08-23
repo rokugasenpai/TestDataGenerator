@@ -13,9 +13,7 @@
  *
  * 本ツールは、データベースに投入するテストデータを簡単に作成することを目的としています。
  * YAMLもしくはJSONの設定ファイルを元に、テストデータ用のCSVを出力します。
- * テストデータ出力の前後に、SQLもしくはCSVファイルによるSQLを実行できます。
  *
- * 使用できるデータベースはMySQL(MariaDB)のみです。
  * PHPは5.4以上、OSはWindows(7および10)、Linux(Centos6)で動作確認しています。
  * 
  * 設定ファイルの書き方は下記を参照してください。
@@ -36,13 +34,10 @@ use rokugasenpai\TestDataGenerator\TDGException as TDGE;
  */
 class Config extends TDGBase
 {
-    const DEFAULT_PROC_DIR = './proc/';
     const DEFAULT_OUTPUT_FILEPATH = 'tdg.csv';
-    const IDX_PROC_FILEPATH = 0;
-    const IDX_PROC_WEIGHT_COLUMN = 1;
-    const IDX_PROC_WEIGHT_DIVISOR = 2;
-    const IDX_PROC_UNIQUE_COLUMNS = 1;
-    const IDX_PROC_SUM_COLUMNS = 2;
+    const IDX_MASTER_FILEPATH = 0;
+    const IDX_MASTER_WEIGHT_COLUMN = 1;
+    const IDX_MASTER_WEIGHT_DIVISOR = 2;
 
     /** @var int 生成データ数 */
     protected $num_data;
@@ -54,51 +49,16 @@ class Config extends TDGBase
     /** @var string 出力ファイルパス */
     protected $output_filepath = self::DEFAULT_OUTPUT_FILEPATH;
 
-    /** @var string DBパスワード */
-    protected $db_pass = '';
-
-    /** @var string SQL */
-    protected $sql = '';
-
     /** @var bool NULLフィールド値フラグ */
     protected $need_null = FALSE;
     // NULLを許可するか、空文字に変換するか
 
-    /** @var int 1SQLあたりの件数 */
-    protected $num_records_per_sql = 1000;
-    // 前・後処理のバルクインサート数、およびデータ生成時の1回のクエリで取得する件数
+    /** @var array マスタ */
+    protected $masters = [];
 
-    /** @var string[] 前処理用ファイル */
-    protected $pre_proc = [];
-
-    /** @var string[] 後処理用ファイル */
-    protected $post_proc = [];
-
-    /** @var string 前・後処理用ファイル内NULL値 */
-    protected $proc_null_value = 'NULL';
+    /** @var string マスタ内NULL値 */
+    protected $null_value = 'NULL';
     // 文字列データとして"NULL"があり得る場合は、ユニークな値を指定する。
-
-    /** @var string 前・後処理用先頭SQL */
-    protected $proc_head_sql = '';
-    // SET文などを先頭に挿入するのが目的。
-    // CSVファイルによるバルクインサート時のみ有効。
-
-    /** @var string 前・後処理用末尾SQL */
-    protected $proc_tail_sql = '';
-    // OPTIMIZE TABLE文などを末尾に挿入するのが目的。
-    // CSVファイルによるバルクインサート時のみ有効。
-
-    /** @var string DB名 */
-    protected $db_name = 'tdg';
-
-    /** @var string DBユーザー名 */
-    protected $db_user = 'root';
-
-    /** @var string DBホストアドレス */
-    protected $db_host = 'localhost';
-
-    /** @var string DBホストポート */
-    protected $db_port = 3306;
 
     /** @var bool ヘッダ出力フラグ */
     protected $need_header = FALSE;
@@ -150,15 +110,6 @@ class Config extends TDGBase
             $method = '_check_and_set_' . $name;
             // 動的にメソッドを呼び出す。
             $this->{$method}($value);
-        }
-
-        if (strlen($this->sql) || count($this->pre_proc) || count($this->post_proc))
-        {
-            if (!strlen($this->db_host) || !strlen($this->db_port)|| !strlen($this->db_name)
-                || !strlen($this->db_user) || !strlen($this->db_pass))
-            {
-                throw new TDGE(TDGE::MESSEAGE_INVALID_CONFIG, 'DB接続情報が不足しています。');
-            }
         }
 
         if ($this->_exists_error())
@@ -267,46 +218,6 @@ class Config extends TDGBase
 
 
     /**
-     * _check_and_set_db_pass
-     *
-     * DBパスワードを$db_passプロパティにセットする。
-     * 文字列を想定している。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_db_pass($value)
-    {
-        if (!is_string($value) || !strlen($value))
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->db_pass = $value;
-    }
-
-
-    /**
-     * _check_and_set_sql
-     *
-     * SQLを$sqlプロパティにセットする。
-     * SELECT文かをチェックしている。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_sql($value)
-    {
-        if (!is_string($value) || strpos(strtolower($value), 'select') !== 0)
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->sql = $value;
-    }
-
-
-    /**
      * _check_and_set_need_null
      *
      * NULLフィールド値フラグを$need_nullプロパティにセットする。
@@ -326,64 +237,13 @@ class Config extends TDGBase
 
 
     /**
-     * _check_and_set_num_records_per_sql
+     * _check_and_set_masters
      *
-     * 1SQLあたりの件数を$num_records_per_sqlプロパティにセットする。
-     * 生成データ数より多くないかチェックしている。
-     *
-     * @param mixed $value
-     */
-    private function _check_and_set_num_records_per_sql($value)
-    {
-        if (!Util::is_numeric_uint($value) || $value > $this->num_data)
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->num_records_per_sql = $value;
-    }
-
-
-    /**
-     * _check_and_set_pre_proc
-     *
-     * 前処理用ファイルを$pre_procプロパティにセットする。
+     * マスタを$mastersプロパティにセットする。
      *
      * @param string[] $value
      */
-    private function _check_and_set_pre_proc($value)
-    {
-        $this->pre_proc = $this->_common_proc($value);
-    }
-
-
-    /**
-     * _check_and_set_post_proc
-     *
-     * 後処理用ファイルを$post_procプロパティにセットする。
-     *
-     * @param string[] $value
-     */
-    private function _check_and_set_post_proc($value)
-    {
-        $this->post_proc = $this->_common_proc($value);
-    }
-
-
-    /**
-     * _common_proc
-     *
-     * 前・後処理用ファイル共通処理。
-     * 各ファイルが存在するか、適当な拡張子かをチェックしている。
-     * 引数にファイルパス以外の値があれば、
-     * 重み付けカラムの数値をもとにしたデータ生成、特定カラムの重複除去・集計
-     * といった処理も行う。
-     *
-     * @param string[] $value
-     * @return string[]
-     */
-    private function _common_proc($value)
+    private function _check_and_set_masters($value)
     {
         $caller = debug_backtrace()[1]['function'];
         if (!is_array($value))
@@ -393,95 +253,59 @@ class Config extends TDGBase
         }
 
         $formed = [];
-        foreach ($value as $index => $proc)
+        foreach ($value as $index => $master)
         {
             $filepath = '';
-            $unique_columns = [];
-            $sum_colums = [];
 
-            if (is_array($proc))
+            if (is_array($master))
             {
                 // ファイルパスが無ければ失敗。
-                if (!array_key_exists(self::IDX_PROC_FILEPATH, $proc)
-                    || !is_string($proc[self::IDX_PROC_FILEPATH])
-                    || (!Util::check_ext($proc[self::IDX_PROC_FILEPATH], Util::CSV_EXT)
-                        && !Util::check_ext($proc[self::IDX_PROC_FILEPATH], Util::SQL_EXT))
-                    || !is_file($proc[self::IDX_PROC_FILEPATH]))
+                if (!array_key_exists(self::IDX_MASTER_FILEPATH, $master)
+                    || !is_string($master[self::IDX_MASTER_FILEPATH])
+                    || !Util::check_ext($master[self::IDX_MASTER_FILEPATH], Util::CSV_EXT)
+                    || !is_file($master[self::IDX_MASTER_FILEPATH]))
                 {
                     $this->_set_error(str_replace('_check_and_set_', '', $caller)
-                    . Util::json_encode($proc, JSON_UNESCAPED_UNICODE));
+                    . Util::json_encode($master, JSON_UNESCAPED_UNICODE));
                     return;
                 }
 
-                $filepath = $proc[self::IDX_PROC_FILEPATH];
+                $filepath = $master[self::IDX_MASTER_FILEPATH];
 
                 // 重み付けの処理がある場合。
-                if (array_key_exists(self::IDX_PROC_WEIGHT_COLUMN, $proc)
-                    && !is_array($proc[self::IDX_PROC_WEIGHT_COLUMN]))
+                if (array_key_exists(self::IDX_MASTER_WEIGHT_COLUMN, $master)
+                    && !is_array($master[self::IDX_MASTER_WEIGHT_COLUMN]))
                 {
                     if (!Util::check_ext($filepath, Util::CSV_EXT)
-                        || !strlen($proc[self::IDX_PROC_WEIGHT_COLUMN])
-                        || (array_key_exists(self::IDX_PROC_WEIGHT_DIVISOR, $proc)
-                        && !Util::is_numeric_uint($proc[self::IDX_PROC_WEIGHT_DIVISOR])))
+                        || !strlen($master[self::IDX_MASTER_WEIGHT_COLUMN])
+                        || (array_key_exists(self::IDX_MASTER_WEIGHT_DIVISOR, $master)
+                        && !Util::is_numeric_uint($master[self::IDX_MASTER_WEIGHT_DIVISOR])))
                     {
                         $this->_set_error(str_replace('_check_and_set_', '', $caller)
-                            . Util::json_encode($proc, JSON_UNESCAPED_UNICODE));
+                            . Util::json_encode($master, JSON_UNESCAPED_UNICODE));
                         return;
                     }
 
-                    if (!array_key_exists(self::IDX_PROC_WEIGHT_DIVISOR, $proc))
+                    if (!array_key_exists(self::IDX_MASTER_WEIGHT_DIVISOR, $master))
                     {
-                        $proc[self::IDX_PROC_WEIGHT_DIVISOR] = 1;
+                        $master[self::IDX_MASTER_WEIGHT_DIVISOR] = 1;
                     }
-                }
-                // 重複除去・集計の処理がある場合。
-                else
-                {
-                    $unique_columns = [];
-                    $sum_colums = [];
-
-                    if (!Util::check_ext($filepath, Util::CSV_EXT)
-                        && array_key_exists(self::IDX_PROC_UNIQUE_COLUMNS, $proc)
-                        && is_array($proc[self::IDX_PROC_UNIQUE_COLUMNS]))
-                    {
-                        $unique_columns = $proc[self::IDX_PROC_UNIQUE_COLUMNS];
-                    }
-
-                    if (!Util::check_ext($filepath, Util::CSV_EXT)
-                        && array_key_exists(self::IDX_PROC_SUM_COLUMNS, $proc)
-                        && is_array($proc[self::IDX_PROC_SUM_COLUMNS]))
-                    {
-                        $sum_colums = $proc[self::IDX_PROC_SUM_COLUMNS];
-                    }
-
-                    if (!count($unique_columns) && !count($sum_columns))
-                    {
-                        $this->_set_error(str_replace('_check_and_set_', '', $caller)
-                            . Util::json_encode($proc, JSON_UNESCAPED_UNICODE));
-                        return;
-                    }
-
-                    $proc = [];
-                    $proc[self::IDX_PROC_FILEPATH] = $filepath;
-                    $proc[self::IDX_PROC_UNIQUE_COLUMNS] = $unique_columns;
-                    $proc[self::IDX_PROC_SUM_COLUMNS] = $sum_colums;
                 }
             }
-            else if (is_string($proc))
+            else if (is_string($master))
             {
-                $filepath = $proc;
+                $filepath = $master;
 
                 if (!is_file($filepath)
-                    || (!Util::check_ext($filepath, Util::SQL_EXT)
-                    && !Util::check_ext($filepath, Util::CSV_EXT)))
+                    || (!Util::check_ext($filepath, Util::CSV_EXT)))
                 {
                     $this->_set_error(str_replace('_check_and_set_', '', $caller)
-                        . " => {$proc}");
+                        . " => {$master}");
                     return;
                 }
 
-                $proc = [];
-                $proc[self::IDX_PROC_FILEPATH] = $filepath;
+                $master = [];
+                $master[self::IDX_MASTER_FILEPATH] = $filepath;
             }
             else
             {
@@ -489,21 +313,21 @@ class Config extends TDGBase
                 return;
             }
 
-            $formed[$index] = $proc;
+            $formed[$index] = $master;
         }
 
-        return $formed;
+        $this->masters = $formed;
     }
 
     /**
-     * _check_and_set_proc_null_value
+     * _check_and_set_null_value
      *
-     * 前・後処理用ファイル内NULL値を$proc_null_valueプロパティにセットする。
+     * 前・後処理用ファイル内NULL値を$null_valueプロパティにセットする。
      * 文字列を想定している。
      *
      * @param string $value
      */
-    private function _check_and_set_proc_null_value($value)
+    private function _check_and_set_null_value($value)
     {
         if (!is_string($value) || !strlen($value))
         {
@@ -511,127 +335,7 @@ class Config extends TDGBase
             return;
         }
 
-        $this->proc_null_value = $value;
-    }
-
-
-    /**
-     * _check_and_set_proc_head_sql
-     *
-     * 前・後処理用先頭SQLを$proc_head_sqlプロパティにセットする。
-     * 文字列を想定している。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_proc_head_sql($value)
-    {
-        if (!is_string($value) || !strlen($value))
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->proc_head_sql = $value;
-    }
-
-
-    /**
-     * _check_and_set_proc_tail_sql
-     *
-     * 前・後処理用末尾SQLを$proc_tail_sqlプロパティにセットする。
-     * 文字列を想定している。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_proc_tail_sql($value)
-    {
-        if (!is_string($value) || !strlen($value))
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->proc_tail_sql = $value;
-    }
-
-
-    /**
-     * _check_and_set_db_name
-     *
-     * DB名を$db_nameプロパティにセットする。
-     * 文字列を想定している。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_db_name($value)
-    {
-        if (!is_string($value) || !strlen($value))
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->db_name = $value;
-    }
-
-
-    /**
-     * _check_and_set_db_user
-     *
-     * DBユーザー名を$db_userプロパティにセットする。
-     * 文字列を想定している。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_db_user($value)
-    {
-        if (!is_string($value) || !strlen($value))
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->db_user = $value;
-    }
-
-
-    /**
-     * _check_and_set_db_host
-     *
-     * DBホストアドレスを$db_hostプロパティにセットする。
-     * 文字列を想定している。
-     *
-     * @param string $value
-     */
-    private function _check_and_set_db_host($value)
-    {
-        if (!is_string($value) || !strlen($value))
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->db_host = $value;
-    }
-
-
-    /**
-     * _check_and_set_db_port
-     *
-     * DBホストポートを$db_portプロパティにセットする。
-     * 1～65536の整数かチェックしている。
-     *
-     * @param mixed $value
-     */
-    private function _check_and_set_db_port($value)
-    {
-        if (!Util::is_numeric_uint($value) || $value > 65536)
-        {
-            $this->_set_error(str_replace('_check_and_set_', '', __FUNCTION__));
-            return;
-        }
-
-        $this->db_port = intval($value);
+        $this->null_value = $value;
     }
 
 

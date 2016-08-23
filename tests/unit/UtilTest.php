@@ -362,6 +362,97 @@ class UtilTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($normalized, $after);
     }
 
+    public function test_create_weighted_master_ヘッダありCSVの重み付け()
+    {
+        $filepath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'files'
+            . DIRECTORY_SEPARATOR . 'weight.csv';
+        $this->assertFileExists($filepath, 'precondition error.');
+        $weighted = Util::create_weighted_master($filepath, 'num');
+        $num_common = 0;
+        $num_uncommon = 0;
+        $num_rare = 0;
+        $num_unexpected = 0;
+        for ($cnt = 0; $cnt < 100; $cnt++)
+        {
+            $record = $weighted->rand();
+            if ($record['name'] == 'common') $num_common++;
+            else if ($record['name'] == 'uncommon') $num_uncommon++;
+            else if ($record['name'] == 'rare') $num_rare++;
+            else $num_unexpected++;
+        }
+        $this->assertEquals(100, $num_common + $num_uncommon + $num_rare + $num_unexpected);
+        $this->assertLessThan($num_common, $num_uncommon);
+        $this->assertLessThan($num_uncommon, $num_rare);
+        $this->assertGreaterThan(0, $num_common);
+        $this->assertGreaterThan(0, $num_uncommon);
+        $this->assertGreaterThan(0, $num_rare);
+        $this->assertEquals(0, $num_unexpected);
+    }
+
+    public function test_create_weighted_master_ヘッダ無しCSVの重み付け()
+    {
+        $filepath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'files'
+            . DIRECTORY_SEPARATOR . 'headerless_weight.csv';
+        $this->assertFileExists($filepath, 'precondition error.');
+        $weighted = Util::create_weighted_master($filepath, 2, 1, FALSE);
+        $num_common = 0;
+        $num_uncommon = 0;
+        $num_rare = 0;
+        $num_unexpected = 0;
+        for ($cnt = 0; $cnt < 100; $cnt++)
+        {
+            $record = $weighted->rand();
+            if ($record[1] == 'common') $num_common++;
+            else if ($record[1] == 'uncommon') $num_uncommon++;
+            else if ($record[1] == 'rare') $num_rare++;
+            else $num_unexpected++;
+        }
+        $this->assertEquals(100, $num_common + $num_uncommon + $num_rare + $num_unexpected);
+        $this->assertLessThan($num_common, $num_uncommon);
+        $this->assertLessThan($num_uncommon, $num_rare);
+        $this->assertGreaterThan(0, $num_common);
+        $this->assertGreaterThan(0, $num_uncommon);
+        $this->assertGreaterThan(0, $num_rare);
+        $this->assertEquals(0, $num_unexpected);
+    }
+
+    public function test_create_weighted_master_引数max_recordsの検証()
+    {
+        $filepath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'files'
+            . DIRECTORY_SEPARATOR . 'kana1010.csv';
+        $this->assertFileExists($filepath, 'precondition error.');
+        $this->assertFalse(Util::create_weighted_master($filepath, 'num', 1, TRUE, '', ',', '"', 1000));
+    }
+
+    public function test_create_weighted_master_配列の重み付け()
+    {
+        $input = [
+            ['id' => '1', 'name' => 'common', 'num' => '75'],
+            ['id' => '2', 'name' => 'uncommon', 'num' => '20'],
+            ['id' => '3', 'name' => 'rare', 'num' => '5']
+        ];
+        $weighted = Util::create_weighted_master($input, 'num');
+        $num_common = 0;
+        $num_uncommon = 0;
+        $num_rare = 0;
+        $num_unexpected = 0;
+        for ($cnt = 0; $cnt < 100; $cnt++)
+        {
+            $record = $weighted->rand();
+            if ($record['name'] == 'common') $num_common++;
+            else if ($record['name'] == 'uncommon') $num_uncommon++;
+            else if ($record['name'] == 'rare') $num_rare++;
+            else $num_unexpected++;
+        }
+        $this->assertEquals(100, $num_common + $num_uncommon + $num_rare + $num_unexpected);
+        $this->assertLessThan($num_common, $num_uncommon);
+        $this->assertLessThan($num_uncommon, $num_rare);
+        $this->assertGreaterThan(0, $num_common);
+        $this->assertGreaterThan(0, $num_uncommon);
+        $this->assertGreaterThan(0, $num_rare);
+        $this->assertEquals(0, $num_unexpected);
+    }
+
     public function test_create_weighted_csv_ヘッダありCSVの重み付け()
     {
         $filepath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'files'

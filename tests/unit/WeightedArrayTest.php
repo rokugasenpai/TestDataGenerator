@@ -29,6 +29,16 @@ class WeightedArrayTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $num_unexpected);
     }
 
+    public function test_WeightedArrayの生成とget_column_names()
+    {
+        $weighted = new WeightedArray();
+        $weighted->append(['column1' => '11', 'column2' => '12', 'column3' => '23'], 70);
+        $weighted->append(['column1' => '21', 'column2' => '22', 'column3' => '23'], 25);
+        $weighted->append(['column1' => '31', 'column2' => '32', 'column3' => '33'], 5);
+        $column_names = $weighted->get_column_names();
+        $this->assertSame(['column1', 'column2', 'column3'], $column_names);
+    }
+
     public function test_WeightedArrayの生成とget_array_without_weight()
     {
         $weighted = new WeightedArray();

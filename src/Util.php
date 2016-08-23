@@ -13,9 +13,7 @@
  *
  * 本ツールは、データベースに投入するテストデータを簡単に作成することを目的としています。
  * YAMLもしくはJSONの設定ファイルを元に、テストデータ用のCSVを出力します。
- * テストデータ出力の前後に、SQLもしくはCSVファイルによるSQLを実行できます。
  *
- * 使用できるデータベースはMySQL(MariaDB)のみです。
  * PHPは5.4以上、OSはWindows(7および10)、Linux(Centos6)で動作確認しています。
  * 
  * 設定ファイルの書き方は下記を参照してください。
@@ -495,6 +493,106 @@ class Util
 
 
     /**
+     * create_weighted_master
+     *
+     * @param string|array $input
+     * @param string $weight_column (optional)
+     * @param int $divisor (optional)
+     * @param bool $is_header (optional)
+     * @param string $from_charset (optional)
+     * @param string $delimiter (optional)
+     * @param string $enclosure (optional)
+     * @param int $max_records (optional)
+     * @return WeightedArray
+     */
+    public static function create_weighted_master($input, $weight_column='', $divisor=1,
+        $is_header=TRUE, $from_charset='', $delimiter=',', $enclosure='"', $max_records=1000000)
+    {
+        if (!$weight_column && !is_int($weight_column) && !is_string($weight_column))
+        {
+            $weight_column='';
+        }
+        if (!$divisor) $divisor = 1;
+        if ($is_header) $is_header = TRUE;
+        else $is_header = FALSE;
+        if (!$from_charset) $from_charset = '';
+        if (!$delimiter && !is_string($delimiter)) $delimiter = ',';
+        if (!$enclosure && !is_string($enclosure)) $enclosure = '"';
+        if (!$max_records && !is_int($max_records)) $max_records = 1000000;
+
+        $csv = [];
+
+        // 引数のファイルか配列を元にした入力処理。
+        if (is_string($input) && is_file($input))
+        {
+            $csv = Util::csv_to_array_php7_workaround($input, $is_header, $from_charset, $max_records);
+            if (!$csv)
+            {
+                return FALSE;
+            }
+        }
+        else if (is_array($input))
+        {
+            if (count($input) > $max_records)
+            {
+                return FALSE;
+            }
+
+            $csv = $input;
+            $is_header = FALSE;
+        }
+        else
+        {
+            return FALSE;
+        }
+
+        // WeightedArrayクラスを使った重み付け処理。
+        $weighted = new WeightedArray();
+        $columns = [];
+        foreach ($csv as $record)
+        {
+            if (!count($columns))
+            {
+                if ($is_header)
+                {
+                    $columns = $record;
+                    continue;
+                }
+                else
+                {
+                    $columns = array_keys($record);
+                }
+            }
+
+            // フィールド数不一致。
+            // PHP7でCSVがUTF-8で文字コード変換しなかった場合、
+            // PHPの不具合でパースできずにここでFALSEを返す。(2016-07-11)
+            if (count($record) != count($columns))
+            {
+                return FALSE;
+            }
+            $temp = [];
+            $idx = 0;
+            foreach ($record as $value)
+            {
+                $temp[$columns[$idx]] = $value;
+                $idx++;
+            }
+            if (!array_key_exists($weight_column, $temp))
+            {
+                return FALSE;
+            }
+            $weighted->append($temp, $temp[$weight_column], $divisor);
+        }
+
+        // 高速抽出のためのインデックス。
+        $weighted->index();
+
+        return $weighted;
+    }
+
+
+    /**
      * create_weighted_csv
      *
      * 重み付け(頻度)を考慮したCSVを生成し上書きする。
@@ -508,10 +606,10 @@ class Util
      * @param int $divisor (optional)
      * @param bool $is_header (optional)
      * @param bool $need_new_id (optional)
-     * @param string $delimiter (optional)
-     * @param string $enclosure (optional)
      * @param string $to_charset (optional)
      * @param string $from_charset (optional)
+     * @param string $delimiter (optional)
+     * @param string $enclosure (optional)
      * @param int $max_records (optional)
      * @return mixed
      */

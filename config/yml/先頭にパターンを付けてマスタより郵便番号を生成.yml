@@ -6,11 +6,12 @@ record_rules:
         - "head1_"
         - "head2_"
         - "head3_"
-    db_column: "postcd"
-db_pass: tdgpass
-sql: "SELECT postcd FROM a;"
-proc_null_value: "NULL"
-db_name: "tdg"
-db_user: tdg
+    master: 
+      a: "postcd"
+masters: 
+  - 
+    - "./master/a.csv"
+    - "population"
+null_value: "NULL"
 need_header: true
 eol: "\n"

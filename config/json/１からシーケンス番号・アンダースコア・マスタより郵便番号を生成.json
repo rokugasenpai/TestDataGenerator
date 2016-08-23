@@ -6,14 +6,13 @@
       "pattern": [
         ["Pattern::UNDER_SCORE"]
       ],
-      "db_column": "postcd"
+      "master": {"a": "postcd"}
     }
   },
-  "db_pass": "tdgpass",
-  "sql": "SELECT postcd FROM a;",
-  "proc_null_value": "NULL",
-  "db_name": "tdg",
-  "db_user": "tdg",
+  "masters": [
+    ["./master/a.csv", "population"]
+  ],
+  "null_value": "NULL",
   "need_header": true,
   "eol": "\n"
 }

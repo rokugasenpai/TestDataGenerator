@@ -13,9 +13,7 @@
  *
  * 本ツールは、データベースに投入するテストデータを簡単に作成することを目的としています。
  * YAMLもしくはJSONの設定ファイルを元に、テストデータ用のCSVを出力します。
- * テストデータ出力の前後に、SQLもしくはCSVファイルによるSQLを実行できます。
  *
- * 使用できるデータベースはMySQL(MariaDB)のみです。
  * PHPは5.4以上、OSはWindows(7および10)、Linux(Centos6)で動作確認しています。
  * 
  * 設定ファイルの書き方は下記を参照してください。
@@ -58,7 +56,7 @@ class Rule extends TDGBase
     const TYPE_NUMERIC_RANGE = 'numeric_range';
     const TYPE_DATETIME_RANGE = 'datetime_range';
     const TYPE_PATTERN = 'pattern';
-    const TYPE_DB_COLUMN = 'db_column';
+    const TYPE_MASTER = 'master';
     const TYPE_CODE = 'code';
 
     const IDX_LOWER = 0;
@@ -98,8 +96,8 @@ class Rule extends TDGBase
     /** @var array フィールド値パターン配列 */
     protected $pattern = NULL;
 
-    /** @var string フィールド値対応DBカラム名 */
-    protected $db_column = NULL;
+    /** @var string フィールド値対応マスタ・カラム配列 */
+    protected $master = NULL;
 
     /** @var string フィールド値対応PHPコード */
     protected $code = NULL;
@@ -113,7 +111,6 @@ class Rule extends TDGBase
     protected $_field_names = [];
     // 今のところ、_check_and_set_code()のみで使われる。
 
-
     /**
      * __construct
      *
@@ -121,7 +118,7 @@ class Rule extends TDGBase
      * レコードルールは、キーにルール名、値にルール値が入った連想配列である。
      *
      * @param array $rules
-     * @param array $field_names
+     * @param string[] $field_names
      */
     public function __construct($rules, $field_names)
     {
@@ -145,7 +142,7 @@ class Rule extends TDGBase
             'pattern' => self::TYPE_PATTERN
         ]);
         $this->_check_and_set_props([
-            'db_column' => self::TYPE_DB_COLUMN
+            'master' => self::TYPE_MASTER
         ]);
         $this->_check_and_set_props([
             'code' => self::TYPE_CODE
@@ -157,7 +154,7 @@ class Rule extends TDGBase
         ]);
         $this->_check_and_set_props([
             'seq' => self::TYPE_UINT,
-            'db_column' => self::TYPE_DB_COLUMN
+            'master' => self::TYPE_MASTER
         ]);
         $this->_check_and_set_props([
             'number' => self::TYPE_NUMERIC_RANGE,
@@ -165,7 +162,7 @@ class Rule extends TDGBase
         ]);
         $this->_check_and_set_props([
             'number' => self::TYPE_NUMERIC_RANGE,
-            'db_column' => self::TYPE_DB_COLUMN
+            'master' => self::TYPE_MASTER
         ]);
         $this->_check_and_set_props([
             'pattern' => self::TYPE_PATTERN,
@@ -173,7 +170,7 @@ class Rule extends TDGBase
         ]);
         $this->_check_and_set_props([
             'pattern' => self::TYPE_PATTERN,
-            'db_column' => self::TYPE_DB_COLUMN
+            'master' => self::TYPE_MASTER
         ]);
 
         $this->_check_and_set_props([
@@ -184,11 +181,11 @@ class Rule extends TDGBase
         $this->_check_and_set_props([
             'seq' => self::TYPE_UINT,
             'pattern' => self::TYPE_PATTERN,
-            'db_column' => self::TYPE_DB_COLUMN
+            'master' => self::TYPE_MASTER
         ]);
         $this->_check_and_set_props([
             'seq' => self::TYPE_UINT,
-            'db_column' => self::TYPE_DB_COLUMN,
+            'master' => self::TYPE_MASTER,
             'length' => self::TYPE_UINT_RANGE
         ]);
         $this->_check_and_set_props([
@@ -199,16 +196,16 @@ class Rule extends TDGBase
         $this->_check_and_set_props([
             'number' => self::TYPE_NUMERIC_RANGE,
             'pattern' => self::TYPE_PATTERN,
-            'db_column' => self::TYPE_DB_COLUMN
+            'master' => self::TYPE_MASTER
         ]);
         $this->_check_and_set_props([
             'number' => self::TYPE_NUMERIC_RANGE,
-            'db_column' => self::TYPE_DB_COLUMN,
+            'master' => self::TYPE_MASTER,
             'length' => self::TYPE_UINT_RANGE
         ]);
         $this->_check_and_set_props([
             'pattern' => self::TYPE_PATTERN,
-            'db_column' => self::TYPE_DB_COLUMN,
+            'master' => self::TYPE_MASTER,
             'length' => self::TYPE_UINT_RANGE
         ]);
 
@@ -769,18 +766,24 @@ class Rule extends TDGBase
 
 
     /**
-     * _check_and_set_db_column
+     * _check_and_set_master
      *
-     * ルールの値が文字列だったら、指定されたプロパティに値をセットする。
+     * ルールの値が配列だったら、指定されたプロパティに値をセットする。
      *
      * @param string $prop
      * @param mixed $rule
      */
-    private function _check_and_set_db_column($prop, $rule)
+    private function _check_and_set_master($prop, $rule)
     {
-        if (!is_string($rule))
+        if (!is_array($rule))
         {
-            $this->_set_error(self::MESSAGE_NOT_STRING . " {$prop} => {$rule}");
+            $this->_set_error(self::MESSAGE_NOT_ARRAY . " {$prop} => {$rule}");
+            return;
+        }
+
+        if (count($rule) != 1 || !is_string(key($rule)) || !is_string($rule[key($rule)]))
+        {
+            $this->_set_error(self::MESSAGE_MALFORMED_ARRAY . " {$prop} => {$rule}");
             return;
         }
 
@@ -805,7 +808,7 @@ class Rule extends TDGBase
             return;
         }
 
-        // DBレコードのカラム名を使った変数($colname)が使われていた場合、
+        // マスタのカラム名を使った変数が使われていた場合、
         // eval()時のエラーを防ぐために変数の初期化を付加する。
         $code = $rule;
         foreach ($this->_field_names as $field_name)

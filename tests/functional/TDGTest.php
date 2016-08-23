@@ -9,7 +9,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
     private $config_dir = '';
     private $json_config_dir =  '';
     private $yml_config_dir = '';
-    private $proc_dir = '';
+    private $master_dir = '';
 
     protected function setUp()
     {
@@ -17,14 +17,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $this->config_dir = $this->app_dir . DIRECTORY_SEPARATOR . 'config';
         $this->json_config_dir =  $this->config_dir . DIRECTORY_SEPARATOR . 'json';
         $this->yml_config_dir = $this->config_dir  . DIRECTORY_SEPARATOR . 'yml';
-        $this->proc_dir = $this->app_dir . DIRECTORY_SEPARATOR . 'proc';
+        $this->master_dir = $this->app_dir . DIRECTORY_SEPARATOR . 'master';
         foreach (glob($this->app_dir . DIRECTORY_SEPARATOR . '*.csv') as $csv_file)
         {
             unlink($csv_file);
-        }
-        foreach (glob($this->app_dir . DIRECTORY_SEPARATOR . '*.sql') as $sql_file)
-        {
-            unlink($sql_file);
         }
     }
 
@@ -1841,81 +1837,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function test_前処理と後処理のみ実行_json()
-    {
-        $_fn = explode('_', __FUNCTION__);
-        $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
-            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
-        if (strpos(PHP_OS, 'WIN') === 0)
-        {
-            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
-        }
-        $this->assertFileExists($config_filepath);
-        $tdg = new TDG($config_filepath);
-        $tdg->execute_pre_proc();
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertTrue($is_not_dropped);
-        $tdg->execute_post_proc();
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertFalse($is_not_dropped);
-    }
-
-    public function test_前処理と後処理のみ実行_yml()
-    {
-        $_fn = explode('_', __FUNCTION__);
-        $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
-            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
-        if (strpos(PHP_OS, 'WIN') === 0)
-        {
-            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
-        }
-        $this->assertFileExists($config_filepath);
-        $tdg = new TDG($config_filepath);
-        $tdg->execute_pre_proc();
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertTrue($is_not_dropped);
-        $tdg->execute_post_proc();
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertFalse($is_not_dropped);
-    }
-
-    public function test_テーブル削除ありでDBより郵便番号を生成_json()
+    public function test_マスタより郵便番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
@@ -1952,20 +1874,9 @@ class TDGTest extends PHPUnit_Framework_TestCase
             }
         }
         $this->assertLessThan($field01_major, $field01_minor);
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertFalse($is_not_dropped);
     }
 
-    public function test_テーブル削除ありでDBより郵便番号を生成_yml()
+    public function test_マスタより郵便番号を生成_yml()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
@@ -2002,124 +1913,13 @@ class TDGTest extends PHPUnit_Framework_TestCase
             }
         }
         $this->assertLessThan($field01_major, $field01_minor);
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertFalse($is_not_dropped);
-    }
-
-    public function test_テーブル削除無しでDBより郵便番号を生成_json()
-    {
-        $_fn = explode('_', __FUNCTION__);
-        $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
-            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
-        if (strpos(PHP_OS, 'WIN') === 0)
-        {
-            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
-        }
-        $this->assertFileExists($config_filepath);
-        $tdg = new TDG($config_filepath);
-        $tdg->main(FALSE, TRUE);
-        $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
-        $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
-        $this->assertCount(1 + 2000, $data);
-        $field01_major = 0;
-        $field01_minor = 0;
-        foreach ($data as $ir => $record)
-        {
-            if (!$ir)
-            {
-                $this->assertEquals('"field01"' . "\n", $record);
-                continue;
-            }
-            $record = str_getcsv(str_replace("\n", '', $record));
-            $this->assertCount(1, $record);
-            $this->assertRegExp('/^\d{7}$/', $record[0]);
-            if (substr($record[0], 0, 1) == '1')
-            {
-                $field01_major++;
-            }
-            else if (substr($record[0], 0, 1) == '0')
-            {
-                $field01_minor++;
-            }
-        }
-        $this->assertLessThan($field01_major, $field01_minor);
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertTrue($is_not_dropped);
-    }
-
-    public function test_テーブル削除無しでDBより郵便番号を生成_yml()
-    {
-        $_fn = explode('_', __FUNCTION__);
-        $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
-            . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
-        if (strpos(PHP_OS, 'WIN') === 0)
-        {
-            $config_filepath = mb_convert_encoding($config_filepath, 'SJIS-win', 'UTF-8');
-        }
-        $this->assertFileExists($config_filepath);
-        $tdg = new TDG($config_filepath);
-        $tdg->main(FALSE, TRUE);
-        $this->assertFileExists($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
-        $data = file($this->app_dir . DIRECTORY_SEPARATOR . 'tdg.csv');
-        $this->assertCount(1 + 2000, $data);
-        $field01_major = 0;
-        $field01_minor = 0;
-        foreach ($data as $ir => $record)
-        {
-            if (!$ir)
-            {
-                $this->assertEquals('"field01"' . "\n", $record);
-                continue;
-            }
-            $record = str_getcsv(str_replace("\n", '', $record));
-            $this->assertCount(1, $record);
-            $this->assertRegExp('/^\d{7}$/', $record[0]);
-            if (substr($record[0], 0, 1) == '1')
-            {
-                $field01_major++;
-            }
-            else if (substr($record[0], 0, 1) == '0')
-            {
-                $field01_minor++;
-            }
-        }
-        $this->assertLessThan($field01_major, $field01_minor);
-        $is_not_dropped = FALSE;
-        $db = new \PDO(
-            "mysql:dbname=tdg;host=localhost;port=3306;charset=utf8",
-            'tdg', 'tdgpass',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM]);
-        $stmt = $db->query('SHOW TABLES');
-        while ($row = $stmt->fetch())
-        {
-            if ($row[0] == 'a') $is_not_dropped = TRUE;
-        }
-        $this->assertTrue($is_not_dropped);
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_先頭にパターンを付けてDBより郵便番号を生成_json()
+    public function test_先頭にパターンを付けてマスタより郵便番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
@@ -2148,10 +1948,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_先頭にパターンを付けてDBより郵便番号を生成_yml()
+    public function test_先頭にパターンを付けてマスタより郵便番号を生成_yml()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
@@ -2180,10 +1980,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_末尾にパターンを付けてDBより郵便番号を生成_json()
+    public function test_末尾にパターンを付けてマスタより郵便番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
@@ -2212,10 +2012,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_末尾にパターンを付けてDBより郵便番号を生成_yml()
+    public function test_末尾にパターンを付けてマスタより郵便番号を生成_yml()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
@@ -2244,10 +2044,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_先頭に重み付けありのパターンを付けてDBより郵便番号を生成_json()
+    public function test_先頭に重み付けありのパターンを付けてマスタより郵便番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
@@ -2294,11 +2094,11 @@ class TDGTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-  public function test_先頭に重み付けありのパターンを付けてDBより郵便番号を生成_yml()
-  {
+    public function test_先頭に重み付けありのパターンを付けてマスタより郵便番号を生成_yml()
+    {
       $_fn = explode('_', __FUNCTION__);
       $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
           . implode('', array_slice($_fn, 1, -1)) . '.' . implode('', array_slice($_fn, -1));
@@ -2341,13 +2141,13 @@ class TDGTest extends PHPUnit_Framework_TestCase
       $this->assertEquals(100, $field01_common + $field01_uncommon + $field01_rare);
       $this->assertLessThan($field01_common, $field01_uncommon);
       $this->assertLessThan($field01_uncommon, $field01_rare);
-  }
+    }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_１からシーケンス番号・アンダースコア・DBより郵便番号を生成_json()
+    public function test_１からシーケンス番号・アンダースコア・マスタより郵便番号を生成_json()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->json_config_dir . DIRECTORY_SEPARATOR
@@ -2376,10 +2176,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_json
-     * @depends test_テーブル削除無しでDBより郵便番号を生成_yml
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
-    public function test_１からシーケンス番号・アンダースコア・DBより郵便番号を生成_yml()
+    public function test_１からシーケンス番号・アンダースコア・マスタより郵便番号を生成_yml()
     {
         $_fn = explode('_', __FUNCTION__);
         $config_filepath = $this->yml_config_dir . DIRECTORY_SEPARATOR
@@ -2409,6 +2209,8 @@ class TDGTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group shakedown
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
      */
     public function test_実際の利用を想定したユーザーテーブルデータの生成_json()
     {
@@ -2503,6 +2305,10 @@ class TDGTest extends PHPUnit_Framework_TestCase
         $this->assertLessThan($post_code_major, $post_code_minor);
     }
 
+    /**
+     * @depends test_マスタより郵便番号を生成_json
+     * @depends test_マスタより郵便番号を生成_yml
+     */
     public function test_実際の利用を想定したユーザーテーブルデータの生成_yml()
     {
         $_fn = explode('_', __FUNCTION__);
@@ -2598,7 +2404,7 @@ class TDGTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $bak_files = $this->proc_dir . DIRECTORY_SEPARATOR . '*.bak';
+        $bak_files = $this->master_dir . DIRECTORY_SEPARATOR . '*.bak';
         foreach (glob($bak_files) as $bak_file)
         {
             $orig_file = substr($bak_file, 0, -4);

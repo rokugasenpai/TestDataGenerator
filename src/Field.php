@@ -13,9 +13,7 @@
  *
  * 本ツールは、データベースに投入するテストデータを簡単に作成することを目的としています。
  * YAMLもしくはJSONの設定ファイルを元に、テストデータ用のCSVを出力します。
- * テストデータ出力の前後に、SQLもしくはCSVファイルによるSQLを実行できます。
  *
- * 使用できるデータベースはMySQL(MariaDB)のみです。
  * PHPは5.4以上、OSはWindows(7および10)、Linux(Centos6)で動作確認しています。
  * 
  * 設定ファイルの書き方は下記を参照してください。
@@ -46,17 +44,17 @@ class Field
      * __construct
      *
      * フィールド値の生成とセットを行う。丸々set_value()に渡す。
-     * 引数の$db_recordは_db_column()、$new_recordは_code()のためのもの。
+     * 引数の$weighted_mastersは_master()、$new_recordは_code()のためのもの。
      *
      * @param int $now_index
      * @param string $name
-     * @param WeightedArray $rules
-     * @param array $db_record (optional)
+     * @param Rule $rules
+     * @param WeightedArray[] $weighted_masters (optional)
      * @param array $new_record (optional)
      */
-    public function __construct($now_index, $name, $rules, $db_record=[], $new_record=[])
+    public function __construct($now_index, $name, $rules, $weighted_masters=[], $new_record=[])
     {
-        $this->set_value($now_index, $name, $rules, $db_record, $new_record);
+        $this->set_value($now_index, $name, $rules, $weighted_masters, $new_record);
     }
 
 
@@ -64,15 +62,15 @@ class Field
      * set_value
      *
      * フィールド値の生成とセットを行う。
-     * 引数の$db_recordは_db_column()、$new_recordは_code()のためのもの。
+     * 引数の$weighted_mastersは_master()、$new_recordは_code()のためのもの。
      *
      * @param int $now_index
      * @param string $name
      * @param Rule[] $rules
-     * @param array $db_record (optional)
+     * @param WeightedArray[] $weighted_masters (optional)
      * @param array $new_record (optional)
      */
-    public function set_value($now_index, $name, $rules, $db_record=[], $new_record=[])
+    public function set_value($now_index, $name, $rules, $weighted_masters=[], $new_record=[])
     {
         if (!is_null($this->_value)) return;
         $breaker = 0;
@@ -84,7 +82,7 @@ class Field
                 $method_name = "_{$rule_name}";
                 if (method_exists($this, $method_name))
                 {
-                    $this->$method_name($now_index, $rule_value, $db_record, $new_record);
+                    $this->$method_name($now_index, $rule_value, $weighted_masters, $new_record);
                 }
             }
 
@@ -151,11 +149,11 @@ class Field
      * シーケンス値の生成とセットを行う。
      *
      * @param int $now_index
-     * @param int $rule
+     * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
      * @param array $new_record
-     * @param array $db_record
      */
-    private function _seq($now_index, $rule, $db_record, $new_record)
+    private function _seq($now_index, $rule, $weighted_masters, $new_record)
     {
         $this->_value .= $now_index + $rule;
     }
@@ -167,11 +165,11 @@ class Field
      * 数値の生成とセットを行う。
      *
      * @param int $now_index
-     * @param WeightedArray $rule
+     * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
      * @param array $new_record
-     * @param array $db_record
      */
-    private function _number($now_index, $rule, $db_record, $new_record)
+    private function _number($now_index, $rule, $weighted_masters, $new_record)
     {
         $rule = $rule->rand();
         $lower = $rule[Rule::KEY_LOWER];
@@ -196,11 +194,11 @@ class Field
      * 日付の生成とセットを行う。
      *
      * @param int $now_index
-     * @param WeightedArray $rule
+     * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
      * @param array $new_record
-     * @param array $db_record
      */
-    private function _datetime($now_index, $rule, $db_record, $new_record)
+    private function _datetime($now_index, $rule, $weighted_masters, $new_record)
     {
         $this->_value .= $this->_common_datetime_timestamp($rule);
     }
@@ -212,11 +210,11 @@ class Field
      * タイムスタンプの生成とセットを行う。
      *
      * @param int $now_index
-     * @param WeightedArray $rule
-     * @param array $new_record 
-     * @param array $db_record
+     * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
+     * @param array $new_record
      */
-    private function _timestamp($now_index, $rule, $db_record, $new_record)
+    private function _timestamp($now_index, $rule, $weighted_masters, $new_record)
     {
         $this->_value .= $this->_common_datetime_timestamp($rule);
     }
@@ -227,7 +225,7 @@ class Field
      *
      * _datetime()と_timestamp()の共通処理。
      *
-     * @param WeightedArray $rule
+     * @param Rule $rule
      */
     private function _common_datetime_timestamp($rule)
     {
@@ -291,11 +289,11 @@ class Field
      * ルールのパターン配列よりフィールド値の生成とセットを行う。
      *
      * @param int $now_index
-     * @param WeightedArray $rule
+     * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
      * @param array $new_record
-     * @param array $db_record
      */
-    public function _pattern($now_index, $rule, $db_record, $new_record)
+    public function _pattern($now_index, $rule, $weighted_masters, $new_record)
     {
         $value = NULL;
         foreach ($rule as $pattern)
@@ -341,32 +339,31 @@ class Field
 
 
     /**
-     * _db_column
+     * _master
      *
-     * DBレコードからカラム名をもとにフィールド値の生成とセットを行う。
+     * 重みづけマスタからランダムにフィールド値の生成とセットを行う。
      *
      * @param int $now_index
      * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
      * @param array $new_record
-     * @param array $db_record
      */
-    private function _db_column($now_index, $rule, $db_record, $new_record)
+    private function _master($now_index, $rule, $weighted_masters, $new_record)
     {
-        if (!array_key_exists($rule, $db_record))
+        foreach ($rule as $master_name => $column_name)
         {
-            $this->_value = NULL;
-            throw new TDGE(TDGE::MESSEAGE_INVALID_COLUMN_NAME,
-                "{$rule} => " . Util::json_encode($db_record, JSON_UNESCAPED_UNICODE));
-        }
+            $weighted_master = $weighted_masters[$master_name];
+            $value = $weighted_master->rand()[$column_name];
 
-        // NULLをNULLのままフィールド値としたいため
-        if (!mb_strlen($db_record[$rule], Util::UTF8))
-        {
-            $this->_value = $db_record[$rule];
-        }
-        else
-        {
-            $this->_value .= $db_record[$rule];
+            // NULLをNULLのままフィールド値としたいため
+            if (is_null($value))
+            {
+                $this->_value = NULL;
+            }
+            else
+            {
+                $this->_value .= $value;
+            }
         }
     }
 
@@ -378,10 +375,10 @@ class Field
      *
      * @param int $now_index
      * @param Rule $rule
+     * @param WeightedArray[] $weighted_masters
      * @param array $new_record
-     * @param array $db_record
      */
-    private function _code($now_index, $rule, $db_record, $new_record)
+    private function _code($now_index, $rule, $weighted_masters, $new_record)
     {
         if (!count($new_record))
         {

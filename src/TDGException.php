@@ -13,9 +13,7 @@
  *
  * 本ツールは、データベースに投入するテストデータを簡単に作成することを目的としています。
  * YAMLもしくはJSONの設定ファイルを元に、テストデータ用のCSVを出力します。
- * テストデータ出力の前後に、SQLもしくはCSVファイルによるSQLを実行できます。
  *
- * 使用できるデータベースはMySQL(MariaDB)のみです。
  * PHPは5.4以上、OSはWindows(7および10)、Linux(Centos6)で動作確認しています。
  * 
  * 設定ファイルの書き方は下記を参照してください。
@@ -38,19 +36,14 @@ class TDGException extends \Exception
     const MESSEAGE_INVALID_CONSTRUCTOR = 'コンストラクタの引数には設定のファイルパスを渡してください。';
     const MESSEAGE_INVALID_MAIN = 'mainメソッドはレコードルール(record_rules)の設定が無いと呼び出しできません。';
     const MESSEAGE_MISSING_MODULE = '必要なPHP拡張モジュールが見つかりませんでした。';
-    const MESSEAGE_MYSQL = 'MySQLの接続で問題が発生しました。';
-    const MESSEAGE_INVALID_MYSQL_SETTING = 'my.iniまたはmy.cnfに次の項目を設定してください。';
     const MESSEAGE_MISSING_CONFIG = '設定ファイルが見つかりませんでした。';
     const MESSEAGE_INVALID_CONFIG = '設定ファイルに問題があります。';
     const MESSEAGE_INVALID_OUTPUT_FILEPATH = '出力ファイルに問題が発生しました。';
-    const MESSEAGE_INVALID_DB = 'DBに問題が発生しました。';
-    const MESSEAGE_INVALID_PRE_PROC_FILE = '前処理用ファイルに問題があります。';
-    const MESSEAGE_INVALID_POST_PROC_FILE = '後処理用ファイルに問題があります。';
-    const MESSEAGE_INVALID_PRE_PROC_SQL = '前処理SQLに問題があります。';
-    const MESSEAGE_INVALID_POST_PROC_SQL = '後処理SQLに問題があります。';
-    const MESSEAGE_INVALID_SQL = 'SQLに問題があります。';
-    const MESSEAGE_INVALID_COLUMN_NAME
-        = 'データの生成時に問題が発生しました。レコードルールのcolumn_nameが合っているか確認してください。';
+    const MESSEAGE_INVALID_MASTER = 'マスタCSVに問題があります。';
+    const MESSEAGE_MISSING_MASTER_NAME
+        = 'レコードルールのmasterのマスタ名にあたるマスタが見つかりませんでした。';
+    const MESSEAGE_MISSING_COLUMN_NAME
+        = 'レコードルールのmasterのカラム名にあたるカラムが見つかりませんでした。';
     const MESSEAGE_INVALID_PATTERN_LENGTH
         = 'データの生成時に問題が発生しました。レコードルールのpatternのlenが適切か確認してください。';
     const MESSEAGE_OUT_OF_RANGE_FIELD_LENGTH

@@ -14,7 +14,7 @@
       "code": "return md5($user_id);"
     },
     "family_name": {
-      "db_column": "myouji"
+      "master": {"m": "myouji"}
     },
     "first_name": {
       "code": "$male = ['一郎', '二郎', '三郎', '四郎', '五郎']; $female = ['花子', '春子', '秋子', '景子', '洋子']; shuffle($male); shuffle($female); if ($sex == '1') { return $male[0]; } else { return $female[0]; }"
@@ -25,16 +25,16 @@
       ]
     },
     "post_code": {
-      "db_column": "postcd"
+      "master": {"a": "postcd"}
     },
     "pref": {
-      "db_column": "pref"
+      "master": {"a": "pref"}
     },
     "city": {
-      "db_column": "city"
+      "master": {"a": "city"}
     },
     "town": {
-      "db_column": "town"
+      "master": {"a": "town"}
     },
     "address": {
       "pattern": [
@@ -58,18 +58,11 @@
     }
   },
   "output_filepath": "users.csv",
-  "db_pass": "tdgpass",
-  "sql": "SELECT m.myouji, a.postcd, a.pref, a.city, a.town FROM a INNER JOIN m ON a.id = m.id;",
-  "pre_proc": [
-    "./proc/create_tables.sql",
-    ["./proc/a.csv", "population", 2000],
-    ["./proc/m.csv", "population", 2000]
+  "masters": [
+    ["./master/a.csv", "population"],
+    ["./master/m.csv", "population"]
   ],
-  "proc_null_value": "NULL",
-  "proc_head_sql": "START TRANSACTION;",
-  "proc_tail_sql": "COMMIT;",
-  "db_name": "tdg",
-  "db_user": "tdg",
+  "null_value": "NULL",
   "need_header": true,
   "eol": "\n"
 }

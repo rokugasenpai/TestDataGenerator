@@ -1,0 +1,14 @@
+{
+  "num_data": 2000,
+  "record_rules": {
+    "field01": {
+      "master": {"a": "postcd"}
+    }
+  },
+  "masters": [
+    ["./master/a.csv", "population"]
+  ],
+  "null_value": "NULL",
+  "need_header": true,
+  "eol": "\n"
+}
